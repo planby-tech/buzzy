@@ -17,7 +17,7 @@ const App = () => {
   },[])
 
   const searchTest = async () => {
-    const apiKey = "cbba1c0648b87a1d0b5ef5b55c462d5f"
+    const apiKey = "0d354750cc5df9c00497abcd507c89d5"
     const coord = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${placeName}`, {
       headers: { Authorization: `KakaoAK ${apiKey}` }
     })
