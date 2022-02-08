@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, TextInput } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import axios from 'axios'
 
 const App = () => {
   const [mapRegion, setMapRegion] = useState({
-    latitude: 37.35948,
+    latitude: 36.35948,
     longitude: 127.37895,
     latitudeDelta: 0.003,
     longitudeDelta: 0.003,
   })
+  const [placeName, setPlaceName] = useState('')
 
   useEffect(()=>{
-    searchTest()
+    
   },[])
 
   const searchTest = async () => {
-    const key = "0d354750cc5df9c00497abcd507c89d5"
-    const searching = "쿠오리노"
-    const coord = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${searching}`, {
+    const key = "cbba1c0648b87a1d0b5ef5b55c462d5f"
+    const coord = await axios.get(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${placeName}`, {
       headers: { Authorization: `KakaoAK ${key}` }
     })
     const location = coord.data.documents[0]
     const xCoord = location.x
     const yCoord = location.y
+    
+    setPlaceName(placeName)
 
     setMapRegion({
       ...mapRegion,
@@ -34,18 +36,59 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <MapView
-        style={{ alignSelf: 'stretch', height: '100%' }}
-        region={mapRegion}
-      >
-        <Marker coordinate={mapRegion} title='사무실' />
-      </MapView>
+      {placeName === "" ?
+      <View>
+        <TextInput
+        onChangeText={(searchName) => setPlaceName(searchName)}
+        onSubmitEditing={()=>searchTest()}
+        placeholder={'검색할 장소를 입력하세요'}
+        style={styles.input}
+        />
+        <MapView
+          style={{ alignSelf: 'stretch', height: '100%', zIndex: -1 }}
+          region={mapRegion}
+        >
+        </MapView>
+      </View>
+      :
+      <View>
+        <TextInput
+        value={placeName}
+        onChangeText={(searchName) => setPlaceName(searchName)}
+        onSubmitEditing={()=>searchTest()}
+        placeholder={'검색할 장소를 입력하세요'}
+        style={styles.input}
+        />
+        <MapView
+          style={{ alignSelf: 'stretch', height: '100%', zIndex: -1 }}
+          region={mapRegion}
+        >
+          <Marker coordinate={mapRegion} title={placeName} description='우리 여기서 일해요'/>
+        </MapView>
+      </View>
+      }
+      
+      
     </View>
   )
 }
 export default App
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  input: {
+    position: "absolute",
+    justifyContent:"center",
+    backgroundColor: "white",
+    width: 200,
+    height: 44,
+    top: 40,
+    left: 20,
+    zIndex: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
   }
 })
