@@ -38,33 +38,33 @@ const App = () => {
     <View style={styles.container}>
       {placeName === "" ?
       <View>
-        <TextInput
-        onChangeText={(searchName) => setPlaceName(searchName)}
-        onSubmitEditing={()=>searchTest()}
-        placeholder={'검색할 장소를 입력하세요'}
-        style={styles.input}
-        />
         <MapView
-          style={{ alignSelf: 'stretch', height: '100%', zIndex: -1 }}
+          style={styles.map}
           region={mapRegion}
-        >
-        </MapView>
+        />
+        <TextInput
+          onChangeText={(searchName) => setPlaceName(searchName)}
+          onSubmitEditing={()=>searchTest()}
+          placeholder={'검색할 장소를 입력하세요'}
+          style={styles.input}
+        />
       </View>
       :
       <View>
-        <TextInput
-        value={placeName}
-        onChangeText={(searchName) => setPlaceName(searchName)}
-        onSubmitEditing={()=>searchTest()}
-        placeholder={'검색할 장소를 입력하세요'}
-        style={styles.input}
-        />
         <MapView
-          style={{ alignSelf: 'stretch', height: '100%', zIndex: -1 }}
+          style={styles.map}
           region={mapRegion}
         >
           <Marker coordinate={mapRegion} title={placeName} description='우리 여기서 일해요'/>
         </MapView>
+        <TextInput
+        value={placeName}
+        onChangeText={(searchName) => setPlaceName(searchName)}
+        onSubmitEditing={()=>searchTest()}
+        style={styles.input}
+        />
+        
+        
       </View>
       }
       
@@ -78,15 +78,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  map: {
+    width: "100%",
+    height: "100%",
+    zIndex: -1
+  },
   input: {
     position: "absolute",
+    zIndex: 2,
     justifyContent:"center",
     backgroundColor: "white",
     width: 200,
     height: 44,
     top: 40,
     left: 20,
-    zIndex: 10,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
