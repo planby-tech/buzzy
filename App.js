@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, TextInput } from 'react-native'
+import { Text, View, Image, StyleSheet, TextInput, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import axios from 'axios'
+import SlidingUpPanel from 'rn-sliding-up-panel'
+import BottomSheet from './pages/BottomSheet.js'
+import ScrollViewInsidePanel from './pages/ScrollViewInsidePanel.js'
 
 const App = () => {
   const [mapRegion, setMapRegion] = useState({
@@ -10,7 +13,7 @@ const App = () => {
     latitudeDelta: 0.003,
     longitudeDelta: 0.003,
   })
-  const [placeName, setPlaceName] = useState('')
+  const [placeName, setPlaceName] = useState("")
 
   useEffect(()=>{
     
@@ -64,19 +67,51 @@ const App = () => {
         style={styles.input}
         />
         
-        
+        <SlidingUpPanel
+          ref={c => (BottomSheet._panel = c)}
+          draggableRange={{top: height / 1.75, bottom: 120}}
+          animatedValue={BottomSheet._draggedValue}
+          showBackdrop={false}>
+          <View style={styles.panel}>
+            <View style={styles.panelHeader}>
+              <Text style={{color: '#FFF'}}>{placeName}</Text>
+            </View>
+            <View style={styles.container2}>
+              <Text>Bottom Sheet Content</Text>
+            </View>
+          </View>
+          <View style={styles.favoriteIcon}>
+            <Image 
+            style = {styles.heart}
+            source = {require('./assets/heart.png')}/>
+          </View>
+        </SlidingUpPanel>
+
       </View>
       }
-      
-      
     </View>
   )
 }
 export default App
 
+const {height} = Dimensions.get('window')
+
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+  container2: {
     flex: 1,
+    backgroundColor: '#f8f9fa',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  container3: {
+    flex: 1,
+    zIndex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   map: {
     width: "100%",
@@ -95,5 +130,39 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
+  },
+  panel: {
+    flex: 1,
+    backgroundColor: 'white',
+    position: 'relative'
+  },
+  panelHeader: {
+    height: 120,
+    backgroundColor: '#b197fc',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  favoriteIcon: {
+    position: 'absolute',
+    top: -24,
+    right: 24,
+    backgroundColor: '#FFDB58',
+    width: 48,
+    height: 48,
+    padding: 8,
+    borderRadius: 24,
+    zIndex: 1
+  },
+  heart: {
+    position: 'absolute',
+    top: 7.5,
+    right: 6
+  },
+  dragHandler: {
+    alignSelf: 'stretch',
+    height: 64,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ccc'
   }
 })
