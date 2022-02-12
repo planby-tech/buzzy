@@ -55,6 +55,15 @@ const Map = () => {
             placeholder={"검색할 장소를 입력하세요"}
             style={styles.input}
           />
+          <View
+            style={{
+              height: "100%",
+              width: 20,
+              zIndex: 2,
+              position: "absolute",
+              backgroundColor: "rgba(0,0,0,0)",
+            }}
+          />
         </View>
       ) : (
         <View>
@@ -71,7 +80,15 @@ const Map = () => {
             onSubmitEditing={() => searchTest()}
             style={styles.input}
           />
-
+          <View
+            style={{
+              height: "100%",
+              width: 20,
+              zIndex: 2,
+              position: "absolute",
+              backgroundColor: "rgba(0,0,0,0)",
+            }}
+          />
           <SlidingUpPanel
             ref={(c) => (BottomSheet._panel = c)}
             draggableRange={{ top: height / 1.75, bottom: 120 }}
