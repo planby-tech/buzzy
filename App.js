@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Image, StyleSheet, TextInput, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, Image, StyleSheet, TextInput, Dimensions } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import axios from 'axios'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import BottomSheet from './pages/BottomSheet.js'
-import ScrollViewInsidePanel from './pages/ScrollViewInsidePanel.js'
 
 const App = () => {
   const [mapRegion, setMapRegion] = useState({
