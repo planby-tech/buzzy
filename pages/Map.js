@@ -6,11 +6,14 @@ import {
   StyleSheet,
   TextInput,
   Dimensions,
+  Button,
+  Platform
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import axios from "axios";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import BottomSheet from "./BottomSheet.js";
+import * as Location from 'expo-location';
 
 const Map = () => {
   const [mapRegion, setMapRegion] = useState({
@@ -20,8 +23,35 @@ const Map = () => {
     longitudeDelta: 0.003,
   });
   const [placeName, setPlaceName] = useState("");
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+  const myLocation = async () => {
+    let curLocation = 'Waiting..';
+    if (errorMsg) {
+      curLocation = errorMsg;
+    } else if (location) {
+      curLocation = JSON.stringify(location);
+    }
+
+    setMapRegion({
+      ...mapRegion,
+      latitude: curLocation.coords.latitude,
+      longitude: curLocation.coords.longitude,
+    });
+  }
 
   const searchTest = async () => {
     const apiKey = "0d354750cc5df9c00497abcd507c89d5";
@@ -46,6 +76,14 @@ const Map = () => {
 
   return (
     <View style={styles.container}>
+      <View>
+        <Button
+          onPress={() => myLocation()}
+          title="My Location"
+          color="#841584"
+          />
+      </View>
+
       {placeName === "" ? (
         <View>
           <MapView style={styles.map} region={mapRegion} />
