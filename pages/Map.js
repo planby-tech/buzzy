@@ -38,18 +38,18 @@ const Map = () => {
     })();
   }, []);
 
-  const myLocation = async () => {
-    let text = "Waiting..";
-    if (errorMsg) {
-      text = errorMsg;
-    }
+  // const myLocation = async () => {
+  //   let text = "Waiting..";
+  //   if (errorMsg) {
+  //     text = errorMsg;
+  //   }
 
-    setMapRegion({
-      ...mapRegion,
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    });
-  };
+  //   setMapRegion({
+  //     ...mapRegion,
+  //     latitude: location.coords.latitude,
+  //     longitude: location.coords.longitude,
+  //   });
+  // };
 
   const searchTest = async () => {
     const apiKey = "0d354750cc5df9c00497abcd507c89d5";
@@ -74,13 +74,13 @@ const Map = () => {
 
   return (
     <View style={styles.container}>
-      <View>
+      {/* <View>
         <Button
           onPress={() => myLocation()}
           title="My Location"
           color="#841584"
         />
-      </View>
+      </View> */}
 
       {placeName === "" ? (
         <View>
