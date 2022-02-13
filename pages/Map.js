@@ -125,7 +125,7 @@ const Map = () => {
               backgroundColor: "rgba(0,0,0,0)",
             }}
           />
-          <BottomSheet />
+          <BottomSheet place = {placeName}/>
         </View>
       )}
     </View>

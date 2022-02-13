@@ -17,7 +17,7 @@ class BottomSheet extends React.Component {
         >
           <View style={styles.panel}>
             <View style={styles.panelHeader}>
-              <Text style={{ color: "#FFF" }}>Bottom Sheet Peek</Text>
+              <Text style={{ color: "#FFF" }}>{this.props.place}</Text>
             </View>
             <View style={styles.container2}>
               <Text>Bottom Sheet Content</Text>
