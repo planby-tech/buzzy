@@ -39,17 +39,15 @@ const Map = () => {
   }, []);
 
   const myLocation = async () => {
-    let curLocation = 'Waiting..';
+    let text = 'Waiting..';
     if (errorMsg) {
-      curLocation = errorMsg;
-    } else if (location) {
-      curLocation = JSON.stringify(location);
+      text = errorMsg;
     }
 
     setMapRegion({
       ...mapRegion,
-      latitude: curLocation.coords.latitude,
-      longitude: curLocation.coords.longitude,
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
     });
   }
 
