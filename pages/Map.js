@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  TextInput,
-  Dimensions,
-  Button,
-  Platform,
-} from "react-native";
+import { Text, View, StyleSheet, TextInput, Dimensions } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import axios from "axios";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import BottomSheet from "../components/BottomSheet.js";
+import MyLocationButton from "../components/MyLocationButton.js";
 import * as Location from "expo-location";
 
 const Map = () => {
@@ -38,19 +30,6 @@ const Map = () => {
     })();
   }, []);
 
-  // const myLocation = async () => {
-  //   let text = "Waiting..";
-  //   if (errorMsg) {
-  //     text = errorMsg;
-  //   }
-
-  //   setMapRegion({
-  //     ...mapRegion,
-  //     latitude: location.coords.latitude,
-  //     longitude: location.coords.longitude,
-  //   });
-  // };
-
   const searchTest = async () => {
     const apiKey = "0d354750cc5df9c00497abcd507c89d5";
     const coord = await axios.get(
@@ -72,19 +51,28 @@ const Map = () => {
     });
   };
 
+  const myLocation = async (coords) => {
+    let newLatitude = coords.latitude;
+    let newLongitude = coords.longitude;
+    console.log(newLatitude, newLongitude);
+    setMapRegion({
+      ...mapRegion,
+      latitude: newLatitude,
+      longitude: newLongitude,
+    });
+  };
+
   return (
     <View style={styles.container}>
-      {/* <View>
-        <Button
-          onPress={() => myLocation()}
-          title="My Location"
-          color="#841584"
-        />
-      </View> */}
+      <MyLocationButton
+        updateLocation={myLocation}
+        currentLocation={{ ...location }}
+      />
 
       {placeName === "" ? (
         <View>
           <MapView style={styles.map} region={mapRegion} />
+          {console.log(mapRegion)}
           <TextInput
             onChangeText={(searchName) => setPlaceName(searchName)}
             onSubmitEditing={() => searchTest()}
