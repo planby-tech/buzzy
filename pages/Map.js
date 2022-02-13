@@ -7,13 +7,13 @@ import {
   TextInput,
   Dimensions,
   Button,
-  Platform
+  Platform,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import axios from "axios";
 import SlidingUpPanel from "rn-sliding-up-panel";
-import BottomSheet from "./BottomSheet.js";
-import * as Location from 'expo-location';
+import BottomSheet from "../components/BottomSheet.js";
+import * as Location from "expo-location";
 
 const Map = () => {
   const [mapRegion, setMapRegion] = useState({
@@ -29,8 +29,8 @@ const Map = () => {
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
@@ -39,7 +39,7 @@ const Map = () => {
   }, []);
 
   const myLocation = async () => {
-    let text = 'Waiting..';
+    let text = "Waiting..";
     if (errorMsg) {
       text = errorMsg;
     }
@@ -49,7 +49,7 @@ const Map = () => {
       latitude: location.coords.latitude,
       longitude: location.coords.longitude,
     });
-  }
+  };
 
   const searchTest = async () => {
     const apiKey = "0d354750cc5df9c00497abcd507c89d5";
@@ -79,7 +79,7 @@ const Map = () => {
           onPress={() => myLocation()}
           title="My Location"
           color="#841584"
-          />
+        />
       </View>
 
       {placeName === "" ? (
@@ -125,7 +125,8 @@ const Map = () => {
               backgroundColor: "rgba(0,0,0,0)",
             }}
           />
-          <SlidingUpPanel
+          <BottomSheet />
+          {/* <SlidingUpPanel
             ref={(c) => (BottomSheet._panel = c)}
             draggableRange={{ top: height / 1.75, bottom: 120 }}
             animatedValue={BottomSheet._draggedValue}
@@ -145,7 +146,7 @@ const Map = () => {
                 source={require("../assets/heart.png")}
               />
             </View>
-          </SlidingUpPanel>
+          </SlidingUpPanel> */}
         </View>
       )}
     </View>
