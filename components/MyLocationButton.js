@@ -1,6 +1,6 @@
 import * as Location from "expo-location";
 import React, { useState, useEffect } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, TouchableOpacity, StyleSheet } from "react-native";
 
 const MyLocationButton = (props) => {
   const [currentLocation, setCurrentLocation] = useState({
@@ -22,14 +22,26 @@ const MyLocationButton = (props) => {
   return (
     <View>
       <View>
-        <Button
-          onPress={async () => props.updateLocation(await getMyLocation())}
-          title="My Location"
-          color="#841584"
-        />
+        <TouchableOpacity activeOpacity={0.8} style={styles.button}
+          onPress={async () => props.updateLocation(await getMyLocation())}>
+          <Text style={styles.text}>My Location</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 export default MyLocationButton;
+
+const styles = StyleSheet.create({
+  button: {
+    width: 60,
+    height: 60,
+    backgroundColor: "#fe5746",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  text: {
+    color: "#fff"
+  }
+});
