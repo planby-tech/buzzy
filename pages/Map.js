@@ -6,6 +6,7 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import BottomSheet from "../components/BottomSheet.js";
 import MyLocationButton from "../components/MyLocationButton.js";
 import * as Location from "expo-location";
+import MapViewDirections from "react-native-maps-directions";
 
 const Map = () => {
   const [mapRegion, setMapRegion] = useState({
@@ -17,6 +18,8 @@ const Map = () => {
   const [placeName, setPlaceName] = useState("");
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  const [isSearchSubmitted, setIsSearchSubmitted] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -44,6 +47,8 @@ const Map = () => {
 
     setPlaceName(placeName);
 
+    setIsSearchSubmitted(true);
+
     setMapRegion({
       ...mapRegion,
       latitude: Number(yCoord),
@@ -61,31 +66,68 @@ const Map = () => {
     });
   };
 
+  const [pathDestination, setPathDestination] = useState({});
+  const [isPathActivated, setIsPathActivated] = useState(false);
+
+  const pathFind = (destination) => {
+    let desLat = destination.latitude;
+    let desLng = destination.longitude;
+
+    setPathDestination({
+      ...pathDestination,
+      latitude: desLat,
+      longitude: desLng,
+    });
+
+    setIsPathActivated(true);
+  };
+
   return (
     <View style={styles.container}>
       <MyLocationButton updateLocation={myLocation} />
 
-      {placeName === "" ? (
-        <View>
-          <MapView style={styles.map} region={mapRegion} />
-          <TextInput
-            onChangeText={(searchName) => setPlaceName(searchName)}
-            onSubmitEditing={() => searchTest()}
-            placeholder={"검색할 장소를 입력하세요"}
-            style={styles.input}
-          />
-          <View
-            style={{
-              height: "100%",
-              width: 20,
-              zIndex: 2,
-              position: "absolute",
-              backgroundColor: "rgba(0,0,0,0)",
-            }}
-          />
-        </View>
-      ) : (
-        <View>
+      <View>
+        <MapView style={styles.map} region={mapRegion}>
+          {!isSearchSubmitted ? (
+            <View />
+          ) : (
+            <Marker
+              coordinate={mapRegion}
+              title={placeName}
+              description="우리 여기서 일해요"
+              onPress={(e) => {
+                pathFind(e.nativeEvent.coordinate);
+              }}
+            />
+          )}
+          {!isPathActivated ? (
+            <View />
+          ) : (
+            <MapViewDirections
+              origin={mapRegion}
+              destination={pathDestination}
+              apikey={"AIzaSyCrUq-EHAwdB_IAqhUFYqhuEeY7dX9amb4"}
+            />
+          )}
+        </MapView>
+        <TextInput
+          onChangeText={(searchName) => setPlaceName(searchName)}
+          onSubmitEditing={() => searchTest()}
+          placeholder={"검색할 장소를 입력하세요"}
+          style={styles.searchInputBox}
+        />
+        <View
+          style={{
+            height: "100%",
+            width: 20,
+            zIndex: 2,
+            position: "absolute",
+            backgroundColor: "rgba(0,0,0,0)",
+          }}
+        />
+      </View>
+
+      {/* <View>
           <MapView style={styles.map} region={mapRegion}>
             <Marker
               coordinate={mapRegion}
@@ -109,8 +151,7 @@ const Map = () => {
             }}
           />
           <BottomSheet place={placeName} />
-        </View>
-      )}
+        </View> */}
     </View>
   );
 };
@@ -140,7 +181,7 @@ const styles = StyleSheet.create({
     height: "100%",
     zIndex: -1,
   },
-  input: {
+  searchInputBox: {
     position: "absolute",
     zIndex: 2,
     justifyContent: "center",
