@@ -25,8 +25,8 @@ const Map = () => {
         setErrorMsg("Permission to access location was denied");
         return;
       }
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      let initLocation = await Location.getCurrentPositionAsync({});
+      setLocation(initLocation);
     })();
   }, []);
 
@@ -38,9 +38,9 @@ const Map = () => {
         headers: { Authorization: `KakaoAK ${apiKey}` },
       }
     );
-    const location = coord.data.documents[0];
-    const xCoord = location.x;
-    const yCoord = location.y;
+    const searchLocation = coord.data.documents[0];
+    const xCoord = searchLocation.x;
+    const yCoord = searchLocation.y;
 
     setPlaceName(placeName);
 
