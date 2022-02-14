@@ -51,10 +51,9 @@ const Map = () => {
     });
   };
 
-  const myLocation = async (coords) => {
-    let newLatitude = coords.latitude;
-    let newLongitude = coords.longitude;
-    console.log(newLatitude, newLongitude);
+  const myLocation = (newLocation) => {
+    let newLatitude = newLocation.coords.latitude;
+    let newLongitude = newLocation.coords.longitude;
     setMapRegion({
       ...mapRegion,
       latitude: newLatitude,
@@ -64,15 +63,11 @@ const Map = () => {
 
   return (
     <View style={styles.container}>
-      <MyLocationButton
-        updateLocation={myLocation}
-        currentLocation={{ ...location }}
-      />
+      <MyLocationButton updateLocation={myLocation} />
 
       {placeName === "" ? (
         <View>
           <MapView style={styles.map} region={mapRegion} />
-          {console.log(mapRegion)}
           <TextInput
             onChangeText={(searchName) => setPlaceName(searchName)}
             onSubmitEditing={() => searchTest()}
@@ -113,7 +108,7 @@ const Map = () => {
               backgroundColor: "rgba(0,0,0,0)",
             }}
           />
-          <BottomSheet place = {placeName}/>
+          <BottomSheet place={placeName} />
         </View>
       )}
     </View>
