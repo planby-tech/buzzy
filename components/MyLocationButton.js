@@ -11,8 +11,7 @@ const MyLocationButton = (props) => {
           style={styles.button}
           onPress={async () =>
             props.updateLocation(await Location.getCurrentPositionAsync({}))
-          }
-        >
+          }>
           <Text style={styles.text}>My Location</Text>
         </TouchableOpacity>
       </View>
