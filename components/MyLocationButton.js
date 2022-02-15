@@ -11,7 +11,8 @@ const MyLocationButton = (props) => {
           style={styles.button}
           onPress={async () =>
             props.updateLocation(await Location.getCurrentPositionAsync({}))
-          }>
+          }
+        >
           <Text style={styles.text}>My Location</Text>
         </TouchableOpacity>
       </View>
@@ -25,11 +26,17 @@ const styles = StyleSheet.create({
   button: {
     width: 60,
     height: 60,
-    backgroundColor: "#fe5746",
+    backgroundColor: "#505050",
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute",
+    right: 25,
+    bottom: 25,
+    borderRadius: 30,
   },
   text: {
     color: "#fff",
+    textAlign: "center",
+    fontSize: 12,
   },
 });

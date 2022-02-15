@@ -84,8 +84,6 @@ const Map = () => {
 
   return (
     <View style={styles.container}>
-      <MyLocationButton updateLocation={myLocation} />
-
       <View>
         <MapView style={styles.map} region={mapRegion}>
           {!isSearchSubmitted ? (
@@ -129,7 +127,7 @@ const Map = () => {
           placeholder={"검색할 장소를 입력하세요"}
           style={styles.searchInputBox}
         />
-        {console.log(mapRegion, pathDestination)}
+        <MyLocationButton updateLocation={myLocation} />
         <View
           style={{
             height: "100%",
@@ -140,32 +138,6 @@ const Map = () => {
           }}
         />
       </View>
-
-      {/* <View>
-          <MapView style={styles.map} region={mapRegion}>
-            <Marker
-              coordinate={mapRegion}
-              title={placeName}
-              description="우리 여기서 일해요"
-            />
-          </MapView>
-          <TextInput
-            value={placeName}
-            onChangeText={(searchName) => setPlaceName(searchName)}
-            onSubmitEditing={() => searchTest()}
-            style={styles.input}
-          />
-          <View
-            style={{
-              height: "100%",
-              width: 20,
-              zIndex: 2,
-              position: "absolute",
-              backgroundColor: "rgba(0,0,0,0)",
-            }}
-          />
-          <BottomSheet place={placeName} />
-        </View> */}
     </View>
   );
 };
