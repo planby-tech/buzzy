@@ -104,9 +104,22 @@ const Map = () => {
             <View />
           ) : (
             <MapViewDirections
-              origin={mapRegion}
-              destination={pathDestination}
+              origin={{
+                latitude: 37.47656223234824,
+                latitudeDelta: 0.003,
+                longitude: 126.98155858357366,
+                longitudeDelta: 0.003,
+              }}
+              destination={{
+                latitude: 37.4755845620958,
+                latitudeDelta: 0.003,
+                longitude: 126.987966657679,
+                longitudeDelta: 0.003,
+              }}
               apikey={"AIzaSyCrUq-EHAwdB_IAqhUFYqhuEeY7dX9amb4"}
+              mode={"TRANSIT"}
+              strokeWidth={3}
+              strokeColor="hotpink"
             />
           )}
         </MapView>
@@ -116,6 +129,7 @@ const Map = () => {
           placeholder={"검색할 장소를 입력하세요"}
           style={styles.searchInputBox}
         />
+        {console.log(mapRegion, pathDestination)}
         <View
           style={{
             height: "100%",
