@@ -10,7 +10,9 @@ const MyLocationButton = (props) => {
           activeOpacity={0.8}
           style={styles.button}
           onPress={async () =>
-            props.updateLocation(await Location.getCurrentPositionAsync({}))
+            props.updateLocation(await Location.getCurrentPositionAsync({
+              accuracy: Location.Accuracy.Balanced
+            }))
           }
         >
           <Text style={styles.text}>My Location</Text>
