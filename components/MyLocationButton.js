@@ -11,7 +11,7 @@ const MyLocationButton = (props) => {
           style={styles.button}
           onPress={async () =>
             props.updateLocation(await Location.getCurrentPositionAsync({
-              accuracy: Location.Accuracy.Balanced
+              accuracy: isAndroid ? Location.Accuracy.Low : Location.Accuracy.Balanced,
             }))
           }
         >
