@@ -18,9 +18,10 @@ const MyLocationButton = (props) => {
           onPress={async () =>
             props.updateLocation(
               await Location.getCurrentPositionAsync({
-                accuracy: isAndroid
-                  ? Location.Accuracy.Low
-                  : Location.Accuracy.Balanced,
+                accuracy:
+                  Platform.OS === "ios"
+                    ? Location.Accuracy.Balanced
+                    : Location.Accuracy.Lowest,
               })
             )
           }
