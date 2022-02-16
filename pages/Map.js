@@ -82,14 +82,20 @@ const Map = () => {
     setIsPathActivated(true);
   };
 
+  const [pdTop, setPdTop] = useState(0);
+
   return (
     <View style={styles.container}>
-      <View>
+      <View style={{ paddingTop: pdTop }}>
         <MapView
           style={styles.map}
           region={mapRegion}
           showsUserLocation={true}
           loadingEnabled={true}
+          showsTraffic={true}
+          onMapReady={() => {
+            setPdTop(5);
+          }}
         >
           {!isSearchSubmitted ? (
             <View />

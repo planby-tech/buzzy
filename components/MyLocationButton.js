@@ -21,7 +21,7 @@ const MyLocationButton = (props) => {
                 accuracy:
                   Platform.OS === "ios"
                     ? Location.Accuracy.Balanced
-                    : Location.Accuracy.Lowest,
+                    : Location.Accuracy.Low,
               })
             )
           }
