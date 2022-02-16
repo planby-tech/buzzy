@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TextInput, Dimensions } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, AnimatedRegion } from "react-native-maps";
 import axios from "axios";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import BottomSheet from "../components/BottomSheet.js";
@@ -82,20 +82,17 @@ const Map = () => {
     setIsPathActivated(true);
   };
 
-  const [pdTop, setPdTop] = useState(0);
-
   return (
     <View style={styles.container}>
-      <View style={{ paddingTop: pdTop }}>
-        <MapView
+      <View>
+        <MapView.Animated
           style={styles.map}
           region={mapRegion}
           showsUserLocation={true}
+          showsUserLocationButton={true}
           loadingEnabled={true}
           showsTraffic={true}
-          onMapReady={() => {
-            setPdTop(5);
-          }}
+          zoomEnabled={true}
         >
           {!isSearchSubmitted ? (
             <View />
@@ -131,7 +128,7 @@ const Map = () => {
               strokeColor="hotpink"
             />
           )}
-        </MapView>
+        </MapView.Animated>
         <TextInput
           onChangeText={(searchName) => setPlaceName(searchName)}
           onSubmitEditing={() => searchTest()}
