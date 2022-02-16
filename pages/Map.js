@@ -85,7 +85,12 @@ const Map = () => {
   return (
     <View style={styles.container}>
       <View>
-        <MapView style={styles.map} region={mapRegion}>
+        <MapView
+          style={styles.map}
+          region={mapRegion}
+          showsUserLocation={true}
+          loadingEnabled={true}
+        >
           {!isSearchSubmitted ? (
             <View />
           ) : (
