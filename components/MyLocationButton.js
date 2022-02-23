@@ -6,7 +6,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  Image,
 } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import Svg, { Path } from "react-native-svg";
 
 const MyLocationButton = (props) => {
   return (
@@ -26,7 +32,19 @@ const MyLocationButton = (props) => {
             )
           }
         >
-          <Text style={styles.text}>My Location</Text>
+          <Svg
+            width="60%"
+            height="60%"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <Path d="M12.001 15.998a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="#000" />
+            <Path
+              d="M13.001 4.067V1.998h-2v2.069a8.01 8.01 0 0 0-6.931 6.931H2.001v2H4.07a8.008 8.008 0 0 0 6.931 6.931v2.069h2v-2.069a8.006 8.006 0 0 0 6.931-6.931h2.069v-2h-2.069a8.009 8.009 0 0 0-6.931-6.93zm-1 13.931c-3.309 0-6-2.691-6-6s2.691-6 6-6 6 2.691 6 6-2.691 6-6 6z"
+              fill="#000"
+            />
+          </Svg>
         </TouchableOpacity>
       </View>
     </View>
@@ -37,19 +55,18 @@ export default MyLocationButton;
 
 const styles = StyleSheet.create({
   button: {
-    width: 60,
-    height: 60,
-    backgroundColor: "#505050",
+    width: wp(10.7),
+    height: wp(10.7),
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    right: 25,
-    bottom: 25,
-    borderRadius: 30,
+    right: wp(4.3),
+    bottom: hp(4),
+    borderRadius: 8,
   },
-  text: {
-    color: "#fff",
-    textAlign: "center",
-    fontSize: 12,
+  currentLocation: {
+    width: "60%",
+    height: "60%",
   },
 });
