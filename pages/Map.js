@@ -7,6 +7,11 @@ import BottomSheet from "../components/BottomSheet.js";
 import MyLocationButton from "../components/MyLocationButton.js";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import AddMarkerButton from "../components/AddMarkerButton.js";
 
 const Map = () => {
   const [mapRegion, setMapRegion] = useState({
@@ -85,18 +90,14 @@ const Map = () => {
   return (
     <View style={styles.container}>
       <View>
-        <MapView.Animated
+        <MapView
           style={styles.map}
           region={mapRegion}
           showsUserLocation={true}
-          showsUserLocationButton={true}
+          showsMyLocationButton={false}
           loadingEnabled={true}
-          showsTraffic={true}
-          zoomEnabled={true}
         >
-          {!isSearchSubmitted ? (
-            <View />
-          ) : (
+          {!isSearchSubmitted ? null : (
             <Marker
               coordinate={mapRegion}
               title={placeName}
@@ -106,9 +107,7 @@ const Map = () => {
               }}
             />
           )}
-          {!isPathActivated ? (
-            <View />
-          ) : (
+          {!isPathActivated ? null : (
             <MapViewDirections
               origin={{
                 latitude: 37.47656223234824,
@@ -128,7 +127,7 @@ const Map = () => {
               strokeColor="hotpink"
             />
           )}
-        </MapView.Animated>
+        </MapView>
         <TextInput
           onChangeText={(searchName) => setPlaceName(searchName)}
           onSubmitEditing={() => searchTest()}
@@ -136,6 +135,7 @@ const Map = () => {
           style={styles.searchInputBox}
         />
         <MyLocationButton updateLocation={myLocation} />
+        <AddMarkerButton />
         <View
           style={{
             height: "100%",
