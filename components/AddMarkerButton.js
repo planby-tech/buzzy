@@ -43,6 +43,7 @@ const AddMarkerButton = () => {
               </ClipPath>
             </Defs>
           </Svg>
+          {/* Button vector image */}
         </TouchableOpacity>
       </View>
     </View>
@@ -62,9 +63,8 @@ const styles = StyleSheet.create({
     left: wp(4.3),
     bottom: hp(4),
     borderRadius: 8,
-  },
-  currentLocation: {
-    width: "60%",
-    height: "60%",
+    shadowColor: "#333",
+    shadowOpacity: 0.5,
+    elevation: 5,
   },
 });

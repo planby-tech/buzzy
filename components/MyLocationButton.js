@@ -64,9 +64,19 @@ const styles = StyleSheet.create({
     right: wp(4.3),
     bottom: hp(4),
     borderRadius: 8,
-  },
-  currentLocation: {
-    width: "60%",
-    height: "60%",
+    ...Platform.select({
+      ios: {
+        shadowColor: "rgb(50, 50, 50)",
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        shadowOffset: {
+          height: -1,
+          width: 0,
+        },
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
   },
 });
