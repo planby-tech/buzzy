@@ -5,13 +5,14 @@ import axios from "axios";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import BottomSheet from "../components/BottomSheet.js";
 import MyLocationButton from "../components/map-buttons/MyLocationButton.js";
+import AddMarkerButton from "../components/map-buttons/AddMarkerButton.js";
+import SearchButton from "../components/map-buttons/SearchButton.js";
 import * as Location from "expo-location";
 import MapViewDirections from "react-native-maps-directions";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import AddMarkerButton from "../components/map-buttons/AddMarkerButton.js";
 
 const Map = () => {
   const [mapRegion, setMapRegion] = useState({
@@ -96,6 +97,7 @@ const Map = () => {
           showsUserLocation={true}
           showsMyLocationButton={false}
           loadingEnabled={true}
+          showsBuildings={true}
         >
           {!isSearchSubmitted ? null : (
             <Marker
@@ -134,8 +136,10 @@ const Map = () => {
           placeholder={"검색할 장소를 입력하세요"}
           style={styles.searchInputBox}
         />
-        <MyLocationButton updateLocation={myLocation} />
+        <SearchButton />
         <AddMarkerButton />
+        <MyLocationButton updateLocation={myLocation} />
+
         <View
           style={{
             height: "100%",
