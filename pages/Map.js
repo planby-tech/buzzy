@@ -175,8 +175,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   map: {
-    width: "100%",
-    height: "100%",
+    width: wp(100),
+    height: hp(100),
     zIndex: -1,
   },
   searchInputBox: {

@@ -27,7 +27,7 @@ const MyLocationButton = (props) => {
                 accuracy:
                   Platform.OS === "ios"
                     ? Location.Accuracy.Balanced
-                    : Location.Accuracy.Low,
+                    : Location.Accuracy.Lowest,
               })
             )
           }
@@ -45,6 +45,7 @@ const MyLocationButton = (props) => {
               fill="#000"
             />
           </Svg>
+          {/* Button vector image */}
         </TouchableOpacity>
       </View>
     </View>
