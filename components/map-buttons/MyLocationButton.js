@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
-  Image,
 } from "react-native";
 import {
   widthPercentageToDP as wp,

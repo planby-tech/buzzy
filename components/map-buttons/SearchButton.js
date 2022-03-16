@@ -1,5 +1,11 @@
 import React from "react";
-import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+  Dimensions,
+} from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,10 +13,18 @@ import {
 import Svg, { Path } from "react-native-svg";
 
 const SearchButton = () => {
+  const searchOn = () => {
+    console.log("asdf");
+  };
+
   return (
     <View>
       <View>
-        <TouchableOpacity activeOpacity={0.8} style={styles.button}>
+        <TouchableOpacity
+          onPress={() => searchOn()}
+          activeOpacity={0.8}
+          style={styles.button}
+        >
           <Svg
             width="24"
             height="24"
@@ -34,16 +48,18 @@ const SearchButton = () => {
 
 export default SearchButton;
 
+const { width, height } = Dimensions.get("screen");
+
 const styles = StyleSheet.create({
   button: {
-    width: wp(10.7),
-    height: wp(10.7),
+    width: width * 0.107,
+    height: width * 0.107,
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    right: wp(4.3),
-    bottom: hp(89.2),
+    right: width * 0.043,
+    bottom: height * 0.892,
     borderRadius: 8,
     ...Platform.select({
       ios: {

@@ -155,7 +155,7 @@ const Map = () => {
 };
 export default Map;
 
-const { height } = Dimensions.get("window");
+const { height } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   container: {
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: wp(100),
-    height: hp(100),
+    height: height,
     zIndex: -1,
   },
   searchInputBox: {
