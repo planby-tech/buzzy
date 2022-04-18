@@ -3,7 +3,7 @@ import sequelize from "./config/database.js";
 import router from "./api/routes/routes.js";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.urlencoded({ extended: true }));
 
