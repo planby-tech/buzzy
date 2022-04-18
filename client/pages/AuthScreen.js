@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 const API_URL =
-  Platform.OS === "ios" ? "http://localhost:5000" : "http://10.0.2.2:5000";
+  Platform.OS === "ios" ? "http://localhost:3001" : "http://192.0.0.1:3001";
 
 const AuthScreen = () => {
   const [email, setEmail] = useState("");
