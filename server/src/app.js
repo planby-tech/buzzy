@@ -3,7 +3,7 @@ import sequelize from "./config/database.js";
 import router from "./api/routes/routes.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -22,10 +22,6 @@ app.use((_, res, next) => {
 app.use(router);
 
 sequelize.sync();
-
-// app.get("/api", (req, res) => {
-//   res.json({ message: "Hello from server!" });
-// });
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
