@@ -1,9 +1,9 @@
 import express from "express";
-import sequelize from "./config/database.js";
+import sequelize from "./utils/database.js";
 import router from "./api/routes/routes.js";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -23,6 +23,4 @@ app.use(router);
 
 sequelize.sync();
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+app.listen(PORT);
