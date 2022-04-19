@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import sequelize from "../config/database.js";
+import sequelize from "../utils/database.js";
 
 const User = sequelize.define("users", {
   id: {
@@ -14,6 +14,7 @@ const User = sequelize.define("users", {
   },
   name: {
     type: Sequelize.STRING,
+    allowNull: false,
   },
   password: {
     type: Sequelize.STRING,
