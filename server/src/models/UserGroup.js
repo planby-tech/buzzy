@@ -9,6 +9,7 @@ const UserGroup = sequelize.define(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
+      unique: true,
     },
     userId: {
       type: Sequelize.INTEGER,
@@ -25,6 +26,10 @@ const UserGroup = sequelize.define(
         model: Group,
         key: "id",
       },
+    },
+    role: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
   },
   {

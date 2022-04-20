@@ -9,6 +9,7 @@ const Group = sequelize.define(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
+      unique: true,
     },
     name: {
       type: Sequelize.STRING,
@@ -20,6 +21,12 @@ const Group = sequelize.define(
     userNumber: {
       type: Sequelize.INTEGER,
       allowNull: false,
+    },
+    groupCode: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      allowNull: false,
+      unique: true,
     },
   },
   {
