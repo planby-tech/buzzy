@@ -1,8 +1,8 @@
 import { Sequelize } from "sequelize";
 import sequelize from "../utils/Database.js";
 
-const User = sequelize.define(
-  "users",
+const Group = sequelize.define(
+  "groups",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -10,16 +10,15 @@ const User = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    email: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
     name: {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    password: {
+    description: {
       type: Sequelize.STRING,
+    },
+    userNumber: {
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
   },
@@ -28,4 +27,4 @@ const User = sequelize.define(
   }
 );
 
-export default User;
+export default Group;
