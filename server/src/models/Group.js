@@ -23,7 +23,7 @@ const Group = sequelize.define(
       allowNull: false,
     },
     groupCode: {
-      type: Sequelize.STRING,
+      type: Sequelize.UUID,
       allowNull: false,
       allowNull: false,
       unique: true,
