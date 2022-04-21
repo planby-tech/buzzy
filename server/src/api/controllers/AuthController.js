@@ -1,6 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../../models/User.js";
+import isValidEmail from "is-valid-email";
+
+const PW_NUM = "^(?=.*[0-9])$";
+const PW_ALPHA = "^(?=.*[a-z])$";
+const PW_LEN = "^.{8,32}$";
 
 const signup = (req, res, next) => {
   // checks if email already exists
@@ -10,37 +15,54 @@ const signup = (req, res, next) => {
     },
   })
     .then((dbUser) => {
-      if (dbUser) {
-        return res.status(409).json({ message: "email already exists" });
-      } else if (req.body.email && req.body.password) {
-        // password hash
-        bcrypt.hash(req.body.password, 12, (err, passwordHash) => {
-          if (err) {
-            return res
-              .status(500)
-              .json({ message: "couldn't hash the password" });
-          } else if (passwordHash) {
-            return User.create({
-              email: req.body.email,
-              name: req.body.name,
-              password: passwordHash,
-            })
-              .then(() => {
-                res.status(200).json({ message: "user created" });
-              })
-              .catch((err) => {
-                console.log(err);
-                res
-                  .status(502)
-                  .json({ message: "error while creating the user" });
-              });
-          }
-        });
-      } else if (!req.body.password) {
-        return res.status(400).json({ message: "password not provided" });
-      } else if (!req.body.email) {
+      if (!req.body.email) {
         return res.status(400).json({ message: "email not provided" });
+      } else if (!req.body.password1 || !req.body.password2) {
+        return res.status(400).json({ message: "password not provided" });
+      } else if (!req.body.name) {
+        return res.status(400).json({ message: "name not provided" });
+      } else if (dbUser) {
+        return res.status(409).json({ message: "email already exists" });
+      } else if (!isValidEmail(req.body.email)) {
+        return res.status(409).json({ message: "email format is not valid" });
+      } else if (req.body.password1 !== req.body.password2) {
+        return res.status(409).json({ message: "password does not match" });
+      } else if (req.body.password1.test(PW_NUM)) {
+        return res
+          .status(409)
+          .json({ message: "password does not include number" });
+      } else if (req.body.password1.test(PW_ALPHA)) {
+        return res
+          .status(409)
+          .json({ message: "password does not include alphabet" });
+      } else if (req.body.password1.test(PW_LEN)) {
+        return res
+          .status(409)
+          .json({ message: "password length is out of bound" });
       }
+      // hash password
+      bcrypt.hash(req.body.password1, 12, (err, passwordHash) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ message: "could not hash the password" });
+        } else if (passwordHash) {
+          return User.create({
+            email: req.body.email,
+            name: req.body.name,
+            password: passwordHash,
+          })
+            .then(() => {
+              res.status(200).json({ message: "user created" });
+            })
+            .catch((err) => {
+              console.log(err);
+              res
+                .status(502)
+                .json({ message: "error while creating the user" });
+            });
+        }
+      });
     })
     .catch((err) => {
       console.log("error", err);
