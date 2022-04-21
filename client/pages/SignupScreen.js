@@ -14,7 +14,7 @@ const API_URL =
     ? "http://192.168.219.101:3001"
     : "http://192.168.219.103:3001";
 
-const AuthScreen = () => {
+const SignupScreen = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AuthScreen;
+export default SignupScreen;

@@ -13,6 +13,8 @@
     "@expo/ngrok": "^4.1.0",
     "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/native": "^6.0.8",
+    "@react-navigation/native-stack": "^6.6.1",
+    "@reduxjs/toolkit": "^1.8.1",
     "axios": "^0.25.0",
     "expo": "~44.0.0",
     "expo-location": "~14.0.1",
@@ -29,6 +31,7 @@
     "react-native-screens": "~3.10.1",
     "react-native-svg": "^12.1.1",
     "react-native-web": "0.17.1",
+    "react-redux": "^8.0.1",
     "rn-sliding-up-panel": "^2.4.5"
   },
   "devDependencies": {
