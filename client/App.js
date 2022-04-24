@@ -6,6 +6,9 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Map from "./pages/Map";
 import { AuthScreen } from "./pages";
 import { StatusBar } from "expo-status-bar";
+import { Provider } from "react-redux";
+import AppRoute from "./src/navigations/navigator";
+import { store } from "./src/redux/store";
 
 const Drawer = createDrawerNavigator();
 
@@ -31,10 +34,10 @@ const App = () => {
     // <NavigationContainer>
     //   <MyDrawer />
     // </NavigationContainer>
-    <View style={styles.container}>
-      <AuthScreen />
+    <Provider store={store}>
+      <AppRoute />
       <StatusBar style="auto" />
-    </View>
+    </Provider>
   );
 };
 export default App;
