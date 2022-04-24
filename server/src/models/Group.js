@@ -25,7 +25,6 @@ const Group = sequelize.define(
     groupCode: {
       type: Sequelize.UUID,
       allowNull: false,
-      allowNull: false,
       unique: true,
     },
   },
