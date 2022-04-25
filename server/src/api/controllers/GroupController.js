@@ -1,4 +1,5 @@
 import Group from "../../models/Group.js";
+import UserGroup from "../models/UserGroup.js";
 import crypto from "crypto";
 
 const createGroup = (req, res, next) => {
@@ -20,3 +21,5 @@ const createGroup = (req, res, next) => {
       });
   }
 };
+
+export { createGroup };
