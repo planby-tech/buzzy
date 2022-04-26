@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
-import db from "./index";
+import { sequelize } from "./index.js";
 
-const Group = db.sequelize.define("groups", {
+const Group = sequelize.define("groups", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,

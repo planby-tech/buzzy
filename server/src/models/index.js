@@ -1,7 +1,7 @@
 import Sequelize from "sequelize";
-import config from "../config/db.config";
-import User from "./User";
-import Group from "./Group";
+import config from "../configs/db.config.js";
+import User from "./User.js";
+import Group from "./Group.js";
 
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
@@ -37,7 +37,7 @@ db.user.belongsToMany(db.role, {
 
 db.ROLES = ["user", "admin", "moderator"];
 
-export default db;
+export { db, sequelize };
 
 /**********************************************************************
 "use strict";

@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
-import db from "./index";
+import { sequelize } from "./index.js";
 
-const Role = db.sequelize.define("roles", {
+const Role = sequelize.define("roles", {
   id: {
     type: Sequelize.INTEGER,
     allowNull: false,

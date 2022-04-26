@@ -1,7 +1,7 @@
 import emailValidator from "email-validator";
 import passwordValidator from "password-validator";
-import User from "../models/User";
-import Role from "../models/Role";
+import User from "../models/User.js";
+import Role from "../models/Role.js";
 
 const schema = new passwordValidator();
 schema

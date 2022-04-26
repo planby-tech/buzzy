@@ -4,13 +4,13 @@ import {
   isAdmin,
   isModerator,
   isModeratorOrAdmin,
-} from "../middleware/AuthJwt";
+} from "../../middleware/AuthJwt.js";
 import {
   allAccess,
   userBoard,
   adminBoard,
   moderatorBoard,
-} from "../controllers/UserController";
+} from "../controllers/UserController.js";
 
 const router = express.Router();
 
@@ -29,3 +29,5 @@ router.get("/api/test/user", [verifyToken], userBoard);
 router.get("/api/test/mod", [verifyToken, isModerator], moderatorBoard);
 
 router.get("/api/test/admin", [verifyToken, isAdmin], adminBoard);
+
+export { router };

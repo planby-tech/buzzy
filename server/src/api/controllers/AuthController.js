@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../../models/User";
-import Role from "../../models/Role";
-import config from "../../configs/auth.config";
+import User from "../../models/User.js";
+import Role from "../../models/Role.js";
+import config from "../../configs/auth.config.js";
 
 const signup = (req, res) => {
   // Save User to Database

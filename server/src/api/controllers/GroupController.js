@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import Group from "../../models/Group";
+import Group from "../../models/Group.js";
 
 const createGroup = (req, res, next) => {
   if (!groupValidCheck(req)) {

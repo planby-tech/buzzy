@@ -3,7 +3,7 @@ import {
   isAdmin,
   isModerator,
   isModeratorOrAdmin,
-} from "./AuthJwt";
-import { verifySignUp } from "./VerifySignUp";
+} from "./AuthJwt.js";
+import { verifySignUp } from "./VerifySignUp.js";
 
 export { verifyToken, isAdmin, isModerator, isModeratorOrAdmin, verifySignUp };

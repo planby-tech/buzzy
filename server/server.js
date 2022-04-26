@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
-import { router as authRouter } from "./src/api/routes/auth.routes";
-import { router as userRouter } from "./src/api/routes/user.routes";
-import db from "./src/models/index";
+import { router as authRouter } from "./src/api/routes/auth.routes.js";
+import { router as userRouter } from "./src/api/routes/user.routes.js";
+import { db } from "./src/models/index.js";
 
 const app = express();
 const PORT = 3001;
