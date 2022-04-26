@@ -1,5 +1,7 @@
 import Sequelize from "sequelize";
-import config from "../config/db.config.js";
+import config from "../config/db.config";
+import User from "./User";
+import Group from "./Group";
 
 const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
   host: config.HOST,
@@ -18,8 +20,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
-db.role = require("../models/role.model.js")(sequelize, Sequelize);
+db.user = User(sequelize, Sequelize);
+db.role = Group(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -34,7 +36,8 @@ db.user.belongsToMany(db.role, {
 });
 
 db.ROLES = ["user", "admin", "moderator"];
-module.exports = db;
+
+export default db;
 
 /**********************************************************************
 "use strict";
