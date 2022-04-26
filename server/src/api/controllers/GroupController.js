@@ -1,6 +1,5 @@
-import Group from "../../models/Group.js";
-import UserGroup from "../models/UserGroup.js";
 import crypto from "crypto";
+import Group from "../../models/Group";
 
 const createGroup = (req, res, next) => {
   if (!groupValidCheck(req)) {
