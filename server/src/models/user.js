@@ -1,9 +1,7 @@
 import { Sequelize } from "sequelize";
-import sequelize from "../utils/Database.js";
 
-const User = sequelize.define(
-  "users",
-  {
+module.exports = (sequelize, Sequelize) => {
+  const User = sequelize.define("users", {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -24,10 +22,6 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-  },
-  {
-    timestamps: false,
-  }
-);
-
-export default User;
+  });
+  return User;
+};
