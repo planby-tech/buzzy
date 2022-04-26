@@ -2,11 +2,11 @@
   "name": "mapping_back",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/app.js"
+    "start": "node server.js"
   },
   "author": "Hyeonseop-Noh",
   "license": "ISC",
