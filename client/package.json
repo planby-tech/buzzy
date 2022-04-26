@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@expo/ngrok": "^4.1.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-navigation/drawer": "^6.3.1",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.6.1",
@@ -19,6 +20,7 @@
     "expo": "~44.0.0",
     "expo-location": "~14.0.1",
     "expo-status-bar": "~1.2.0",
+    "formik": "^2.2.9",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
@@ -32,7 +34,8 @@
     "react-native-svg": "^12.1.1",
     "react-native-web": "0.17.1",
     "react-redux": "^8.0.1",
-    "rn-sliding-up-panel": "^2.4.5"
+    "rn-sliding-up-panel": "^2.4.5",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

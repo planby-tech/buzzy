@@ -4,30 +4,28 @@ import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Map from "./pages/Map";
-import { AuthScreen } from "./pages";
-import { StatusBar } from "expo-status-bar";
 import { Provider } from "react-redux";
-import AppRoute from "./src/navigations/navigator";
-import { store } from "./src/redux/store";
+import store from "./store";
+import AppNavigator from "./navigations/app-navigator";
 
-const Drawer = createDrawerNavigator();
+// const Drawer = createDrawerNavigator();
 
-function MyDrawer() {
-  return (
-    <Drawer.Navigator>
-      <Drawer.Screen
-        name="Map 1"
-        component={Map}
-        options={{ headerShown: false }}
-      />
-      <Drawer.Screen
-        name="Map 2"
-        component={Map}
-        options={{ headerShown: false }}
-      />
-    </Drawer.Navigator>
-  );
-}
+// function MyDrawer() {
+//   return (
+//     <Drawer.Navigator>
+//       <Drawer.Screen
+//         name="Map 1"
+//         component={Map}
+//         options={{ headerShown: false }}
+//       />
+//       <Drawer.Screen
+//         name="Map 2"
+//         component={Map}
+//         options={{ headerShown: false }}
+//       />
+//     </Drawer.Navigator>
+//   );
+// }
 
 const App = () => {
   return (
@@ -35,8 +33,9 @@ const App = () => {
     //   <MyDrawer />
     // </NavigationContainer>
     <Provider store={store}>
-      <AppRoute />
-      <StatusBar style="auto" />
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
     </Provider>
   );
 };
