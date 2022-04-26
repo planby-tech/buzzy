@@ -1,7 +1,9 @@
-import authJwt from "./authJwt";
-import verifySignUp from "./verifySignUp";
+import {
+  verifyToken,
+  isAdmin,
+  isModerator,
+  isModeratorOrAdmin,
+} from "./AuthJwt";
+import { verifySignUp } from "./VerifySignUp";
 
-module.exports = {
-  authJwt,
-  verifySignUp,
-};
+export { verifyToken, isAdmin, isModerator, isModeratorOrAdmin, verifySignUp };

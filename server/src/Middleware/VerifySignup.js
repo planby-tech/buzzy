@@ -1,9 +1,7 @@
-import db from "../models";
 import emailValidator from "email-validator";
 import passwordValidator from "password-validator";
-
-const User = db.user;
-const ROLES = db.ROLES;
+import User from "../models/User";
+import Role from "../models/Role";
 
 const schema = new passwordValidator();
 schema
@@ -59,7 +57,7 @@ const checkValidPassword = (req, res, next) => {
 const checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {
     for (let i = 0; i < req.body.roles.length; i++) {
-      if (!ROLES.includes(req.body.roles[i])) {
+      if (!Role.includes(req.body.roles[i])) {
         res.status(400).send({
           message: "Failed! Role does not exist = " + req.body.roles[i],
         });
@@ -70,10 +68,4 @@ const checkRolesExisted = (req, res, next) => {
   next();
 };
 
-const verifySignup = {
-  checkValidEmail: checkValidEmail,
-  checkValidPassword: checkValidPassword,
-  checkRolesExisted: checkRolesExisted,
-};
-
-module.exports = verifySignup;
+export { checkValidEmail, checkValidPassword, checkRolesExisted };
