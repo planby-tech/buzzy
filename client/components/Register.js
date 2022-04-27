@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { register } from "../slices/auth";
 import { clearMessage } from "../slices/message";
-import { Button, TextInput, StyleSheet } from "react-native";
+import { Button, TextInput, StyleSheet, View, Text } from "react-native";
 const Register = () => {
   const [successful, setSuccessful] = useState(false);
   const { message } = useSelector((state) => state.message);
@@ -15,7 +15,8 @@ const Register = () => {
   const initialValues = {
     username: "",
     email: "",
-    password: "",
+    password1: "",
+    password2: "",
   };
   const validationSchema = Yup.object().shape({
     username: Yup.string()
@@ -29,12 +30,20 @@ const Register = () => {
     email: Yup.string()
       .email("This is not a valid email.")
       .required("This field is required!"),
-    password: Yup.string()
+    password1: Yup.string()
       .test(
         "len",
-        "The password must be between 6 and 40 characters.",
+        "The password must be between 6 and 32 characters.",
         (val) =>
-          val && val.toString().length >= 6 && val.toString().length <= 40
+          val && val.toString().length >= 6 && val.toString().length <= 32
+      )
+      .required("This field is required!"),
+    password2: Yup.string()
+      .test(
+        "len",
+        "The password must be between 6 and 32 characters.",
+        (val) =>
+          val && val.toString().length >= 6 && val.toString().length <= 32
       )
       .required("This field is required!"),
   });
@@ -68,14 +77,16 @@ const Register = () => {
           <>
             <TextInput
               name="username"
-              placeholder="Email Address"
+              placeholder="User Name"
               style={styles.textInput}
               onChangeText={handleChange("username")}
               onBlur={handleBlur("username")}
-              value={values.email}
+              value={values.username}
             />
-            {errors.email && (
-              <Text style={{ fontSize: 10, color: "red" }}>{errors.email}</Text>
+            {errors.username && (
+              <Text style={{ fontSize: 10, color: "red" }}>
+                {errors.username}
+              </Text>
             )}
             <TextInput
               name="email"
@@ -90,16 +101,32 @@ const Register = () => {
               <Text style={{ fontSize: 10, color: "red" }}>{errors.email}</Text>
             )}
             <TextInput
-              name="password"
-              placeholder="Password"
+              name="password1"
+              placeholder="Password1"
               style={styles.textInput}
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              value={values.password}
+              onChangeText={handleChange("password1")}
+              onBlur={handleBlur("password1")}
+              value={values.password1}
               secureTextEntry
             />
-            {errors.email && (
-              <Text style={{ fontSize: 10, color: "red" }}>{errors.email}</Text>
+            {errors.password1 && (
+              <Text style={{ fontSize: 10, color: "red" }}>
+                {errors.password1}
+              </Text>
+            )}
+            <TextInput
+              name="password2"
+              placeholder="Password2"
+              style={styles.textInput}
+              onChangeText={handleChange("password2")}
+              onBlur={handleBlur("password2")}
+              value={values.password2}
+              secureTextEntry
+            />
+            {errors.password2 && (
+              <Text style={{ fontSize: 10, color: "red" }}>
+                {errors.password2}
+              </Text>
             )}
             <Button
               onPress={handleSubmit}
@@ -109,7 +136,7 @@ const Register = () => {
           </>
         )}
       </Formik>
-      {message && (
+      {message !== undefined && (
         <View>
           <Text>{message}</Text>
         </View>

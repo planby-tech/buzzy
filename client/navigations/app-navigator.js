@@ -37,7 +37,7 @@ const AppNavigator = () => {
     // };
   }, [currentUser]);
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="BoardModerator">
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />

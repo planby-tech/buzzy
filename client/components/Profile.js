@@ -7,10 +7,10 @@ const Profile = ({ navigation }) => {
     navigation.navigate("Login");
   }
   return (
-    <View className="container">
-      <View className="jumbotron">
+    <View>
+      <View>
         <Text>
-          <Text style={{ fontWeight: "bold" }}>{currentUser.username}</Text>{" "}
+          <Text style={{ fontWeight: "bold" }}>{currentUser.username}</Text>
           Profile
         </Text>
       </View>
@@ -22,14 +22,14 @@ const Profile = ({ navigation }) => {
         </Text>
       </View>
       <View>
-        <Text style={{ fontWeight: "bold" }}>Id:</Text>{" "}
+        <Text style={{ fontWeight: "bold" }}>Id: </Text>
         <Text>{currentUser.id}</Text>
       </View>
       <View>
-        <Text style={{ fontWeight: "bold" }}>Email:</Text>{" "}
+        <Text style={{ fontWeight: "bold" }}>Email: </Text>
         <Text>{currentUser.email}</Text>
       </View>
-      <Text style={{ fontWeight: "bold" }}>Authorities:</Text>
+      <Text style={{ fontWeight: "bold" }}>Authorities: </Text>
       {/* <>
         {currentUser.roles &&
           currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}

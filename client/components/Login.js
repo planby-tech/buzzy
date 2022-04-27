@@ -35,7 +35,7 @@ const Login = (props) => {
       });
   };
   if (isLoggedIn) {
-    return <Redirect to="/profile" />;
+    props.navigation.navigate("Profile");
   }
   return (
     <View style={styles.loginContainer}>
@@ -74,7 +74,7 @@ const Login = (props) => {
           </>
         )}
       </Formik>
-      {message && (
+      {message !== undefined && (
         <View>
           <Text>{message}</Text>
         </View>

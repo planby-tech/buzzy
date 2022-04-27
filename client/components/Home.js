@@ -6,10 +6,13 @@ const Home = () => {
   useEffect(() => {
     UserService.getPublicContent().then(
       (response) => {
-        setContent(response);
+        setContent(response.data);
       },
       (error) => {
-        const _content = error.response || error.message || error.toString();
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
         setContent(_content);
       }
     );

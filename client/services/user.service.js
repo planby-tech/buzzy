@@ -1,10 +1,13 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-// const API_URL = "http://localhost:8080/api/test/";
 const API_URL =
   Platform.OS === "ios"
-    ? "http://192.168.219.101:3001"
-    : "http://192.168.219.103:3001";
+    ? "http://192.168.219.101:3001/api/test"
+    : "http://192.168.219.101:3001/api/test";
+// const API_URL =
+//   Platform.OS === "ios"
+//     ? "http://192.168.219.101:3001"
+//     : "http://192.168.219.103:3001";
 const getPublicContent = () => {
   return axios.get(API_URL + "/all");
 };

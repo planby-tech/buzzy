@@ -5,11 +5,12 @@ const API_URL =
     ? "http://192.168.219.101:3001"
     : "http://192.168.219.103:3001";
 
-const register = (username, email, password) => {
+const register = (username, email, password1, password2) => {
   return axios.post(API_URL + "/signup", {
     username,
     email,
-    password,
+    password1,
+    password2,
   });
 };
 const login = (username, password) => {

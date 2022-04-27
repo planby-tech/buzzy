@@ -6,7 +6,7 @@ const BoardModerator = () => {
   useEffect(() => {
     UserService.getUserBoard().then(
       (response) => {
-        setContent(response);
+        setContent(response.data);
       },
       (error) => {
         const _content =
