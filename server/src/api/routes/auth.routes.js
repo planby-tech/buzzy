@@ -1,27 +1,52 @@
-import express from "express";
-import {
-  checkValidEmail,
-  checkValidPassword,
-  checkRolesExisted,
-} from "../../middleware/VerifySignup.js";
-import { signup, login } from "../controllers/AuthController.js";
+const { verifySignUp } = require("../../middleware");
+const controller = require("../controllers/AuthController");
 
-const router = express.Router();
+module.exports = function (app) {
+  app.use(function (req, res, next) {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  });
 
-router.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Headers",
-    "x-access-token, Origin, Content-Type, Accept"
+  app.post(
+    "/api/auth/signup",
+    [
+      verifySignUp.checkValidEmail,
+      verifySignUp.checkValidPassword,
+      verifySignUp.checkRolesExisted,
+    ],
+    controller.signup
   );
-  next();
-});
 
-router.post(
-  "/api/auth/signup",
-  [checkValidEmail, checkValidPassword, checkRolesExisted],
-  signup
-);
+  app.post("/api/auth/login", controller.login);
+};
 
-router.post("/api/auth/login", login);
+// import express from "express";
+// import {
+//   checkValidEmail,
+//   checkValidPassword,
+//   checkRolesExisted,
+// } from "../../middleware/VerifySignup.js";
+// import { signup, login } from "../controllers/AuthController.js";
 
-export { router };
+// const router = express.Router();
+
+// router.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "x-access-token, Origin, Content-Type, Accept"
+//   );
+//   next();
+// });
+
+// router.post(
+//   "/api/auth/signup",
+//   [checkValidEmail, checkValidPassword, checkRolesExisted],
+//   signup
+// );
+
+// router.post("/api/auth/login", login);
+
+// export { router };

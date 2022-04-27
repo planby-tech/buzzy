@@ -1,5 +1,9 @@
-const secretKey = {
+module.exports = {
   secret: "planby-secret-key",
 };
 
-export default secretKey;
+// const secretKey = {
+//   secret: "planby-secret-key",
+// };
+
+// export default secretKey;

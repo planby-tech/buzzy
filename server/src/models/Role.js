@@ -1,18 +1,35 @@
-import { Sequelize } from "sequelize";
-import { sequelize } from "./index.js";
+module.exports = (sequelize, Sequelize) => {
+  const Role = sequelize.define("roles", {
+    id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      unique: true,
+    },
+    name: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      unique: true,
+    },
+  });
+  return Role;
+};
 
-const Role = sequelize.define("roles", {
-  id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    primaryKey: true,
-    unique: true,
-  },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-  },
-});
+// import Sequelize from "sequelize";
+// import db from "./index.js";
 
-export default Role;
+// const Role = db.sequelize.define("roles", {
+//   id: {
+//     type: Sequelize.INTEGER,
+//     allowNull: false,
+//     primaryKey: true,
+//     unique: true,
+//   },
+//   name: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//     unique: true,
+//   },
+// });
+
+// export default Role;
