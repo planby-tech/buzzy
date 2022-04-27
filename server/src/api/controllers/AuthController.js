@@ -7,7 +7,7 @@ const User = db.user;
 const Role = db.role;
 const Op = db.Sequelize.Op;
 
-export const signup = (req, res) => {
+const signup = (req, res) => {
   // Save User to Database
   User.create({
     email: req.body.email,
@@ -39,7 +39,7 @@ export const signup = (req, res) => {
     });
 };
 
-export const login = (req, res) => {
+const login = (req, res) => {
   User.findOne({
     where: {
       email: req.body.email,
@@ -80,3 +80,5 @@ export const login = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+export { signup, login };

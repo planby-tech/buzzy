@@ -5,8 +5,8 @@ import userRouter from "./src/api/routes/user.routes.js";
 import db from "./src/models/index.js";
 
 const app = express();
-
-var corsOptions = {
+const PORT = process.env.PORT || 3001;
+let corsOptions = {
   origin: "http://localhost:3001",
 };
 
@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to planby application." });
 });
 
+// initialize db
 const Role = db.role;
 
 db.sequelize.sync({ force: true }).then(() => {
@@ -34,8 +35,7 @@ db.sequelize.sync({ force: true }).then(() => {
 app.use("/auth.routes", authRouter);
 app.use("/user.routes", userRouter);
 
-// set port, listen for requests
-const PORT = process.env.PORT || 3001;
+// listen for requests
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
