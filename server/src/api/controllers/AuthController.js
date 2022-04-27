@@ -11,7 +11,7 @@ export const signup = (req, res) => {
   // Save User to Database
   User.create({
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8),
+    password: bcrypt.hashSync(req.body.password1, 8),
     name: req.body.name,
   })
     .then((user) => {
