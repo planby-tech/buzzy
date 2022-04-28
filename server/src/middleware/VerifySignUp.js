@@ -20,6 +20,8 @@ const ROLES = db.ROLES;
 const User = db.user;
 
 const checkValidEmail = (req, res, next) => {
+  console.log("ssibal");
+  console.log(req.body);
   if (!req.body.email) {
     res.status(400).send({ message: "Email is not provided" });
     return;
@@ -59,7 +61,7 @@ const checkValidPassword = (req, res, next) => {
 const checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {
     for (let i = 0; i < req.body.roles.length; i++) {
-      if (!Role.includes(req.body.roles[i])) {
+      if (!ROLES.includes(req.body.roles[i])) {
         res.status(400).send({
           message: "Failed! Role does not exist = " + req.body.roles[i],
         });

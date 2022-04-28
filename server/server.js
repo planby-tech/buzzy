@@ -7,7 +7,7 @@ import db from "./src/models/index.js";
 const app = express();
 const PORT = process.env.PORT || 3001;
 let corsOptions = {
-  origin: "http://localhost:3001",
+  origin: "http://192.168.219.103:3001",
 };
 
 app.use(cors(corsOptions));
@@ -27,13 +27,13 @@ app.get("/", (req, res) => {
 const Role = db.role;
 
 db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Db");
+  console.log("Drop and Resync DB");
   initial();
 });
 
 // routes
-app.use("/auth.routes", authRouter);
-app.use("/user.routes", userRouter);
+authRouter(app);
+userRouter(app);
 
 // listen for requests
 app.listen(PORT, () => {
