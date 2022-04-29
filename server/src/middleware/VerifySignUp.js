@@ -9,9 +9,9 @@ schema
   .is()
   .max(32)
   .has()
-  .lowercase(2)
+  .lowercase()
   .has()
-  .digits(2)
+  .digits()
   .has()
   .not()
   .spaces();

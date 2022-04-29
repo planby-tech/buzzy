@@ -23,22 +23,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to planby application." });
 });
 
-// initialize db
-const Role = db.role;
-
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync DB");
-  initial();
-});
-
 // routes
 authRouter(app);
 userRouter(app);
 
-// listen for requests
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+// initialize db
+const Role = db.role;
 
 function initial() {
   Role.create({
@@ -56,3 +46,13 @@ function initial() {
     name: "admin",
   });
 }
+
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync DB");
+  initial();
+});
+
+// listen for requests
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});
