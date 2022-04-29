@@ -4,6 +4,8 @@ import {
   userBoard,
   adminBoard,
   moderatorBoard,
+  userUpdate,
+  userDelete,
 } from "../controllers/UserController.js";
 
 export default (app) => {
@@ -30,4 +32,8 @@ export default (app) => {
     [authJwt.verifyToken, authJwt.isAdmin],
     adminBoard
   );
+
+  app.post("/api/user/update", [authJwt.verifyToken], userUpdate);
+
+  app.post("/api/user/delete", [authJwt.verifyToken], userDelete);
 };
