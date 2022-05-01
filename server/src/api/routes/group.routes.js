@@ -1,6 +1,6 @@
 import authJwt from "../../middleware/AuthJwt.js";
 import verifyGroup from "../../middleware/VerifyGroup.js";
-import { createGroup, joinGroup } from "../controllers/GroupController";
+import { createGroup, joinGroup } from "../controllers/GroupController.js";
 
 export default (app) => {
   app.use((req, res, next) => {

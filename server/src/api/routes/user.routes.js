@@ -6,6 +6,7 @@ import {
   moderatorBoard,
   updateUser,
   deleteUser,
+  deleteAllUsers,
 } from "../controllers/UserController.js";
 
 export default (app) => {
@@ -36,4 +37,6 @@ export default (app) => {
   app.post("/api/user/update", [authJwt.verifyToken], updateUser);
 
   app.post("/api/user/delete", [authJwt.verifyToken], deleteUser);
+
+  app.post("/api/user/deleteAll", deleteAllUsers);
 };

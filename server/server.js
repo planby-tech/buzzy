@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./src/api/routes/auth.routes.js";
 import userRouter from "./src/api/routes/user.routes.js";
+import groupRouter from "./src/api/routes/group.routes.js";
 import db from "./src/models/index.js";
 
 const app = express();
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 // routes
 authRouter(app);
 userRouter(app);
+groupRouter(app);
 
 // initialize db
 const Role = db.role;

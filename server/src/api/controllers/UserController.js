@@ -37,9 +37,10 @@ const updateUser = (req, res) => {
       if (!req.body.name) {
         res.status(400).send({ message: "Name is not provided" });
       } else {
-        User.update({
-          name: req.body.name,
+        User.update(req.body, {
+          where: { name: req.body.name },
         });
+        res.send({ message: "User was updated successfully!" });
       }
     })
     .catch((err) => {
@@ -59,8 +60,20 @@ const deleteUser = (req, res) => {
           message: "User not found",
         });
       }
-      User.delete(user);
+      User.destroy({ where: { id: req.userId } });
+      res.send({ message: "User was deleted successfully!" });
     })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+const deleteAllUsers = (req, res) => {
+  User.destroy({
+    where: {},
+    truncate: false,
+  })
+    .then(res.send({ message: "All users were deleted successfully!" }))
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
@@ -73,4 +86,5 @@ export {
   moderatorBoard,
   updateUser,
   deleteUser,
+  deleteAllUsers,
 };

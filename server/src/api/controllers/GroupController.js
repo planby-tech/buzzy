@@ -10,12 +10,13 @@ const createGroup = (req, res) => {
     name: req.body.name,
     creater: req.userId,
     description: req.body.description,
+    userNumber: 1,
     groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
   })
     .then((group) => {
-      group.setUserNumber(1).then(() => {
-        res.send({ message: "Group was created successfully!" });
-      });
+      const user = await User.findByPk(req.userId)
+      group.addUser(user, { through: { selfGranted: false } });
+      res.send({ message: "Group was created successfully!" });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -23,7 +24,7 @@ const createGroup = (req, res) => {
 };
 
 const joinGroup = (req, res) => {
-  return null;
+  return;
 };
 
 export { createGroup, joinGroup };

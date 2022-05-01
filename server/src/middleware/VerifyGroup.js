@@ -1,4 +1,3 @@
-import Group from "../models/Group.js";
 import db from "../models/index.js";
 
 const Group = db.group;
