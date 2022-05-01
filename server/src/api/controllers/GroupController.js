@@ -13,8 +13,8 @@ const createGroup = (req, res) => {
     userNumber: 1,
     groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
   })
-    .then((group) => {
-      const user = await User.findByPk(req.userId)
+    .then(async (group) => {
+      const user = await User.findByPk(req.userId);
       group.addUser(user, { through: { selfGranted: false } });
       res.send({ message: "Group was created successfully!" });
     })
