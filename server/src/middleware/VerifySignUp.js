@@ -35,8 +35,8 @@ const checkValidEmail = (req, res, next) => {
         message: "Failed! Email is already in use!",
       });
     }
+    next();
   });
-  next();
 };
 
 const checkValidPassword = (req, res, next) => {

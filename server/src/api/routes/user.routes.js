@@ -4,8 +4,8 @@ import {
   userBoard,
   adminBoard,
   moderatorBoard,
-  userUpdate,
-  userDelete,
+  updateUser,
+  deleteUser,
 } from "../controllers/UserController.js";
 
 export default (app) => {
@@ -33,7 +33,7 @@ export default (app) => {
     adminBoard
   );
 
-  app.post("/api/user/update", [authJwt.verifyToken], userUpdate);
+  app.post("/api/user/update", [authJwt.verifyToken], updateUser);
 
-  app.post("/api/user/delete", [authJwt.verifyToken], userDelete);
+  app.post("/api/user/delete", [authJwt.verifyToken], deleteUser);
 };

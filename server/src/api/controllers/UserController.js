@@ -22,7 +22,7 @@ const moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content.");
 };
 
-const userUpdate = (req, res) => {
+const updateUser = (req, res) => {
   User.findOne({
     where: {
       id: req.userId,
@@ -47,7 +47,7 @@ const userUpdate = (req, res) => {
     });
 };
 
-const userDelete = (req, res) => {
+const deleteUser = (req, res) => {
   User.findOne({
     where: {
       id: req.userId,
@@ -71,6 +71,6 @@ export {
   userBoard,
   adminBoard,
   moderatorBoard,
-  userUpdate,
-  userDelete,
+  updateUser,
+  deleteUser,
 };

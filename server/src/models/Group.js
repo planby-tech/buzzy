@@ -1,5 +1,5 @@
 export default (sequelize, Sequelize) => {
-  const User = sequelize.define("groups", {
+  const Group = sequelize.define("groups", {
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
@@ -11,6 +11,10 @@ export default (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    creater: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
     description: {
       type: Sequelize.STRING,
     },
@@ -19,10 +23,10 @@ export default (sequelize, Sequelize) => {
       allowNull: false,
     },
     groupCode: {
-      type: Sequelize.UUID,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true,
     },
   });
-  return User;
+  return Group;
 };
