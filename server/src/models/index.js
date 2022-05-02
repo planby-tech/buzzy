@@ -25,15 +25,15 @@ db.sequelize = sequelize;
 db.user = User(sequelize, Sequelize);
 db.role = Role(sequelize, Sequelize);
 db.group = Group(sequelize, Sequelize);
-db.user_groups = UserGroup(sequelize, Sequelize);
+db.user_group = UserGroup(sequelize, Sequelize);
 
 db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
   otherKey: "roleId",
 });
-db.user.belongsToMany(db.group, {
-  through: db.user_groups,
+db.user.belongsTo(db.group, {
+  through: db.user_group,
   foreignKey: "userId",
   otherKey: "groupId",
 });
@@ -45,15 +45,15 @@ db.role.belongsToMany(db.user, {
 });
 
 db.group.belongsToMany(db.user, {
-  through: db.user_groups,
+  through: db.user_group,
   foreignKey: "groupId",
   otherKey: "userId",
 });
 
-db.user.hasMany(db.user_groups);
-db.group.hasMany(db.user_groups);
-db.user_groups.belongsTo(db.user, { foreignKey: "userId" });
-db.user_groups.belongsTo(db.group, { foreignKey: "groupId" });
+db.user.hasMany(db.user_group);
+db.group.hasMany(db.user_group);
+db.user_group.belongsTo(db.user, { foreignKey: "userId" });
+db.user_group.belongsTo(db.group, { foreignKey: "groupId" });
 
 db.ROLES = ["user", "admin", "moderator"];
 

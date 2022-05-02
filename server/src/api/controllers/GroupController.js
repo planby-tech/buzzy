@@ -3,7 +3,7 @@ import db from "../../models/index.js";
 
 const User = db.user;
 const Group = db.group;
-const UserGroup = db.user_groups;
+const UserGroup = db.user_group;
 const Op = db.Sequelize.Op;
 
 const createGroup = (req, res) => {
@@ -31,6 +31,9 @@ const joinGroup = (req, res) => {
     include: User,
   })
     .then(async (group) => {
+      if (!group) {
+        return res.status(400).send({ message: "Group not found" });
+      }
       await UserGroup.create({
         userId: req.userId,
         groupId: group.id,

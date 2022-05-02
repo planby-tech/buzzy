@@ -17,11 +17,7 @@ export default (app) => {
 
   app.post("/api/group/create", [authJwt.verifyToken], createGroup);
 
-  app.post(
-    "/api/group/join",
-    [authJwt.verifyToken, verifyGroup.checkValidGroup],
-    joinGroup
-  );
+  app.post("/api/group/join", [authJwt.verifyToken], joinGroup);
 
   app.post("/api/group/findUsers", [authJwt.verifyToken], findByGroup);
 };

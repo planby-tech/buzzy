@@ -5,7 +5,7 @@ import config from "../../configs/auth.config.js";
 const User = db.user;
 const Group = db.group;
 const Role = db.role;
-const UserGroup = db.user_groups;
+const UserGroup = db.user_group;
 const Op = db.Sequelize.Op;
 
 const allAccess = (req, res) => {
