@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { register } from "../slices/auth";
-import { clearMessage } from "../slices/message";
+import { register } from "../redux/slices/auth";
+import { clearMessage } from "../redux/slices/message";
 import { Button, TextInput, StyleSheet, View, Text } from "react-native";
-const Register = () => {
+const Register = ({ navigation }) => {
   const [successful, setSuccessful] = useState(false);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
@@ -13,47 +13,47 @@ const Register = () => {
     dispatch(clearMessage());
   }, [dispatch]);
   const initialValues = {
-    username: "",
+    name: "",
     email: "",
     password1: "",
     password2: "",
   };
   const validationSchema = Yup.object().shape({
-    username: Yup.string()
+    name: Yup.string()
       .test(
         "len",
-        "The username must be between 3 and 20 characters.",
+        "The name must be between 2 and 20 characters.",
         (val) =>
-          val && val.toString().length >= 3 && val.toString().length <= 20
+          val && val.toString().length >= 2 && val.toString().length <= 20
       )
-      .required("This field is required!"),
+      .required("필수 입력 사항입니다."),
     email: Yup.string()
-      .email("This is not a valid email.")
-      .required("This field is required!"),
+      .email("올바른 이메일 형식을 작성해주세요.")
+      .required("필수 입력 사항입니다."),
     password1: Yup.string()
-      .test(
-        "len",
-        "The password must be between 6 and 32 characters.",
-        (val) =>
-          val && val.toString().length >= 6 && val.toString().length <= 32
+      .required("필수 입력 사항입니다.")
+      .matches(
+        /^(?=.*[a-z])(?=.*[0-9])(?=.{8,32})/,
+        "비밀번호는 영어와 숫자를 포함하여 8글자 이상 32글자 이내여야 합니다."
       )
-      .required("This field is required!"),
-    password2: Yup.string()
-      .test(
-        "len",
-        "The password must be between 6 and 32 characters.",
-        (val) =>
-          val && val.toString().length >= 6 && val.toString().length <= 32
-      )
-      .required("This field is required!"),
+      .matches(/^\S*$/, "공백을 포함할 수 없습니다."),
+    password2: Yup.string().when("password1", {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref("password1")],
+        "Password does not match."
+      ),
+    }),
   });
+
   const handleRegister = (formValue) => {
-    const { username, email, password } = formValue;
+    const { name, email, password1, password2 } = formValue;
     setSuccessful(false);
-    dispatch(register({ username, email, password }))
+    dispatch(register({ name, email, password1, password2 }))
       .unwrap()
       .then(() => {
         setSuccessful(true);
+        navigation.navigate("Login");
       })
       .catch(() => {
         setSuccessful(false);
@@ -76,17 +76,15 @@ const Register = () => {
         }) => (
           <>
             <TextInput
-              name="username"
+              name="name"
               placeholder="User Name"
               style={styles.textInput}
-              onChangeText={handleChange("username")}
-              onBlur={handleBlur("username")}
-              value={values.username}
+              onChangeText={handleChange("name")}
+              onBlur={handleBlur("name")}
+              value={values.name}
             />
-            {errors.username && (
-              <Text style={{ fontSize: 10, color: "red" }}>
-                {errors.username}
-              </Text>
+            {errors.name && (
+              <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
             )}
             <TextInput
               name="email"
@@ -102,7 +100,7 @@ const Register = () => {
             )}
             <TextInput
               name="password1"
-              placeholder="Password1"
+              placeholder="Password"
               style={styles.textInput}
               onChangeText={handleChange("password1")}
               onBlur={handleBlur("password1")}
@@ -116,7 +114,7 @@ const Register = () => {
             )}
             <TextInput
               name="password2"
-              placeholder="Password2"
+              placeholder="Write your password again"
               style={styles.textInput}
               onChangeText={handleChange("password2")}
               onBlur={handleBlur("password2")}

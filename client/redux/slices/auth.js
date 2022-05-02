@@ -1,23 +1,23 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
-import authService from "../services/auth.service";
-import { AsyncStorage } from "@react-native-async-storage/async-storage";
+import authService from "../../services/auth.service";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// const getUser = async () => {
-//   const userItem = await AsyncStorage.getItem("user");
-//   const user = JSON.parse(userItem);
-//   return user;
-// };
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ username, email, password }, thunkAPI) => {
+  async ({ name, email, password1, password2 }, thunkAPI) => {
     try {
-      const response = await authService.register(username, email, password);
+      const response = await authService.register(
+        name,
+        email,
+        password1,
+        password2
+      );
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
     } catch (error) {
       const message =
-        (error.response && error.response.message) ||
+        (error.response && error.response.data && error.response.message) ||
         error.message ||
         error.toString();
       thunkAPI.dispatch(setMessage(message));
@@ -27,9 +27,9 @@ export const register = createAsyncThunk(
 );
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ username, password }, thunkAPI) => {
+  async ({ email, password }, thunkAPI) => {
     try {
-      const data = await authService.login(username, password);
+      const data = await authService.login(email, password);
       return { user: data };
     } catch (error) {
       const message =
@@ -42,11 +42,21 @@ export const login = createAsyncThunk(
   }
 );
 export const logout = createAsyncThunk("auth/logout", async () => {
-  await authService.logout();
+  authService.logout();
 });
-const initialState =
-  // ? { isLoggedIn: true, user }
-  { isLoggedIn: false, user: null };
+
+export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
+  AsyncStorage.getItem("user").then((userData) => {
+    if (userData) {
+      console.log("userData in loadUserData: " + userData);
+      return { user: userData };
+    } else {
+      return null;
+    }
+  });
+});
+
+const initialState = { isLoggedIn: false, user: null };
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -56,6 +66,14 @@ const authSlice = createSlice({
     },
     [register.rejected]: (state, action) => {
       state.isLoggedIn = false;
+    },
+    [loadUserData.fulfilled]: (state, action) => {
+      state.isLoggedIn = true;
+      // state.user = aciton.payload.user; 이런 거 쓰지 말자
+    },
+    [loadUserData.pending]: (state, action) => {
+      state.isLoggedIn = false;
+      state.user = null;
     },
     [login.fulfilled]: (state, action) => {
       state.isLoggedIn = true;

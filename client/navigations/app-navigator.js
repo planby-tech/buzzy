@@ -8,7 +8,9 @@ import Profile from "../components/Profile";
 import BoardUser from "../components/BoardUser";
 import BoardModerator from "../components/BoardModerator";
 import BoardAdmin from "../components/BoardAdmin";
-import { logout } from "../slices/auth";
+import Map from "../pages/Map";
+import MapNavigator from "../components/MapPages";
+import { logout } from "../redux/slices/auth";
 // import EventBus from "../common/EventBus";
 
 const Stack = createNativeStackNavigator();
@@ -37,10 +39,16 @@ const AppNavigator = () => {
     // };
   }, [currentUser]);
   return (
-    <Stack.Navigator initialRouteName="BoardModerator">
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="Login"
+    >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="MainMap" component={MapNavigator} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="UserScreen" component={BoardUser} />
       <Stack.Screen name="ModeratorScreen" component={BoardModerator} />

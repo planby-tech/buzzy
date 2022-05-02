@@ -2,44 +2,52 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { login } from "../slices/auth";
-import { clearMessage } from "../slices/message";
-import { View, Alert, TextInput, Button, Text, StyleSheet } from "react-native";
-const Login = (props) => {
+import { login, loadUserData, setIsLoggedInTrue } from "../redux/slices/auth";
+import { clearMessage } from "../redux/slices/message";
+import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+const Login = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
   const initialValues = {
-    username: "",
+    email: "",
     password: "",
   };
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("This field is required!"),
-    password: Yup.string().required("This field is required!"),
+    email: Yup.string().required("필수 입력 사항입니다."),
+    password: Yup.string().required("필수 입력 사항입니다."),
   });
   const handleLogin = (formValue) => {
-    const { username, password } = formValue;
+    const { email, password } = formValue;
     setLoading(true);
-    dispatch(login({ username, password }))
+    dispatch(login({ email, password }))
       .unwrap()
-      .then(() => {
-        props.history.push("/profile");
-        window.location.reload();
-      })
+      .then(setLoading(false))
       .catch(() => {
         setLoading(false);
       });
   };
-  if (isLoggedIn) {
-    props.navigation.navigate("Profile");
-  }
+
+  useEffect(() => {
+    dispatch(loadUserData()).unwrap();
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("isLoggedIn in auth.js useEffect: " + isLoggedIn);
+    if (isLoggedIn) {
+      navigation.navigate("MainMap");
+    }
+  }, [isLoggedIn]);
+
   return (
     <View style={styles.loginContainer}>
-      <Text>Login Screen</Text>
+      <Text>로그인</Text>
+      <Text>{isLoggedIn && console.log("Here " + isLoggedIn)}</Text>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -48,11 +56,11 @@ const Login = (props) => {
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
             <TextInput
-              name="username"
+              name="email"
               placeholder="Email Address"
               style={styles.textInput}
-              onChangeText={handleChange("username")}
-              onBlur={handleBlur("username")}
+              onChangeText={handleChange("email")}
+              onBlur={handleBlur("email")}
               value={values.email}
             />
             {errors.email && (

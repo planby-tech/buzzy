@@ -12,12 +12,24 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Svg, { G, Path, Defs, ClipPath } from "react-native-svg";
+import { logout } from "../../redux/slices/auth";
+import { useDispatch } from "react-redux";
 
 const AddMarkerButton = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <View>
       <View>
-        <TouchableOpacity activeOpacity={0.8} style={styles.button}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPress={handleLogout}
+        >
           <Svg
             width="34"
             height="34"

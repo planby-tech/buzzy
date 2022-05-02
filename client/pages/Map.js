@@ -13,8 +13,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useSelector } from "react-redux";
 
-const Map = () => {
+const Map = ({ navigation }) => {
   const [mapRegion, setMapRegion] = useState({
     latitude: 36.35948,
     longitude: 127.37895,
@@ -26,6 +27,8 @@ const Map = () => {
   const [errorMsg, setErrorMsg] = useState(null);
 
   const [isSearchSubmitted, setIsSearchSubmitted] = useState(false);
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     (async () => {
@@ -88,6 +91,10 @@ const Map = () => {
     setIsPathActivated(true);
   };
 
+  useEffect(() => {
+    if (!isLoggedIn) navigation.navigate("Login");
+  }, [isLoggedIn]);
+
   return (
     <View style={styles.container}>
       <View>
@@ -136,7 +143,7 @@ const Map = () => {
           placeholder={"검색할 장소를 입력하세요"}
           style={styles.searchInputBox}
         />
-        <SearchButton />
+        <SearchButton navigation={navigation} />
         <AddMarkerButton />
         <MyLocationButton updateLocation={myLocation} />
 

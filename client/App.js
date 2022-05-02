@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Map from "./pages/Map";
 import { Provider } from "react-redux";
-import store from "./store";
+import store from "./redux/store";
 import AppNavigator from "./navigations/app-navigator";
 
 // const Drawer = createDrawerNavigator();

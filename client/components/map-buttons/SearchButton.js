@@ -12,9 +12,9 @@ import {
 } from "react-native-responsive-screen";
 import Svg, { Path } from "react-native-svg";
 
-const SearchButton = () => {
+const SearchButton = ({ navigation }) => {
   const searchOn = () => {
-    console.log("asdf");
+    navigation.navigate("Login");
   };
 
   return (
