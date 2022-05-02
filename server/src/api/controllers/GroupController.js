@@ -10,6 +10,7 @@ const createGroup = (req, res) => {
   Group.create({
     name: req.body.name,
     description: req.body.description,
+    creator: req.userId,
     userNumber: 1,
     groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
   })
@@ -67,4 +68,53 @@ const findByGroup = (req, res) => {
     });
 };
 
-export { createGroup, joinGroup, findByGroup };
+const updateGroup = (req, res) => {
+  Group.findOne({
+    where: {
+      id: req.body.id,
+    },
+  })
+    .then((group) => {
+      if (!group) {
+        res.status(400).send({
+          message: "Group not found",
+        });
+      }
+      if (!req.body.name) {
+        res.status(400).send({ message: "Group name is not provided" });
+      } else {
+        Group.update(req.body, {
+          where: {
+            name: req.body.name,
+            description: req.body.description,
+          },
+        });
+        res.send({ message: "Group was updated successfully!" });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+const deleteGroup = (req, res) => {
+  Group.findOne({
+    where: {
+      id: req.body.id,
+    },
+  })
+    .then((group) => {
+      if (!group) {
+        res.status(400).send({
+          message: "Group not found",
+        });
+      }
+      Group.destroy({ where: { id: req.body.id } });
+      res.send({ message: "Group was deleted successfully!" });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+export { createGroup, joinGroup, findByGroup, updateGroup, deleteGroup };

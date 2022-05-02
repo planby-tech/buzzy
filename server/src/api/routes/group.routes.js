@@ -1,8 +1,11 @@
 import authJwt from "../../middleware/AuthJwt.js";
+import verifyGroup from "../../middleware/VerifyGroup.js";
 import {
   createGroup,
   joinGroup,
   findByGroup,
+  updateGroup,
+  deleteGroup,
 } from "../controllers/GroupController.js";
 
 export default (app) => {
@@ -18,5 +21,21 @@ export default (app) => {
 
   app.post("/api/group/join", [authJwt.verifyToken], joinGroup);
 
-  app.post("/api/group/findUsers", [authJwt.verifyToken], findByGroup);
+  app.post(
+    "/api/group/findUsers",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findByGroup
+  );
+
+  app.post(
+    "/api/group/update",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    updateGroup
+  );
+
+  app.post(
+    "/api/group/delete",
+    [authJwt.verifyToken, verifyGroup.checkValidCreator],
+    deleteGroup
+  );
 };

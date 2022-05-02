@@ -14,6 +14,11 @@ export default (sequelize, Sequelize) => {
     description: {
       type: Sequelize.STRING,
     },
+    creator: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      unique: true,
+    },
     userNumber: {
       type: Sequelize.INTEGER,
       allowNull: false,
