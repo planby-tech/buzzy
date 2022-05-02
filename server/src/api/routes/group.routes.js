@@ -1,5 +1,4 @@
 import authJwt from "../../middleware/AuthJwt.js";
-import verifyGroup from "../../middleware/VerifyGroup.js";
 import {
   createGroup,
   joinGroup,
