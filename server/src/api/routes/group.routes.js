@@ -1,6 +1,10 @@
 import authJwt from "../../middleware/AuthJwt.js";
 import verifyGroup from "../../middleware/VerifyGroup.js";
-import { createGroup, joinGroup } from "../controllers/GroupController.js";
+import {
+  createGroup,
+  joinGroup,
+  findByGroup,
+} from "../controllers/GroupController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -18,4 +22,6 @@ export default (app) => {
     [authJwt.verifyToken, verifyGroup.checkValidGroup],
     joinGroup
   );
+
+  app.get("/api/group/findUsers", [authJwt.verifyToken], findByGroup);
 };

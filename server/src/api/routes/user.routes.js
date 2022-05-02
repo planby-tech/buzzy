@@ -7,6 +7,7 @@ import {
   updateUser,
   deleteUser,
   deleteAllUsers,
+  findByUser,
 } from "../controllers/UserController.js";
 
 export default (app) => {
@@ -39,4 +40,6 @@ export default (app) => {
   app.post("/api/user/delete", [authJwt.verifyToken], deleteUser);
 
   app.post("/api/user/deleteAll", deleteAllUsers);
+
+  app.get("/api/user/findGroups", [authJwt.verifyToken], findByUser);
 };

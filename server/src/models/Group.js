@@ -11,10 +11,6 @@ export default (sequelize, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
     },
-    creater: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
     description: {
       type: Sequelize.STRING,
     },

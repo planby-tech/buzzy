@@ -4,6 +4,7 @@ import config from "../../configs/auth.config.js";
 
 const User = db.user;
 const Role = db.role;
+const UserGroup = db.userGroup;
 const Op = db.Sequelize.Op;
 
 const allAccess = (req, res) => {
@@ -79,6 +80,27 @@ const deleteAllUsers = (req, res) => {
     });
 };
 
+const findByUser = (req, res) => {
+  UserGroup.findOne(
+    { where: { userId: req.userId } },
+    {
+      attributes: ["id"],
+      include: [
+        {
+          model: Group,
+          attributes: ["name"],
+        },
+      ],
+    }
+  )
+    .then((groups) => {
+      res.send(groups);
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
 export {
   allAccess,
   userBoard,
@@ -87,4 +109,5 @@ export {
   updateUser,
   deleteUser,
   deleteAllUsers,
+  findByUser,
 };
