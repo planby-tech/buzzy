@@ -1,3 +1,12 @@
+import jwt from "jsonwebtoken";
+import db from "../../models/index.js";
+import config from "../../configs/auth.config.js";
+
+const User = db.user;
+const Role = db.role;
+const UserGroup = db.userGroup;
+const Op = db.Sequelize.Op;
+
 const allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
@@ -14,4 +23,91 @@ const moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content.");
 };
 
-export { allAccess, userBoard, adminBoard, moderatorBoard };
+const updateUser = (req, res) => {
+  User.findOne({
+    where: {
+      id: req.userId,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send({
+          message: "User not found",
+        });
+      }
+      if (!req.body.name) {
+        res.status(400).send({ message: "Name is not provided" });
+      } else {
+        User.update(req.body, {
+          where: { name: req.body.name },
+        });
+        res.send({ message: "User was updated successfully!" });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+const deleteUser = (req, res) => {
+  User.findOne({
+    where: {
+      id: req.userId,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send({
+          message: "User not found",
+        });
+      }
+      User.destroy({ where: { id: req.userId } });
+      res.send({ message: "User was deleted successfully!" });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+const deleteAllUsers = (req, res) => {
+  User.destroy({
+    where: {},
+    truncate: false,
+  })
+    .then(res.send({ message: "All users were deleted successfully!" }))
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+const findByUser = (req, res) => {
+  UserGroup.findOne(
+    { where: { userId: req.userId } },
+    {
+      attributes: ["id"],
+      include: [
+        {
+          model: Group,
+          attributes: ["name"],
+        },
+      ],
+    }
+  )
+    .then((groups) => {
+      res.send(groups);
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+export {
+  allAccess,
+  userBoard,
+  adminBoard,
+  moderatorBoard,
+  updateUser,
+  deleteUser,
+  deleteAllUsers,
+  findByUser,
+};

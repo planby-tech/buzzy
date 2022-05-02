@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import authRouter from "./src/api/routes/auth.routes.js";
 import userRouter from "./src/api/routes/user.routes.js";
+import groupRouter from "./src/api/routes/group.routes.js";
 import db from "./src/models/index.js";
 
 const app = express();
@@ -23,22 +24,13 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to planby application." });
 });
 
-// initialize db
-const Role = db.role;
-
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync DB");
-  initial();
-});
-
 // routes
 authRouter(app);
 userRouter(app);
+groupRouter(app);
 
-// listen for requests
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+// initialize db
+const Role = db.role;
 
 function initial() {
   Role.create({
@@ -56,3 +48,14 @@ function initial() {
     name: "admin",
   });
 }
+
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync DB");
+//   initial();
+// });
+db.sequelize.sync();
+
+// listen for requests
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
+});

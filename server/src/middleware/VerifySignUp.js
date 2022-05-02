@@ -9,9 +9,9 @@ schema
   .is()
   .max(32)
   .has()
-  .lowercase(2)
+  .lowercase()
   .has()
-  .digits(2)
+  .digits()
   .has()
   .not()
   .spaces();
@@ -20,14 +20,10 @@ const ROLES = db.ROLES;
 const User = db.user;
 
 const checkValidEmail = (req, res, next) => {
-  console.log("ssibal");
-  console.log(req.body);
   if (!req.body.email) {
-    res.status(400).send({ message: "Email is not provided" });
-    return;
+    return res.status(400).send({ message: "Email is not provided" });
   } else if (!emailValidator.validate(req.body.email)) {
-    res.status(409).send({ message: "Email format is not valid" });
-    return;
+    return res.status(409).send({ message: "Email format is not valid" });
   }
   User.findOne({
     where: {
@@ -35,10 +31,9 @@ const checkValidEmail = (req, res, next) => {
     },
   }).then((user) => {
     if (user) {
-      res.status(400).send({
+      return res.status(400).send({
         message: "Failed! Email is already in use!",
       });
-      return;
     }
     next();
   });
@@ -46,14 +41,11 @@ const checkValidEmail = (req, res, next) => {
 
 const checkValidPassword = (req, res, next) => {
   if (!req.body.password1 || !req.body.password2) {
-    res.status(400).json({ message: "Password is not provided" });
-    return;
+    return res.status(400).json({ message: "Password is not provided" });
   } else if (req.body.password1 !== req.body.password2) {
-    res.status(409).json({ message: "Password does not match" });
-    return;
+    return res.status(409).json({ message: "Password does not match" });
   } else if (!schema.validate(req.body.password1)) {
-    res.status(409).json({ message: "Password format is not valid" });
-    return;
+    return res.status(409).json({ message: "Password format is not valid" });
   }
   next();
 };
@@ -62,10 +54,9 @@ const checkRolesExisted = (req, res, next) => {
   if (req.body.roles) {
     for (let i = 0; i < req.body.roles.length; i++) {
       if (!ROLES.includes(req.body.roles[i])) {
-        res.status(400).send({
+        return res.status(400).send({
           message: "Failed! Role does not exist = " + req.body.roles[i],
         });
-        return;
       }
     }
   }

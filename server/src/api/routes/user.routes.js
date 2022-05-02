@@ -4,6 +4,10 @@ import {
   userBoard,
   adminBoard,
   moderatorBoard,
+  updateUser,
+  deleteUser,
+  deleteAllUsers,
+  findByUser,
 } from "../controllers/UserController.js";
 
 export default (app) => {
@@ -30,4 +34,12 @@ export default (app) => {
     [authJwt.verifyToken, authJwt.isAdmin],
     adminBoard
   );
+
+  app.post("/api/user/update", [authJwt.verifyToken], updateUser);
+
+  app.post("/api/user/delete", [authJwt.verifyToken], deleteUser);
+
+  app.post("/api/user/deleteAll", deleteAllUsers);
+
+  app.get("/api/user/findGroups", [authJwt.verifyToken], findByUser);
 };
