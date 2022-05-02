@@ -3,7 +3,7 @@ import db from "../../models/index.js";
 
 const User = db.user;
 const Group = db.group;
-const UserGroup = db.userGroup;
+const UserGroup = db.user_groups;
 const Op = db.Sequelize.Op;
 
 const createGroup = (req, res) => {
@@ -18,7 +18,7 @@ const createGroup = (req, res) => {
         userId: req.userId,
         groupId: group.id,
       });
-      res.send({ message: "Group was created successfully!" });
+      res.send(group, { message: "Group was created successfully!" });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -35,6 +35,7 @@ const joinGroup = (req, res) => {
         userId: req.userId,
         groupId: group.id,
       });
+      group.increment("userNumber");
       res.send({ message: "User was joined to group successfully!" });
     })
     .catch((err) => {
@@ -43,7 +44,7 @@ const joinGroup = (req, res) => {
 };
 
 const findByGroup = (req, res) => {
-  UserGroup.findOne(
+  UserGroup.findAll(
     { where: { groupId: req.body.id } },
     {
       attributes: ["id"],

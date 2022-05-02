@@ -11,7 +11,7 @@ import {
 
 const API_URL =
   Platform.OS === "ios"
-    ? "http://192.168.219.101:3001"
+    ? "http://192.168.219.103:3001"
     : "http://192.168.219.103:3001";
 
 const AuthScreen = () => {

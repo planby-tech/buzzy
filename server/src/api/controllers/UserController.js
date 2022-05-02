@@ -3,8 +3,9 @@ import db from "../../models/index.js";
 import config from "../../configs/auth.config.js";
 
 const User = db.user;
+const Group = db.group;
 const Role = db.role;
-const UserGroup = db.userGroup;
+const UserGroup = db.user_groups;
 const Op = db.Sequelize.Op;
 
 const allAccess = (req, res) => {
@@ -81,7 +82,7 @@ const deleteAllUsers = (req, res) => {
 };
 
 const findByUser = (req, res) => {
-  UserGroup.findOne(
+  UserGroup.findAll(
     { where: { userId: req.userId } },
     {
       attributes: ["id"],

@@ -2,7 +2,7 @@ import db from "../models/index.js";
 
 const Group = db.group;
 
-const checkValidGroup = (req, res) => {
+const checkValidGroup = (req, res, next) => {
   if (!req.body.groupCode) {
     return res.status(400).send({ message: "Group code is not provided" });
   }

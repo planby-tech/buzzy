@@ -23,5 +23,5 @@ export default (app) => {
     joinGroup
   );
 
-  app.get("/api/group/findUsers", [authJwt.verifyToken], findByGroup);
+  app.post("/api/group/findUsers", [authJwt.verifyToken], findByGroup);
 };
