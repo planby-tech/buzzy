@@ -18,7 +18,7 @@ const createGroup = (req, res) => {
         userId: req.userId,
         groupId: group.id,
       });
-      res.send([group, { message: "Group was created successfully!" }]);
+      res.send({ group, message: "Group was created successfully!" });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -36,7 +36,7 @@ const joinGroup = (req, res) => {
         groupId: group.id,
       });
       group.increment("userNumber");
-      res.send([group, { message: "User was joined to group successfully!" }]);
+      res.send({ group, message: "User was joined to group successfully!" });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
