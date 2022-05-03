@@ -17,7 +17,6 @@ export default (sequelize, Sequelize) => {
     creator: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      unique: true,
     },
     userNumber: {
       type: Sequelize.INTEGER,

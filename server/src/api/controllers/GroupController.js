@@ -48,18 +48,16 @@ const joinGroup = (req, res) => {
 };
 
 const findByGroup = (req, res) => {
-  UserGroup.findAll(
-    { where: { groupId: req.body.id } },
-    {
-      attributes: ["id"],
-      include: [
-        {
-          model: User,
-          attributes: ["name"],
-        },
-      ],
-    }
-  )
+  Group.findAll({
+    where: { id: req.body.id },
+    include: [
+      {
+        model: User,
+        as: UserGroup,
+        attributes: ["id", "name"],
+      },
+    ],
+  })
     .then((users) => {
       res.send(users);
     })
