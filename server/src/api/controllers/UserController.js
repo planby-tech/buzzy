@@ -88,7 +88,7 @@ const findByUser = (req, res) => {
       {
         model: Group,
         as: UserGroup,
-        attributes: ["id", "name"],
+        attributes: ["id", "name", "description"],
       },
     ],
   })

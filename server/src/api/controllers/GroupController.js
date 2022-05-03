@@ -48,8 +48,8 @@ const joinGroup = (req, res) => {
 };
 
 const findByGroup = (req, res) => {
-  Group.findAll({
-    where: { id: req.body.id },
+  UserGroup.findAll({
+    where: { groupId: req.body.id },
     include: [
       {
         model: User,
