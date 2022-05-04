@@ -2,7 +2,7 @@ export default {
   HOST: "127.0.0.1",
   USER: "root",
   PASSWORD: "planby0916",
-  DB: "loginDB",
+  DB: "userDB",
   dialect: "mysql",
   pool: {
     max: 5,

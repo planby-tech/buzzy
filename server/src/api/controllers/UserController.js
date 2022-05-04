@@ -82,18 +82,16 @@ const deleteAllUsers = (req, res) => {
 };
 
 const findByUser = (req, res) => {
-  UserGroup.findAll(
-    { where: { userId: req.userId } },
-    {
-      attributes: ["id"],
-      include: [
-        {
-          model: Group,
-          attributes: ["name"],
-        },
-      ],
-    }
-  )
+  UserGroup.findAll({
+    where: { userId: req.userId },
+    include: [
+      {
+        model: Group,
+        as: UserGroup,
+        attributes: ["id", "name", "description"],
+      },
+    ],
+  })
     .then((groups) => {
       res.send(groups);
     })

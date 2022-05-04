@@ -1,8 +1,6 @@
 import db from "../models/index.js";
-import UserGroup from "../models/UserGroup.js";
 
-const User = db.user;
-const Group = db.group;
+const UserGroup = db.user_group;
 
 const checkValidCreator = (req, res, next) => {
   if (req.userId != req.body.creator) {
