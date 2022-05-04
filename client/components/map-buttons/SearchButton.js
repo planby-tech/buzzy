@@ -6,17 +6,9 @@ import {
   Platform,
   Dimensions,
 } from "react-native";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import Svg, { Path } from "react-native-svg";
 
-const SearchButton = ({ navigation }) => {
-  const searchOn = () => {
-    navigation.navigate("Login");
-  };
-
+const SearchButton = () => {
   return (
     <View>
       <View>

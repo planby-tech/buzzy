@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Login from "../components/Login";
-import Register from "../components/Register";
+import LoginScreen from "../components/LoginScreen";
+import RegisterScreen from "../components/RegisterScreen";
 import Home from "../components/Home";
 import Profile from "../components/Profile";
 import BoardUser from "../components/BoardUser";
@@ -46,8 +46,8 @@ const AppNavigator = () => {
       initialRouteName="Login"
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="MainMap" component={MapNavigator} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="UserScreen" component={BoardUser} />

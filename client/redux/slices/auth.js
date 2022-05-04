@@ -46,14 +46,32 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 });
 
 export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
-  AsyncStorage.getItem("user").then((userData) => {
-    if (userData) {
-      console.log("userData in loadUserData: " + userData);
-      return { user: userData };
-    } else {
-      return null;
-    }
-  });
+  try {
+    const userData = await AsyncStorage.getItem("user");
+    console.log("userData in loadUserData: " + userData);
+    if (userData.accessToken) return { user: userData };
+  } catch (error) {
+    const message =
+      (error.response && error.response.message) ||
+      error.message ||
+      error.toString();
+    thunkAPI.dispatch(setMessage(message));
+    return thunkAPI.rejectWithValue();
+  }
+});
+export const loadUserToken = createAsyncThunk("auth/loadUserData", async () => {
+  try {
+    const userData = await AsyncStorage.getItem("user");
+    console.log("userData in loadUserData: " + userData);
+    if (userData.accessToken) return userData.accessToken;
+  } catch (error) {
+    const message =
+      (error.response && error.response.message) ||
+      error.message ||
+      error.toString();
+    thunkAPI.dispatch(setMessage(message));
+    return thunkAPI.rejectWithValue();
+  }
 });
 
 const initialState = { isLoggedIn: false, user: null };
@@ -74,6 +92,9 @@ const authSlice = createSlice({
     [loadUserData.pending]: (state, action) => {
       state.isLoggedIn = false;
       state.user = null;
+    },
+    [loadUserData.rejected]: (state, action) => {
+      state.isLoggedIn = false;
     },
     [login.fulfilled]: (state, action) => {
       state.isLoggedIn = true;

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { login, loadUserData, setIsLoggedInTrue } from "../redux/slices/auth";
+import { login, loadUserData } from "../redux/slices/auth";
 import { clearMessage } from "../redux/slices/message";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
-const Login = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
-export default Login;
+export default LoginScreen;
