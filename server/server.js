@@ -8,7 +8,7 @@ import db from "./src/models/index.js";
 const app = express();
 const PORT = process.env.PORT || 3001;
 let corsOptions = {
-  origin: "http://192.168.219.103:3001",
+  origin: "http://192.168.219.102:3001",
 };
 
 app.use(cors(corsOptions));
