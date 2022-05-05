@@ -18,16 +18,16 @@ const JoinGroupScreen = ({ navigation }) => {
   }, [dispatch]);
 
   const initialValues = {
-    name: "",
-    description: "",
+    groupCode: "",
   };
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("필수 입력 사항입니다."),
+    groupCode: Yup.string().required("필수 입력 사항입니다."),
   });
   const handleJoinGroup = (formValue) => {
     const { groupCode } = formValue;
+    console.log(1);
     setLoading(true);
-    dispatch(joinGroup(groupCode))
+    dispatch(joinGroup({ groupCode }))
       .unwrap()
       .then(() => {
         console.log(1);
