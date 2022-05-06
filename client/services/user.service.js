@@ -3,16 +3,16 @@ import authHeader from "./auth-header";
 import { API_URL } from "../common/constant";
 
 const getPublicContent = () => {
-  return axios.get(API_URL + "/all");
+  return axios.get(API_URL + "/test/all");
 };
 const getUserBoard = () => {
-  return axios.get(API_URL + "/user", { headers: authHeader() });
+  return axios.get(API_URL + "/test/user", { headers: authHeader() });
 };
 const getModeratorBoard = () => {
-  return axios.get(API_URL + "/mod", { headers: authHeader() });
+  return axios.get(API_URL + "/test/mod", { headers: authHeader() });
 };
 const getAdminBoard = () => {
-  return axios.get(API_URL + "/admin", { headers: authHeader() });
+  return axios.get(API_URL + "/test/admin", { headers: authHeader() });
 };
 const updateUser = async (name) => {
   const header = await authHeader();
@@ -28,7 +28,7 @@ const updateUser = async (name) => {
 const findByUser = async (groupId) => {
   const header = await authHeader();
   return axios
-    .post(GROUP_URL + "/findGroups", { groupId }, { headers: header })
+    .post(API_URL + "/user/findGroups", { groupId }, { headers: header })
     .then((res) => {
       return res;
     })
