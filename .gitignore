@@ -9,7 +9,7 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-server/constant/url.js
+server/constants/url.js
 client/common/constant.js
 
 # macOS
