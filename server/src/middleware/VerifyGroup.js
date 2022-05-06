@@ -15,7 +15,7 @@ const checkValidMember = (req, res, next) => {
   UserGroup.findOne({
     where: {
       userId: req.userId,
-      groupId: req.query.id,
+      groupId: req.body.id,
     },
   }).then((userGroup) => {
     if (!userGroup) {
