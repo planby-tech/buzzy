@@ -9,7 +9,6 @@ import groupRouter from "./src/api/routes/group.routes.js";
 import db from "./src/models/index.js";
 
 const app = express();
-// const sever = http.createServer(app);
 const PORT = process.env.PORT || 3001;
 let corsOptions = {
   origin: ip,
@@ -32,8 +31,6 @@ app.get("/", (req, res) => {
 authRouter(app);
 userRouter(app);
 groupRouter(app);
-
-// user socket
 
 // initialize db
 const Role = db.role;
