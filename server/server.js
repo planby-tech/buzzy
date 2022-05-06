@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import http from "http";
+import { ip } from "./constants/url.js";
 import authRouter from "./src/api/routes/auth.routes.js";
 import userRouter from "./src/api/routes/user.routes.js";
 import groupRouter from "./src/api/routes/group.routes.js";
@@ -11,7 +12,7 @@ const app = express();
 // const sever = http.createServer(app);
 const PORT = process.env.PORT || 3001;
 let corsOptions = {
-  origin: "http://192.168.219.101:3001",
+  origin: ip,
 };
 
 app.use(cors(corsOptions));
