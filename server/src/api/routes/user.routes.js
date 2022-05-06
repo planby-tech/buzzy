@@ -41,5 +41,5 @@ export default (app) => {
 
   app.post("/api/user/deleteAll", deleteAllUsers);
 
-  app.post("/api/user/findGroups", [authJwt.verifyToken], findByUser);
+  app.get("/api/user/findGroups", [authJwt.verifyToken], findByUser);
 };
