@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import http from "http";
-import { ip } from "./constants/url.js";
+import { ip } from "./src/constants/url.js";
 import authRouter from "./src/api/routes/auth.routes.js";
 import userRouter from "./src/api/routes/user.routes.js";
 import groupRouter from "./src/api/routes/group.routes.js";
