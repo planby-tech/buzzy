@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { register } from "../redux/slices/auth";
 import { clearMessage } from "../redux/slices/message";
 import { Button, TextInput, StyleSheet, View, Text } from "react-native";
+import AddMarkerButton from "./map-buttons/AddMarkerButton";
 const Register = ({ navigation }) => {
   const [successful, setSuccessful] = useState(false);
   const { message } = useSelector((state) => state.message);
@@ -139,6 +140,7 @@ const Register = ({ navigation }) => {
           <Text>{message}</Text>
         </View>
       )}
+      <AddMarkerButton />
     </View>
   );
 };

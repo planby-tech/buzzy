@@ -25,12 +25,10 @@ const JoinGroupScreen = ({ navigation }) => {
   });
   const handleJoinGroup = (formValue) => {
     const { groupCode } = formValue;
-    console.log(1);
     setLoading(true);
     dispatch(joinGroup({ groupCode }))
       .unwrap()
       .then(() => {
-        console.log(1);
         navigation.navigate("Map 1");
         setLoading(false);
       })
