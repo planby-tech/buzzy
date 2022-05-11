@@ -58,11 +58,11 @@ function initial() {
 }
 
 // development mode
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync DB");
-  initial();
-});
-// db.sequelize.sync();
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync DB");
+//   initial();
+// });
+db.sequelize.sync();
 
 // listen for requests
 server.listen(PORT, () => {
