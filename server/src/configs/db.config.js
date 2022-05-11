@@ -1,8 +1,8 @@
 export default {
-  HOST: "127.0.0.1",
-  USER: "root",
-  PASSWORD: "planby0916",
-  DB: "userDB",
+  HOST: "buzzy-db-instance.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
+  USER: "admin",
+  PASSWORD: "dQNyUsogNb5s65h1Te3y",
+  DB: "buzzyDB",
   dialect: "mysql",
   pool: {
     max: 5,
