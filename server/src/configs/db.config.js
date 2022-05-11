@@ -1,5 +1,5 @@
 export default {
-  HOST: "buzzy-db-instance.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
+  HOST: "buzzy-db.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
   USER: "admin",
   PASSWORD: "dQNyUsogNb5s65h1Te3y",
   DB: "buzzyDB",
