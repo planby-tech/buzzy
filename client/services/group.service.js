@@ -38,7 +38,7 @@ const joinGroup = async (groupCode) => {
 const findByGroup = async (groupId) => {
   const header = await authHeader();
   return axios
-    .post(GROUP_URL + "/findUsers", { groupId }, { headers: header })
+    .get(GROUP_URL + `/findUsers?id=${groupId}`, { headers: header })
     .then((res) => {
       return res;
     })

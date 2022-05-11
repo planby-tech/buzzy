@@ -25,12 +25,12 @@ const updateUser = async (name) => {
       console.log(error);
     });
 };
-const findByUser = async (groupId) => {
+const findByUser = async () => {
   const header = await authHeader();
   return axios
-    .post(API_URL + "/user/findGroups", { groupId }, { headers: header })
+    .get(API_URL + "/user/findGroups", { headers: header })
     .then((res) => {
-      return res;
+      return res.data;
     })
     .catch((error) => {
       console.log(error);
