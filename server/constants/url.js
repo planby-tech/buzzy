@@ -1,3 +1,3 @@
-const ip = "http://192.168.219.103:8000";
+const ip = "http://13.209.5.252:8000";
 
 export { ip };
