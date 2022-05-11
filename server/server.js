@@ -57,6 +57,7 @@ function initial() {
   });
 }
 
+// development mode
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and Resync DB");
 //   initial();
