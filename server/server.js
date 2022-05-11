@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8000;
 let corsOptions = {
   origin: ip,
 };
