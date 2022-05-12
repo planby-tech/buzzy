@@ -1,17 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "../components/LoginScreen";
-import RegisterScreen from "../components/RegisterScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import GardenListScreen from "../screens/GardenListScreen";
 import Home from "../components/Home";
 import Profile from "../components/Profile";
 import BoardUser from "../components/BoardUser";
 import BoardModerator from "../components/BoardModerator";
 import BoardAdmin from "../components/BoardAdmin";
 import Map from "../pages/Map";
-import MapNavigator from "../components/MapPages";
-import { logout } from "../redux/slices/auth";
-// import EventBus from "../common/EventBus";
+import MapNavigator from "./MapNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,10 +18,6 @@ const AppNavigator = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
   const { user: currentUser } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const logOut = useCallback(() => {
-    dispatch(logout());
-  }, [dispatch]);
   useEffect(() => {
     if (currentUser) {
       setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
@@ -31,12 +26,6 @@ const AppNavigator = () => {
       setShowModeratorBoard(false);
       setShowAdminBoard(false);
     }
-    // EventBus.on("logout", () => {
-    //   logOut();
-    // });
-    // return () => {
-    //   EventBus.remove("logout");
-    // };
   }, [currentUser]);
   return (
     <Stack.Navigator
@@ -48,6 +37,7 @@ const AppNavigator = () => {
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="GardenList" component={GardenListScreen} />
       <Stack.Screen name="MainMap" component={MapNavigator} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="UserScreen" component={BoardUser} />

@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import AppNavigator from "./navigations/app-navigator";
+import AppNavigator from "./navigations/AppNavigator";
 
 const App = () => {
   return (

@@ -1,9 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Map from "../pages/Map";
-import AddGroupScreen from "./AddGroupScreen";
-import CreateGroupScreen from "./CreateGroupScreen";
-import JoinGroupScreen from "./JoinGroupScreen";
+import CreateGroupScreen from "../screens/CreateGroupScreen";
+import JoinGroupScreen from "../screens/JoinGroupScreen";
 import { useEffect, useState } from "react";
 import userService from "../services/user.service";
 
@@ -49,8 +48,8 @@ function MyDrawer() {
   );
 }
 
-const MapPages = () => {
+const MapNavigator = () => {
   return <MyDrawer />;
 };
 
-export default MapPages;
+export default MapNavigator;

@@ -29,8 +29,7 @@ const CreateGroupScreen = ({ navigation }) => {
     dispatch(createGroup({ name, description }))
       .unwrap()
       .then(() => {
-        console.log(1);
-        navigation.navigate("Map 1");
+        navigation.navigate(name);
         setLoading(false);
       })
       .catch((error) => {
