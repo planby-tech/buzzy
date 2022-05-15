@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Map from "../pages/Map";
-import CreateGroupScreen from "../screens/CreateGroupScreen";
-import JoinGroupScreen from "../screens/JoinGroupScreen";
+import CreateGroupScreen from "../screens/garden/CreateGroupScreen";
+import JoinGroupScreen from "../screens/garden/JoinGroupScreen";
 import { useEffect, useState } from "react";
 import userService from "../services/user.service";
 

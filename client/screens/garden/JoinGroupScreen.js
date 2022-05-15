@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { clearMessage } from "../redux/slices/message";
+import { clearMessage } from "../../redux/slices/message";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
-import { createGroup } from "../redux/slices/group";
+import { joinGroup } from "../../redux/slices/group";
 
-const CreateGroupScreen = ({ navigation }) => {
+const JoinGroupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
@@ -17,19 +17,18 @@ const CreateGroupScreen = ({ navigation }) => {
   }, [dispatch]);
 
   const initialValues = {
-    name: "",
-    description: "",
+    groupCode: "",
   };
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("필수 입력 사항입니다."),
+    groupCode: Yup.string().required("필수 입력 사항입니다."),
   });
-  const handleCreateGroup = (formValue) => {
-    const { name, description } = formValue;
+  const handleJoinGroup = (formValue) => {
+    const { groupCode } = formValue;
     setLoading(true);
-    dispatch(createGroup({ name, description }))
+    dispatch(joinGroup({ groupCode }))
       .unwrap()
       .then(() => {
-        navigation.navigate(name);
+        navigation.navigate("Map 1");
         setLoading(false);
       })
       .catch((error) => {
@@ -43,37 +42,26 @@ const CreateGroupScreen = ({ navigation }) => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleCreateGroup}
+        onSubmit={handleJoinGroup}
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
             <TextInput
-              name="name"
-              placeholder="group name"
+              name="groupCode"
+              placeholder="group code"
               style={styles.textInput}
-              onChangeText={handleChange("name")}
-              onBlur={handleBlur("name")}
-              value={values.name}
+              onChangeText={handleChange("groupCode")}
+              onBlur={handleBlur("groupCode")}
+              value={values.groupCode}
             />
             {errors.name && (
-              <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
-            )}
-            <TextInput
-              name="description"
-              placeholder="group description"
-              style={styles.textInput}
-              onChangeText={handleChange("description")}
-              onBlur={handleBlur("description")}
-              value={values.description}
-            />
-            {errors.description && (
               <Text style={{ fontSize: 10, color: "red" }}>
-                {errors.description}
+                {errors.groupCode}
               </Text>
             )}
             <Button
               onPress={handleSubmit}
-              title="그룹 만들기"
+              title="그룹 참여하기"
               disabled={loading}
             />
           </>
@@ -103,4 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateGroupScreen;
+export default JoinGroupScreen;
