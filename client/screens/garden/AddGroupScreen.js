@@ -11,7 +11,7 @@ const AddGroupScreen = ({ navigation }) => {
       <View style={{ display: "flex", flexDirection: "row" }}>
         <TouchableOpacity
           style={{
-            width: 150,
+            flex: 1,
             height: 50,
             borderColor: "black",
             borderWidth: 2,
@@ -22,7 +22,7 @@ const AddGroupScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            width: 150,
+            flex: 1,
             height: 50,
             borderColor: "black",
             borderWidth: 2,

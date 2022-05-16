@@ -28,7 +28,7 @@ const JoinGroupScreen = ({ navigation }) => {
     dispatch(joinGroup({ groupCode }))
       .unwrap()
       .then(() => {
-        navigation.navigate("Map 1");
+        navigation.navigate("GardenList");
         setLoading(false);
       })
       .catch((error) => {

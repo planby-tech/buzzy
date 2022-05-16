@@ -34,7 +34,7 @@ const AppNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="Splash"
+      initialRouteName="Login"
     >
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="Home" component={Home} />

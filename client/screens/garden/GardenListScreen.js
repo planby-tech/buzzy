@@ -51,11 +51,13 @@ const GardenListScreen = ({ navigation }) => {
   return (
     <View>
       <StatusBar />
-      <Text>나의 모든 정원</Text>
+      <Text style={{ fontWeight: "700", fontSize: 20, marginVertical: 10 }}>
+        나의 모든 정원
+      </Text>
       <FlatList
         data={groupArray}
         renderItem={groupListLayout}
-        keyExtractor={(item) => item.createdAt}
+        keyExtractor={(item, index) => index}
         ListFooterComponent={AddGroupButton}
       />
     </View>
