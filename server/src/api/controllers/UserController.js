@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import db from "../../models/index.js";
+import db from "../../db/models/index.js";
 import config from "../../configs/auth.config.js";
 
 const User = db.user;
@@ -39,9 +39,7 @@ const updateUser = (req, res) => {
       if (!req.body.name) {
         res.status(400).send({ message: "Name is not provided" });
       } else {
-        User.update(req.body, {
-          where: { name: req.body.name },
-        });
+        User.update({ name: req.body.name }, { where: { id: req.userId } });
         res.send({ message: "User was updated successfully!" });
       }
     })

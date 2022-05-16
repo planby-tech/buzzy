@@ -1,4 +1,4 @@
-import db from "../models/index.js";
+import db from "../db/models/index.js";
 
 const UserGroup = db.user_group;
 

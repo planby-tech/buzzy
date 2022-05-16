@@ -2,12 +2,12 @@ import express from "express";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import http from "http";
-import { ip } from "./src/constants/url.js";
-import authRouter from "./src/api/routes/auth.routes.js";
-import userRouter from "./src/api/routes/user.routes.js";
-import groupRouter from "./src/api/routes/group.routes.js";
-import socketRouter from "./src/api/routes/socket.routes.js";
-import db from "./src/models/index.js";
+import { ip } from "./constants/url.js";
+import authRouter from "./api/routes/auth.routes.js";
+import userRouter from "./api/routes/user.routes.js";
+import groupRouter from "./api/routes/group.routes.js";
+import socketRouter from "./api/routes/socket.routes.js";
+import db from "./db/models/index.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -39,23 +39,6 @@ socketRouter(io);
 
 // initialize db
 const Role = db.role;
-
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user",
-  });
-
-  Role.create({
-    id: 2,
-    name: "moderator",
-  });
-
-  Role.create({
-    id: 3,
-    name: "admin",
-  });
-}
 
 // development mode
 // db.sequelize.sync({ force: true }).then(() => {

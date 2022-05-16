@@ -1,6 +1,6 @@
 import emailValidator from "email-validator";
 import passwordValidator from "password-validator";
-import db from "../models/index.js";
+import db from "../db/models/index.js";
 
 const schema = new passwordValidator();
 schema

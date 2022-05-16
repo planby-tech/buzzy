@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import db from "../../models/index.js";
+import db from "../../db/models/index.js";
 import config from "../../configs/auth.config.js";
 
 const User = db.user;
@@ -8,7 +8,6 @@ const Role = db.role;
 const Op = db.Sequelize.Op;
 
 const signup = (req, res) => {
-  // Save User to Database
   User.create({
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password1, 8),
@@ -28,7 +27,6 @@ const signup = (req, res) => {
           });
         });
       } else {
-        // user role = 1
         user.setRoles([1]).then(() => {
           res.send({ message: "User was registered successfully!" });
         });
@@ -60,7 +58,7 @@ const login = (req, res) => {
         });
       }
       let token = jwt.sign({ id: user.id }, config.secret, {
-        expiresIn: 86400, // 24 hours
+        expiresIn: 60 * 60 * 24 * 50,
       });
       let authorities = [];
       user.getRoles().then((roles) => {

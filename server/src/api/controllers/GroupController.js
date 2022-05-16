@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import db from "../../models/index.js";
+import db from "../../db/models/index.js";
 
 const User = db.user;
 const Group = db.group;

@@ -1,65 +1,117 @@
-import config from "../configs/db.config.js";
-import Sequelize from "sequelize";
-import User from "./User.js";
-import Role from "./Role.js";
-import Group from "./Group.js";
-import UserGroup from "./UserGroup.js";
-import Marker from "./Marker.js";
+"use strict";
 
-const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
-  host: config.HOST,
-  dialect: config.dialect,
-  operatorsAliases: 0,
-  pool: {
-    max: config.pool.max,
-    min: config.pool.min,
-    acquire: config.pool.acquire,
-    idle: config.pool.idle,
-  },
-});
+import fs from "fs";
+import path from "path";
+import Sequelize from "sequelize";
+import { fileURLToPath } from "url";
+import { development } from "../config/database.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const basename = path.basename(__filename);
+const __dirname = path.dirname(__filename);
+const env = process.env.NODE_ENV || "development";
+const config = development;
 
 const db = {};
 
-db.Sequelize = Sequelize;
+let sequelize;
+
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
+
+fs.readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach(async (file) => {
+    const model = await import(`./${file}`);
+    const nameModel = model.default(sequelize, Sequelize.DataTypes);
+    db[nameModel.name] = nameModel;
+  });
+
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
 db.sequelize = sequelize;
-
-db.user = User(sequelize, Sequelize);
-db.role = Role(sequelize, Sequelize);
-db.group = Group(sequelize, Sequelize);
-db.user_group = UserGroup(sequelize, Sequelize);
-db.marker = Marker(sequelize, Sequelize);
-
-db.user.belongsToMany(db.role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId",
-});
-db.user.belongsTo(db.group, {
-  through: db.user_group,
-  foreignKey: "userId",
-  otherKey: "groupId",
-});
-
-db.role.belongsToMany(db.user, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId",
-});
-
-db.group.belongsToMany(db.user, {
-  through: db.user_group,
-  foreignKey: "groupId",
-  otherKey: "userId",
-});
-
-db.user.hasMany(db.user_group);
-db.group.hasMany(db.user_group);
-db.user_group.belongsTo(db.user, { foreignKey: "userId" });
-db.user_group.belongsTo(db.group, { foreignKey: "groupId" });
-
-db.ROLES = ["user", "admin", "moderator"];
+db.Sequelize = Sequelize;
 
 export default db;
+
+// import config from "../../config/db.config.js";
+// import Sequelize from "sequelize";
+// import User from "./User.js";
+// import Role from "./Role.js";
+// import Group from "./Group.js";
+// import UserGroup from "./UserGroup.js";
+// import Marker from "./Marker.js";
+
+// const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
+//   host: config.HOST,
+//   dialect: config.dialect,
+//   operatorsAliases: 0,
+//   pool: {
+//     max: config.pool.max,
+//     min: config.pool.min,
+//     acquire: config.pool.acquire,
+//     idle: config.pool.idle,
+//   },
+// });
+
+// const db = {};
+
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
+
+// db.user = User(sequelize, Sequelize);
+// db.role = Role(sequelize, Sequelize);
+// db.group = Group(sequelize, Sequelize);
+// db.user_group = UserGroup(sequelize, Sequelize);
+// db.marker = Marker(sequelize, Sequelize);
+
+// db.user.belongsToMany(db.role, {
+//   through: "user_roles",
+//   foreignKey: "userId",
+//   otherKey: "roleId",
+// });
+// db.user.belongsTo(db.group, {
+//   through: db.user_group,
+//   foreignKey: "userId",
+//   otherKey: "groupId",
+// });
+
+// db.role.belongsToMany(db.user, {
+//   through: "user_roles",
+//   foreignKey: "roleId",
+//   otherKey: "userId",
+// });
+
+// db.group.belongsToMany(db.user, {
+//   through: db.user_group,
+//   foreignKey: "groupId",
+//   otherKey: "userId",
+// });
+
+// db.user.hasMany(db.user_group);
+// db.group.hasMany(db.user_group);
+// db.user_group.belongsTo(db.user, { foreignKey: "userId" });
+// db.user_group.belongsTo(db.group, { foreignKey: "groupId" });
+
+// db.ROLES = ["user", "admin", "moderator"];
+
+// export default db;
 
 /*
 Sequelize.STRING                      // VARCHAR(255)
