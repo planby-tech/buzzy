@@ -47,7 +47,6 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.loginContainer}>
       <Text>로그인</Text>
-      <Text>{isLoggedIn && console.log("Here " + isLoggedIn)}</Text>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
