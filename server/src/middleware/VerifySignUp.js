@@ -16,8 +16,9 @@ schema
   .not()
   .spaces();
 
-const ROLES = db.ROLES;
+const ROLES = db.role;
 const User = db.user;
+console.log(User);
 
 const checkValidEmail = (req, res, next) => {
   if (!req.body.email) {
