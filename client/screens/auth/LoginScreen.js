@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("isLoggedIn in auth.js useEffect: " + isLoggedIn);
+    console.log("isLoggedIn in LoginScreen.js useEffect: " + isLoggedIn);
     if (isLoggedIn) {
       navigation.navigate("GardenList");
     }

@@ -11,6 +11,7 @@ const SplashScreen = ({ navigation }) => {
     dispatch(loadUserData()).then((res) => {
       setTimeout(() => {
         if (res.payload) {
+          console.log("Here" + res.payload);
           navigation.reset({
             index: 0,
             routes: [{ name: "GardenList" }],
@@ -21,7 +22,7 @@ const SplashScreen = ({ navigation }) => {
             routes: [{ name: "Login" }],
           });
         }
-      }, 800);
+      }, 1000);
     });
   }, [dispatch]);
 

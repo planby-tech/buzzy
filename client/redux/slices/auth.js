@@ -59,20 +59,20 @@ export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
     return thunkAPI.rejectWithValue();
   }
 });
-export const loadUserToken = createAsyncThunk("auth/loadUserData", async () => {
-  try {
-    const userData = await AsyncStorage.getItem("user");
-    console.log("userData in loadUserData: " + userData);
-    if (userData.accessToken) return userData.accessToken;
-  } catch (error) {
-    const message =
-      (error.response && error.response.message) ||
-      error.message ||
-      error.toString();
-    thunkAPI.dispatch(setMessage(message));
-    return thunkAPI.rejectWithValue();
-  }
-});
+// export const loadUserToken = createAsyncThunk("auth/loadUserData", async () => {
+//   try {
+//     const userData = await AsyncStorage.getItem("user");
+//     console.log("userData in loadUserData: " + userData);
+//     if (userData.accessToken) return userData.accessToken;
+//   } catch (error) {
+//     const message =
+//       (error.response && error.response.message) ||
+//       error.message ||
+//       error.toString();
+//     thunkAPI.dispatch(setMessage(message));
+//     return thunkAPI.rejectWithValue();
+//   }
+// });
 
 const initialState = { isLoggedIn: false, user: null };
 const authSlice = createSlice({
