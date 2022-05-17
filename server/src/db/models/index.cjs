@@ -1,92 +1,46 @@
-"use strict";
+"user strict";
 
 import { readdirSync } from "fs";
-import { basename, dirname } from "path";
+import { basename as _basename, join } from "path";
 import Sequelize from "sequelize";
-import { fileURLToPath } from "url";
-import database from "../config/database.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+const basename = _basename(__filename);
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/database.json")[env];
 const db = {};
-const sequelize = new Sequelize(database.development);
 
-export default (() => {
-  const files = readdirSync(__dirname)
-    .filter(
-      (file) =>
-        file.indexOf(".") !== 0 &&
-        file !== basename(__filename) &&
-        file.slice(-3) === ".js"
-    )
-    .forEach((file) => {
-      console.log(file);
-      const model = import(`./${file}`).then((model) => {
-        const namedModel = model.default(sequelize, Sequelize.DataTypes);
-        db[namedModel.name] = namedModel;
-        console.log(namedModel);
-      });
-    });
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
 
-  Object.keys(db).forEach((modelName) => {
-    if (db[modelName].associate) {
-      db[modelName].associate(db);
-    }
+readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach((file) => {
+    const model = sequelize["import"](join(__dirname, file));
+    db[model.name] = model;
   });
 
-  db.sequelize = sequelize;
-  db.Sequelize = Sequelize;
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
-  return db;
-})();
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-// "use strict";
-
-// const fs = require("fs");
-// const path = require("path");
-// const Sequelize = require("sequelize");
-// const basename = path.basename(__filename);
-// const env = process.env.NODE_ENV || "development";
-// const config = require(__dirname + "/../config/database.json")[env];
-// const db = {};
-
-// let sequelize;
-// if (config.use_env_variable) {
-//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
-// } else {
-//   sequelize = new Sequelize(
-//     config.database,
-//     config.username,
-//     config.password,
-//     config
-//   );
-// }
-
-// fs.readdirSync(__dirname)
-//   .filter((file) => {
-//     return (
-//       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-//     );
-//   })
-//   .forEach((file) => {
-//     const model = require(path.join(__dirname, file))(
-//       sequelize,
-//       Sequelize.DataTypes
-//     );
-//     db[model.name] = model;
-//   });
-
-// Object.keys(db).forEach((modelName) => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
-
-// db.sequelize = sequelize;
-// db.Sequelize = Sequelize;
-
-// module.exports = db;
+export default db;
 
 // "use strict";
 
@@ -150,37 +104,6 @@ export default (() => {
 // db.Sequelize = Sequelize;
 
 // export default db;
-
-// ====== database.js ======
-// const development = {
-//   username: "admin",
-//   password: "dQNyUsogNb5s65h1Te3y",
-//   database: "database_development",
-//   host: "buzzy-db.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
-//   dialect: "mysql",
-// };
-// const test = {
-//   username: "admin",
-//   password: "dQNyUsogNb5s65h1Te3y",
-//   database: "database_test",
-//   host: "buzzy-db.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
-//   dialect: "mysql",
-// };
-// const production = {
-//   username: "admin",
-//   password: "dQNyUsogNb5s65h1Te3y",
-//   database: "database_production",
-//   host: "buzzy-db.cs8xxdwyxmzt.ap-northeast-2.rds.amazonaws.com",
-//   dialect: "mysql",
-// };
-
-// const database = {
-//   development: development,
-//   test: test,
-//   production: production,
-// };
-
-// export default database;
 
 /*
 Sequelize.STRING                      // VARCHAR(255)

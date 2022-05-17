@@ -1,16 +1,18 @@
 import crypto from "crypto";
 import db from "../../db/models/index.js";
 
-const User = db.user;
-const Group = db.group;
-const UserGroup = db.user_group;
-const Op = db.Sequelize.Op;
+// const User = db.User;
+// const Group = db.Group;
+// const UserGroup = db.UserGroup;
+// const Op = db.Sequelize.Op;
 
 const createGroup = (req, res) => {
+  const Group = db.Group;
+  const UserGroup = db.UserGroup;
+
   Group.create({
     name: req.body.name,
     description: req.body.description,
-    creator: req.userId,
     userNumber: 1,
     groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
   })
@@ -27,9 +29,13 @@ const createGroup = (req, res) => {
 };
 
 const joinGroup = (req, res) => {
+  const Group = db.Group;
+  const User = db.User;
+  const UserGroup = db.UserGroup;
+
   Group.findOne({
     where: { groupCode: req.body.groupCode },
-    include: User,
+    // include: User,
   })
     .then(async (group) => {
       if (!group) {
@@ -48,18 +54,26 @@ const joinGroup = (req, res) => {
 };
 
 const findByGroup = (req, res) => {
+  const UserGroup = db.UserGroup;
+  const User = db.User;
+
   UserGroup.findAll({
-    where: { groupId: req.body.id },
-    include: [
-      {
-        model: User,
-        as: UserGroup,
-        attributes: ["id", "name"],
-      },
-    ],
+    where: { groupId: req.groupId },
   })
-    .then((users) => {
-      res.send(users);
+    .then((userGroups) => {
+      Promise.all(
+        userGroups.map((userGroup) => {
+          return new Promise((resolve) => {
+            User.findOne({
+              where: { id: userGroup.userId },
+            }).then((user) => {
+              resolve(user);
+            });
+          });
+        })
+      ).then((users) => {
+        res.send(users);
+      });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -67,6 +81,7 @@ const findByGroup = (req, res) => {
 };
 
 const updateGroup = (req, res) => {
+  const Group = db.Group;
   Group.findOne({
     where: {
       id: req.body.id,
@@ -96,6 +111,7 @@ const updateGroup = (req, res) => {
 };
 
 const deleteGroup = (req, res) => {
+  const Group = db.Group;
   Group.findOne({
     where: {
       id: req.body.id,

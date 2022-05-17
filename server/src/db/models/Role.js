@@ -4,7 +4,7 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class Role extends Model {
     static associate(models) {
-      // define association here
+      Role.belongsTo(models.User);
     }
   }
   Role.init(

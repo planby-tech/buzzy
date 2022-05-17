@@ -1,9 +1,9 @@
 import authJwt from "../../middleware/AuthJwt.js";
 import {
-  allAccess,
-  userBoard,
-  adminBoard,
-  moderatorBoard,
+  // allAccess,
+  // userBoard,
+  // adminBoard,
+  // moderatorBoard,
   updateUser,
   deleteUser,
   deleteAllUsers,
@@ -19,21 +19,21 @@ export default (app) => {
     next();
   });
 
-  app.get("/api/test/all", allAccess);
+  // app.get("/api/test/all", allAccess);
 
-  app.get("/api/test/user", [authJwt.verifyToken], userBoard);
+  // app.get("/api/test/user", [authJwt.verifyToken], userBoard);
 
-  app.get(
-    "/api/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    moderatorBoard
-  );
+  // app.get(
+  //   "/api/test/mod",
+  //   [authJwt.verifyToken, authJwt.isModerator],
+  //   moderatorBoard
+  // );
 
-  app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    adminBoard
-  );
+  // app.get(
+  //   "/api/test/admin",
+  //   [authJwt.verifyToken, authJwt.isAdmin],
+  //   adminBoard
+  // );
 
   app.post("/api/user/update", [authJwt.verifyToken], updateUser);
 

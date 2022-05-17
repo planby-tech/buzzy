@@ -7,6 +7,7 @@ import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
 import socketRouter from "./api/routes/socket.routes.js";
+import testRouter from "./api/routes/test.routes.js";
 import db from "./db/models/index.js";
 
 const app = express();
@@ -31,21 +32,25 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to planby application." });
 });
 
+await db.sequelize.authenticate();
+
 // routes
 authRouter(app);
 userRouter(app);
 groupRouter(app);
+testRouter(app);
 socketRouter(io);
 
 // initialize db
-const Role = db.role;
+// const Role = db.role;
 
 // development mode
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and Resync DB");
 //   initial();
 // });
-db.sequelize.sync();
+
+// db.sequelize.sync();
 
 // listen for requests
 server.listen(PORT, () => {

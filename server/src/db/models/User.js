@@ -9,6 +9,7 @@ export default (sequelize, DataTypes) => {
         as: "Group",
         foreignKey: "userId",
       });
+      User.hasMany(models.Role);
     }
   }
   User.init(

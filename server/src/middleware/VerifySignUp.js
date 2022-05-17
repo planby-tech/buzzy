@@ -16,11 +16,9 @@ schema
   .not()
   .spaces();
 
-const ROLES = db.role;
-const User = db.user;
-console.log(User);
-
 const checkValidEmail = (req, res, next) => {
+  const User = db.User;
+  console.log(User);
   if (!req.body.email) {
     return res.status(400).send({ message: "Email is not provided" });
   } else if (!emailValidator.validate(req.body.email)) {
@@ -51,23 +49,23 @@ const checkValidPassword = (req, res, next) => {
   next();
 };
 
-const checkRolesExisted = (req, res, next) => {
-  if (req.body.roles) {
-    for (let i = 0; i < req.body.roles.length; i++) {
-      if (!ROLES.includes(req.body.roles[i])) {
-        return res.status(400).send({
-          message: "Failed! Role does not exist = " + req.body.roles[i],
-        });
-      }
-    }
-  }
-  next();
-};
+// const checkRolesExisted = (req, res, next) => {
+//   if (req.body.roles) {
+//     for (let i = 0; i < req.body.roles.length; i++) {
+//       if (!ROLES.includes(req.body.roles[i])) {
+//         return res.status(400).send({
+//           message: "Failed! Role does not exist = " + req.body.roles[i],
+//         });
+//       }
+//     }
+//   }
+//   next();
+// };
 
 const verifySignUp = {
   checkValidEmail: checkValidEmail,
   checkValidPassword: checkValidPassword,
-  checkRolesExisted: checkRolesExisted,
+  // checkRolesExisted: checkRolesExisted,
 };
 
 export default verifySignUp;
