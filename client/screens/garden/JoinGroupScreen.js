@@ -3,7 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { clearMessage } from "../../redux/slices/message";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TextInput,
+  Button,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { joinGroup } from "../../redux/slices/group";
 
 const JoinGroupScreen = ({ navigation }) => {
@@ -38,7 +45,7 @@ const JoinGroupScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{ width: "100%", padding: 10 }}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -46,24 +53,27 @@ const JoinGroupScreen = ({ navigation }) => {
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
+            <Text style={styles.inputTitle}>정원 초대 코드</Text>
             <TextInput
               name="groupCode"
-              placeholder="group code"
+              placeholder="정원 초대 코드를 입력해 주세요."
               style={styles.textInput}
               onChangeText={handleChange("groupCode")}
               onBlur={handleBlur("groupCode")}
               value={values.groupCode}
             />
             {errors.name && (
-              <Text style={{ fontSize: 10, color: "red" }}>
+              <Text style={{ fontSize: 10, color: "tomato" }}>
                 {errors.groupCode}
               </Text>
             )}
-            <Button
+            <TouchableOpacity
               onPress={handleSubmit}
-              title="그룹 참여하기"
               disabled={loading}
-            />
+              style={styles.submitButton}
+            >
+              <Text style={{ color: "#fff" }}>정원 들어가기</Text>
+            </TouchableOpacity>
           </>
         )}
       </Formik>
@@ -72,22 +82,29 @@ const JoinGroupScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  loginContainer: {
-    width: "80%",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 10,
-    elevation: 10,
-    backgroundColor: "#e6e6e6",
+  inputTitle: {
+    paddingLeft: 10,
+    color: "#fff",
   },
   textInput: {
     height: 40,
-    width: "100%",
     margin: 10,
+    paddingLeft: 10,
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
+  },
+  submitButton: {
+    borderColor: "#fff",
+    borderRadius: 10,
+    borderWidth: 2,
+    marginTop: 20,
+    padding: 10,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

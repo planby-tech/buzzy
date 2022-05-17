@@ -5,6 +5,12 @@ import * as Yup from "yup";
 import { clearMessage } from "../../redux/slices/message";
 import { View, TextInput, Button, Text, StyleSheet } from "react-native";
 import { createGroup } from "../../redux/slices/group";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { GREEN_COLOR } from "../../common/colors";
 
 const CreateGroupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -21,7 +27,7 @@ const CreateGroupScreen = ({ navigation }) => {
     description: "",
   };
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("필수 입력 사항입니다."),
+    name: Yup.string().required("정원 이름은 필수 입력 사항입니다."),
   });
   const handleCreateGroup = (formValue) => {
     const { name, description } = formValue;
@@ -39,7 +45,7 @@ const CreateGroupScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{ width: "100%", padding: 10 }}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -47,35 +53,45 @@ const CreateGroupScreen = ({ navigation }) => {
       >
         {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
           <>
+            <Text style={styles.inputTitle}>정원 이름</Text>
             <TextInput
               name="name"
-              placeholder="group name"
+              placeholder="정원의 이름을 적어주세요."
               style={styles.textInput}
               onChangeText={handleChange("name")}
               onBlur={handleBlur("name")}
               value={values.name}
             />
             {errors.name && (
-              <Text style={{ fontSize: 10, color: "red" }}>{errors.name}</Text>
+              <Text
+                style={{
+                  paddingLeft: 10,
+                  fontSize: 10,
+                  color: "tomato",
+                  marginBottom: 10,
+                }}
+              >
+                {errors.name}
+              </Text>
             )}
+            <Text style={styles.inputTitle}>어떤 정원을 만드실 건가요?</Text>
             <TextInput
               name="description"
-              placeholder="group description"
+              placeholder="정원에 대한 설명을 적어주세요."
               style={styles.textInput}
               onChangeText={handleChange("description")}
               onBlur={handleBlur("description")}
               value={values.description}
             />
-            {errors.description && (
-              <Text style={{ fontSize: 10, color: "red" }}>
-                {errors.description}
-              </Text>
-            )}
-            <Button
-              onPress={handleSubmit}
-              title="그룹 만들기"
-              disabled={loading}
-            />
+            <View style={{ paddingHorizontal: 15 }}>
+              <TouchableOpacity
+                onPress={handleSubmit}
+                disabled={loading}
+                style={styles.submitButton}
+              >
+                <Text style={{ color: "#fff" }}>정원 만들기</Text>
+              </TouchableOpacity>
+            </View>
           </>
         )}
       </Formik>
@@ -84,22 +100,29 @@ const CreateGroupScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  loginContainer: {
-    width: "80%",
-    alignItems: "center",
-    backgroundColor: "white",
-    padding: 10,
-    elevation: 10,
-    backgroundColor: "#e6e6e6",
+  inputTitle: {
+    paddingLeft: 10,
+    color: "#fff",
   },
   textInput: {
     height: 40,
-    width: "100%",
     margin: 10,
+    paddingLeft: 10,
     backgroundColor: "white",
     borderColor: "gray",
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 10,
+  },
+  submitButton: {
+    borderColor: "#fff",
+    borderRadius: 10,
+    borderWidth: 2,
+    marginTop: 20,
+    padding: 10,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

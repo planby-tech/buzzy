@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("isLoggedIn in auth.js useEffect: " + isLoggedIn);
+    console.log("isLoggedIn in LoginScreen.js useEffect: " + isLoggedIn);
     if (isLoggedIn) {
       navigation.navigate("GardenList");
     }
@@ -47,7 +47,6 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View style={styles.loginContainer}>
       <Text>로그인</Text>
-      <Text>{isLoggedIn && console.log("Here " + isLoggedIn)}</Text>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
