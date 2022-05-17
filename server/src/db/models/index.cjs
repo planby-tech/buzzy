@@ -1,65 +1,109 @@
-import config from "../configs/db.config.js";
+"user strict";
+
+import { readdirSync } from "fs";
+import { basename as _basename, join } from "path";
 import Sequelize from "sequelize";
-import User from "./User.js";
-import Role from "./Role.js";
-import Group from "./Group.js";
-import UserGroup from "./UserGroup.js";
-import Marker from "./Marker.js";
-
-const sequelize = new Sequelize(config.DB, config.USER, config.PASSWORD, {
-  host: config.HOST,
-  dialect: config.dialect,
-  operatorsAliases: 0,
-  pool: {
-    max: config.pool.max,
-    min: config.pool.min,
-    acquire: config.pool.acquire,
-    idle: config.pool.idle,
-  },
-});
-
+const basename = _basename(__filename);
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/database.json")[env];
 const db = {};
 
-db.Sequelize = Sequelize;
+let sequelize;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
+
+readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach((file) => {
+    const model = sequelize["import"](join(__dirname, file));
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
 db.sequelize = sequelize;
-
-db.user = User(sequelize, Sequelize);
-db.role = Role(sequelize, Sequelize);
-db.group = Group(sequelize, Sequelize);
-db.user_group = UserGroup(sequelize, Sequelize);
-db.marker = Marker(sequelize, Sequelize);
-
-db.user.belongsToMany(db.role, {
-  through: "user_roles",
-  foreignKey: "userId",
-  otherKey: "roleId",
-});
-db.user.belongsTo(db.group, {
-  through: db.user_group,
-  foreignKey: "userId",
-  otherKey: "groupId",
-});
-
-db.role.belongsToMany(db.user, {
-  through: "user_roles",
-  foreignKey: "roleId",
-  otherKey: "userId",
-});
-
-db.group.belongsToMany(db.user, {
-  through: db.user_group,
-  foreignKey: "groupId",
-  otherKey: "userId",
-});
-
-db.user.hasMany(db.user_group);
-db.group.hasMany(db.user_group);
-db.user_group.belongsTo(db.user, { foreignKey: "userId" });
-db.user_group.belongsTo(db.group, { foreignKey: "groupId" });
-
-db.ROLES = ["user", "admin", "moderator"];
+db.Sequelize = Sequelize;
 
 export default db;
+
+// "use strict";
+
+// import fs from "fs";
+// import path from "path";
+// import Sequelize from "sequelize";
+// import { fileURLToPath } from "url";
+// import { development } from "../config/database.js";
+// import User from "../models/User.js";
+// import Group from "../models/Group.js";
+// import Role from "../models/Role.js";
+// import UserGroup from "../models/UserGroup.js";
+// import Marker from "../models/Marker.js";
+
+// const __filename = fileURLToPath(import.meta.url);
+// const basename = path.basename(__filename);
+// const __dirname = path.dirname(__filename);
+// const env = process.env.NODE_ENV || "development";
+// const config = development;
+
+// const db = {};
+
+// let sequelize;
+
+// if (config.use_env_variable) {
+//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+// } else {
+//   sequelize = new Sequelize(
+//     config.database,
+//     config.username,
+//     config.password,
+//     config
+//   );
+// }
+
+// fs.readdirSync(__dirname)
+//   .filter((file) => {
+//     return (
+//       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+//     );
+//   })
+//   .forEach(async (file) => {
+//     const model = await import(`./${file}`);
+//     const nameModel = model.default(sequelize, Sequelize.DataTypes);
+//     db[nameModel.name] = nameModel;
+//   });
+
+// Object.keys(db).forEach((modelName) => {
+//   if (db[modelName].associate) {
+//     db[modelName].associate(db);
+//   }
+// });
+
+// db.User = User(sequelize, Sequelize.DataTypes);
+// db.Group = Group(sequelize, Sequelize.DataTypes);
+// db.Role = Role(sequelize, Sequelize.DataTypes);
+// db.UserGroup = UserGroup(sequelize, Sequelize.DataTypes);
+// db.Marker = Marker(sequelize, Sequelize.DataTypes);
+
+// db.sequelize = sequelize;
+// db.Sequelize = Sequelize;
+
+// export default db;
 
 /*
 Sequelize.STRING                      // VARCHAR(255)

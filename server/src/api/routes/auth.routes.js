@@ -15,7 +15,7 @@ export default (app) => {
     [
       verifySignUp.checkValidEmail,
       verifySignUp.checkValidPassword,
-      verifySignUp.checkRolesExisted,
+      // verifySignUp.checkRolesExisted,
     ],
     signup
   );

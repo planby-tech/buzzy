@@ -33,9 +33,5 @@ export default (app) => {
     updateGroup
   );
 
-  app.post(
-    "/api/group/delete",
-    [authJwt.verifyToken, verifyGroup.checkValidCreator],
-    deleteGroup
-  );
+  app.post("/api/group/delete", [authJwt.verifyToken], deleteGroup);
 };

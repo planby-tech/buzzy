@@ -1,30 +1,25 @@
 import jwt from "jsonwebtoken";
-import db from "../../models/index.js";
+import db from "../../db/models/index.js";
 import config from "../../configs/auth.config.js";
 
-const User = db.user;
-const Group = db.group;
-const Role = db.role;
-const UserGroup = db.user_group;
-const Op = db.Sequelize.Op;
+// const allAccess = (req, res) => {
+//   res.status(200).send("Public Content.");
+// };
 
-const allAccess = (req, res) => {
-  res.status(200).send("Public Content.");
-};
+// const userBoard = (req, res) => {
+//   res.status(200).send("User Content.");
+// };
 
-const userBoard = (req, res) => {
-  res.status(200).send("User Content.");
-};
+// const adminBoard = (req, res) => {
+//   res.status(200).send("Admin Content.");
+// };
 
-const adminBoard = (req, res) => {
-  res.status(200).send("Admin Content.");
-};
-
-const moderatorBoard = (req, res) => {
-  res.status(200).send("Moderator Content.");
-};
+// const moderatorBoard = (req, res) => {
+//   res.status(200).send("Moderator Content.");
+// };
 
 const updateUser = (req, res) => {
+  const User = db.User;
   User.findOne({
     where: {
       id: req.userId,
@@ -39,9 +34,7 @@ const updateUser = (req, res) => {
       if (!req.body.name) {
         res.status(400).send({ message: "Name is not provided" });
       } else {
-        User.update(req.body, {
-          where: { name: req.body.name },
-        });
+        User.update({ name: req.body.name }, { where: { id: req.userId } });
         res.send({ message: "User was updated successfully!" });
       }
     })
@@ -51,6 +44,7 @@ const updateUser = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
+  const User = db.User;
   User.findOne({
     where: {
       id: req.userId,
@@ -71,6 +65,7 @@ const deleteUser = (req, res) => {
 };
 
 const deleteAllUsers = (req, res) => {
+  const User = db.User;
   User.destroy({
     where: {},
     truncate: false,
@@ -82,18 +77,26 @@ const deleteAllUsers = (req, res) => {
 };
 
 const findByUser = (req, res) => {
+  const UserGroup = db.UserGroup;
+  const Group = db.Group;
+
   UserGroup.findAll({
     where: { userId: req.userId },
-    include: [
-      {
-        model: Group,
-        as: UserGroup,
-        attributes: ["id", "name", "description"],
-      },
-    ],
   })
-    .then((groups) => {
-      res.send(groups);
+    .then((userGroups) => {
+      Promise.all(
+        userGroups.map((userGroup) => {
+          return new Promise((resolve) => {
+            Group.findOne({
+              where: { id: userGroup.groupId },
+            }).then((group) => {
+              resolve(group);
+            });
+          });
+        })
+      ).then((groups) => {
+        res.send(groups);
+      });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -101,10 +104,10 @@ const findByUser = (req, res) => {
 };
 
 export {
-  allAccess,
-  userBoard,
-  adminBoard,
-  moderatorBoard,
+  // allAccess,
+  // userBoard,
+  // adminBoard,
+  // moderatorBoard,
   updateUser,
   deleteUser,
   deleteAllUsers,

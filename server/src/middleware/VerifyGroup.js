@@ -1,17 +1,16 @@
-import db from "../models/index.js";
+import db from "../db/models/index.js";
 
-const UserGroup = db.user_group;
-
-const checkValidCreator = (req, res, next) => {
-  if (req.userId != req.body.creator) {
-    return res.status(409).send({
-      message: "This user is not allowed to change group",
-    });
-  }
-  next();
-};
+// const checkValidCreator = (req, res, next) => {
+//   if (req.userId != req.body.creator) {
+//     return res.status(409).send({
+//       message: "This user is not allowed to change group",
+//     });
+//   }
+//   next();
+// };
 
 const checkValidMember = (req, res, next) => {
+  const UserGroup = db.UserGroup;
   UserGroup.findOne({
     where: {
       userId: req.userId,
@@ -28,7 +27,7 @@ const checkValidMember = (req, res, next) => {
 };
 
 const verifyGroup = {
-  checkValidCreator: checkValidCreator,
+  // checkValidCreator: checkValidCreator,
   checkValidMember: checkValidMember,
 };
 

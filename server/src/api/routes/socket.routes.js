@@ -1,4 +1,4 @@
-import markerHandler from "../handlers/MarkerHandler.js";
+import markerHandler from "../../handlers/MarkerHandler.js";
 
 export default (io) => {
   io.on("connection", (socket) => {
