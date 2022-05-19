@@ -1,7 +1,7 @@
 import UserService from "../../services/UserService.js";
 import jwt from "jsonwebtoken";
-import db from "../db/models/index.js";
-import config from "../configs/auth.config.js";
+import db from "../../db/models/index.js";
+import config from "../../configs/auth.config.js";
 
 const updateUser = (req, res) => {
   const User = db.User;
