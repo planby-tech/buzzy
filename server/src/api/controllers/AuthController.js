@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import db from "../../db/models/index.js";
 import config from "../../configs/auth.config.js";
+import AuthService from "../../services/AuthService.js";
 
 const signup = (req, res) => {
   const userDTO = req.body;
