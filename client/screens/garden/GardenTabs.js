@@ -1,5 +1,5 @@
 import GardenHomeScreen from "./garden-tabs/GardenHomeScreen";
-import MeetingListScreen from "./garden-tabs/MeetingListScreen";
+import MeetingListNavigator from "./garden-tabs/MeetingListNavigator";
 import MapScreen from "./garden-tabs/MapScreen";
 import MyScreen from "./garden-tabs/MyScreen";
 
@@ -34,8 +34,8 @@ const GardenTabs = ({ groupInfo }) => {
         }}
       />
       <GardenTab.Screen
-        name="MeetingList"
-        component={MeetingListScreen}
+        name="MeetingListNavigator"
+        component={MeetingListNavigator}
         options={{
           tabBarLabel: "약속 리스트",
           tabBarIcon: ({ color }) => (

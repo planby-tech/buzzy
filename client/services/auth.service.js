@@ -32,6 +32,18 @@ const setLoginLocal = async (userKey, userValue) => {
     console.log(err);
   }
 };
+const loadUserData = async () => {
+  // const userData = await AsyncStorage.getItem("user");
+  // const jsonUserData = JSON.parse(userData);
+  // console.log("userData in loadUserData: " + jsonUserData.accessToken);
+  // if (jsonUserData.accessToken) return jsonUserData;
+
+  return AsyncStorage.getItem("user").then((userData) => {
+    const jsonUserData = JSON.parse(userData);
+    console.log(jsonUserData);
+    if (jsonUserData.accessToken) return jsonUserData;
+  });
+};
 const logout = () => {
   console.log("logout");
   AsyncStorage.removeItem("user").then(async () => {
@@ -42,5 +54,6 @@ const authService = {
   register,
   login,
   logout,
+  loadUserData,
 };
 export default authService;

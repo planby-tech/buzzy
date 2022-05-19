@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { clearMessage } from "../../redux/slices/message";
-import { View, TextInput, Button, Text, StyleSheet } from "react-native";
+import { View, TextInput, Text, StyleSheet } from "react-native";
 import { createGroup } from "../../redux/slices/group";
 import {
   widthPercentageToDP as wp,
@@ -11,6 +11,7 @@ import {
 } from "react-native-responsive-screen";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { GREEN_COLOR } from "../../common/colors";
+import Button from "../../components/common/SubmitButton";
 
 const CreateGroupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -83,14 +84,8 @@ const CreateGroupScreen = ({ navigation }) => {
               onBlur={handleBlur("description")}
               value={values.description}
             />
-            <View style={{ paddingHorizontal: 15 }}>
-              <TouchableOpacity
-                onPress={handleSubmit}
-                disabled={loading}
-                style={styles.submitButton}
-              >
-                <Text style={{ color: "#fff" }}>정원 만들기</Text>
-              </TouchableOpacity>
+            <View style={{ padding: 15 }}>
+              <Button onPress={handleSubmit} title="정원 만들기" />
             </View>
           </>
         )}

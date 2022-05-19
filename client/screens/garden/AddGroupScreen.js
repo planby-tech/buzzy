@@ -18,6 +18,7 @@ const AddGroupScreen = ({ navigation }) => {
               : styles.inactiveTypeButton
           }
           onPress={() => setType("create")}
+          activeOpacity={0.8}
         >
           <Text
             style={
@@ -36,6 +37,7 @@ const AddGroupScreen = ({ navigation }) => {
               : styles.inactiveTypeButton
           }
           onPress={() => setType("join")}
+          activeOpacity={0.8}
         >
           <Text
             style={
