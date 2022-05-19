@@ -242,3 +242,23 @@ Sequelize.GEOMETRY                    // Spatial column.  PostgreSQL (with PostG
 Sequelize.GEOMETRY('POINT')           // Spatial column with geometry type. PostgreSQL (with PostGIS) or MySQL only.
 Sequelize.GEOMETRY('POINT', 4326)     // Spatial column with geometry type and SRID.  PostgreSQL (with PostGIS) or MySQL only.
 */
+
+/*
+
+- Meeting -
+title
+description
+date
+place
+photo
+content
+groupId
+commentId
+
+- Comment -
+description
+userId
+groupId
+meetingId
+
+*/
