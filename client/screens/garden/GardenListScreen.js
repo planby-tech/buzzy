@@ -6,24 +6,29 @@ import {
   StatusBar,
   FlatList,
 } from "react-native";
-import userService from "../../services/user.service";
 import { useIsFocused } from "@react-navigation/native";
 import { MainWrapper } from "../../components/common/MainWrapper";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useDispatch } from "react-redux";
+import { findByUser } from "../../redux/slices/user";
+import { GREEN_COLOR } from "../../common/colors";
 
 const GardenListScreen = ({ navigation }) => {
   const [groupArray, setGroupArray] = useState([{ name: "name" }]);
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    userService.findByUser().then((data) => {
-      setGroupArray(data);
-      if (data === undefined)
-        setGroupArray([
-          { name: "Garden name", description: "garden description" },
-        ]);
-    });
+    dispatch(findByUser())
+      .unwrap()
+      .then((data) => {
+        setGroupArray(data);
+        if (data === null)
+          setGroupArray([
+            { name: "Garden name", description: "garden description" },
+          ]);
+      });
   }, [isFocused]);
 
   const groupListLayout = ({ item }) => {
@@ -33,9 +38,16 @@ const GardenListScreen = ({ navigation }) => {
     return (
       <TouchableOpacity
         onPress={handleNavigate}
-        style={{ height: 50, borderColor: "#fff", borderWidth: 2 }}
+        style={{
+          height: 50,
+          borderColor: "#fff",
+          borderWidth: 2,
+          paddingLeft: 10,
+          justifyContent: "center",
+        }}
+        activeOpacity={0.5}
       >
-        <Text style={{ color: "#fff" }}>{item.name}</Text>
+        <Text style={{ color: "#fff", fontSize: 16 }}>{item.name}</Text>
       </TouchableOpacity>
     );
   };
@@ -48,9 +60,18 @@ const GardenListScreen = ({ navigation }) => {
     return (
       <TouchableOpacity
         onPress={handleAddGroup}
-        style={{ height: 50, borderColor: "#fff", borderWidth: 2 }}
+        style={{
+          height: 50,
+          backgroundColor: GREEN_COLOR,
+          borderWidth: 2,
+          borderRadius: 10,
+          margin: 20,
+          paddingLeft: 10,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        <Text style={{ color: "#fff" }}>그룹 추가하기</Text>
+        <Text style={{ color: "#FFF", fontSize: 15 }}>+ 그룹 추가하기</Text>
       </TouchableOpacity>
     );
   };

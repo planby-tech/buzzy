@@ -1,12 +1,11 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
 import userService from "../../services/user.service";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const findByUser = createAsyncThunk("auth/findGroups", async () => {
   try {
     const data = userService.findByUser();
-    if (data.length > 0) return data;
+    if (data) return data;
     return null;
   } catch (error) {
     const message =
@@ -20,7 +19,7 @@ export const findByUser = createAsyncThunk("auth/findGroups", async () => {
 
 const initialState = { isLoggedIn: false, user: null };
 const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   extraReducers: {
     [findByUser.fulfilled]: (state, action) => {

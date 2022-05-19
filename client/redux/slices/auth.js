@@ -47,9 +47,12 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
   try {
-    const userData = await AsyncStorage.getItem("user");
-    console.log("userData in loadUserData: " + userData);
-    if (userData.accessToken) return { user: userData };
+    const jsonUserData = await authService.loadUserData();
+    return { user: jsonUserData };
+    // const userData = await AsyncStorage.getItem("user");
+    // const jsonUserData = JSON.parse(userData);
+    // console.log("userData in loadUserData: " + jsonUserData.accessToken);
+    // if (jsonUserData.accessToken) return { user: jsonUserData };
   } catch (error) {
     const message =
       (error.response && error.response.message) ||

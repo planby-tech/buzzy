@@ -6,12 +6,12 @@ import { clearMessage } from "../../redux/slices/message";
 import {
   View,
   TextInput,
-  Button,
   Text,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import { joinGroup } from "../../redux/slices/group";
+import Button from "../../components/common/SubmitButton";
 
 const JoinGroupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
@@ -67,13 +67,9 @@ const JoinGroupScreen = ({ navigation }) => {
                 {errors.groupCode}
               </Text>
             )}
-            <TouchableOpacity
-              onPress={handleSubmit}
-              disabled={loading}
-              style={styles.submitButton}
-            >
-              <Text style={{ color: "#fff" }}>정원 들어가기</Text>
-            </TouchableOpacity>
+            <View style={{ padding: 15 }}>
+              <Button onPress={handleSubmit} title="정원 들어가기" />
+            </View>
           </>
         )}
       </Formik>

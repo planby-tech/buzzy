@@ -9,19 +9,15 @@ import NFCTagScreen from "../screens/garden/NFCTagScreen";
 import GardenTabsScreen from "../screens/garden/GardenTabsScreen";
 import Home from "../components/Home";
 import Profile from "../components/Profile";
-import BoardUser from "../components/BoardUser";
-import BoardModerator from "../components/BoardModerator";
-import BoardAdmin from "../components/BoardAdmin";
-import MapNavigator from "./MapNavigator";
 import AddGroupScreen from "../screens/garden/AddGroupScreen";
 import { MainWrapper } from "../components/common/MainWrapper";
 
 const MainStack = createNativeStackNavigator();
 
 const AppNavigator = () => {
-  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const { user: currentUser } = useSelector((state) => state.auth);
+  // const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  // const [showAdminBoard, setShowAdminBoard] = useState(false);
+  // const { user: currentUser } = useSelector((state) => state.auth);
   // useEffect(() => {
   //   if (currentUser) {
   //     setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
@@ -47,11 +43,7 @@ const AppNavigator = () => {
         <MainStack.Screen name="NFCTag" component={NFCTagScreen} />
         <MainStack.Screen name="AddGroup" component={AddGroupScreen} />
         <MainStack.Screen name="GardenTabs" component={GardenTabsScreen} />
-        <MainStack.Screen name="MainMap" component={MapNavigator} />
         <MainStack.Screen name="Profile" component={Profile} />
-        <MainStack.Screen name="UserScreen" component={BoardUser} />
-        <MainStack.Screen name="ModeratorScreen" component={BoardModerator} />
-        <MainStack.Screen name="AdminScreen" component={BoardAdmin} />
       </MainStack.Navigator>
     </MainWrapper>
   );

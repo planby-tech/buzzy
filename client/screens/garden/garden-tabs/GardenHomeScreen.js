@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
 
 const GardenHomeScreen = ({ groupInfo }) => {
-  console.log(groupInfo);
   return (
     <MainWrapper>
       <View

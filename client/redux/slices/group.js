@@ -9,7 +9,6 @@ export const createGroup = createAsyncThunk(
     try {
       const response = await groupService.createGroup(name, description);
       thunkAPI.dispatch(setMessage(response.data.message));
-      console.log("response.data in group.js: " + response.data);
       return response.data;
     } catch (error) {
       console.log(error);
