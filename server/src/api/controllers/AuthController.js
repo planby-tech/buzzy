@@ -26,7 +26,7 @@ const login = (req, res) => {
     .then((user, accessToken) => {
       return res.json({
         message: "User was signed in successfully!",
-        user: user,
+        user,
         accessToken: accessToken,
       });
     })
