@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import db from "../db/models/index.js";
-import config from "../../configs/auth.config.js";
+import config from "../configs/auth.config.js";
 
 export default class AuthService {
   async signup(user) {
