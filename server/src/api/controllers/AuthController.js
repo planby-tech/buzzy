@@ -19,8 +19,10 @@ const signup = (req, res) => {
 };
 
 const login = (req, res) => {
+  const user = new AuthService();
   const userDTO = req.body;
-  AuthService.login(userDTO)
+  user
+    .login(userDTO)
     .then((user, accessToken) => {
       return res.json({
         message: "User was signed in successfully!",
