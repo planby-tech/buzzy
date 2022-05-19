@@ -1,12 +1,9 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import db from "../../db/models/index.js";
-import config from "../../configs/auth.config.js";
 import AuthService from "../../services/AuthService.js";
 
 const signup = (req, res) => {
   const userDTO = req.body;
-  AuthService.signup(userDTO)
+  const user = new AuthService()
+    .signup(userDTO)
     .then((user) => {
       return res.json({
         message: "User was registered successfully!",
@@ -19,57 +16,25 @@ const signup = (req, res) => {
 };
 
 const login = (req, res) => {
-  const user = new AuthService();
   const userDTO = req.body;
-  user
+  const user = new AuthService()
     .login(userDTO)
-    .then((user, accessToken) => {
+    .then(({ user, accessToken }) => {
       return res.json({
         message: "User was signed in successfully!",
-        user,
+        user: user,
         accessToken: accessToken,
       });
     })
     .catch((err) => {
       res.status(500).json({ message: err.message });
     });
-  // User.findOne({
-  //   where: {
-  //     email: req.body.email,
-  //   },
-  // })
-  //   .then((user) => {
-  //     if (!user) {
-  //       return res.status(404).send({ message: "User Not found." });
-  //     }
-  //     let passwordIsValid = bcrypt.compareSync(
-  //       req.body.password,
-  //       user.password
-  //     );
-  //     if (!passwordIsValid) {
-  //       return res.status(401).send({
-  //         accessToken: null,
-  //         message: "Invalid Password!",
-  //       });
-  //     }
-  //     let token = jwt.sign({ id: user.id }, config.secret, {
-  //       expiresIn: 60 * 60 * 24 * 50,
-  //     });
-  //     res.status(200).send({
-  //       id: user.id,
-  //       email: user.email,
-  //       name: req.body.name,
-  //       accessToken: token,
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     res.status(500).send({ message: err.message });
-  //   });
 };
 
 export { signup, login };
 
-/*
+/* 
+
 - Successful responses -
 
 200 OK
