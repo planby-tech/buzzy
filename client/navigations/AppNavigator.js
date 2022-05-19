@@ -11,6 +11,7 @@ import Home from "../components/Home";
 import Profile from "../components/Profile";
 import AddGroupScreen from "../screens/garden/AddGroupScreen";
 import { MainWrapper } from "../components/common/MainWrapper";
+import GardenHomeScreen from "../screens/garden/garden-tabs/GardenHomeScreen";
 
 const MainStack = createNativeStackNavigator();
 
@@ -36,14 +37,13 @@ const AppNavigator = () => {
         initialRouteName="Splash"
       >
         <MainStack.Screen name="Splash" component={SplashScreen} />
-        <MainStack.Screen name="Home" component={Home} />
         <MainStack.Screen name="Login" component={LoginScreen} />
         <MainStack.Screen name="Register" component={RegisterScreen} />
         <MainStack.Screen name="GardenList" component={GardenListScreen} />
+        <MainStack.Screen name="GardenHome" component={GardenHomeScreen} />
         <MainStack.Screen name="NFCTag" component={NFCTagScreen} />
-        <MainStack.Screen name="AddGroup" component={AddGroupScreen} />
         <MainStack.Screen name="GardenTabs" component={GardenTabsScreen} />
-        <MainStack.Screen name="Profile" component={Profile} />
+        <MainStack.Screen name="AddGroup" component={AddGroupScreen} />
       </MainStack.Navigator>
     </MainWrapper>
   );

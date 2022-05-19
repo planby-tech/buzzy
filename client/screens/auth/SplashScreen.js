@@ -33,7 +33,7 @@ const SplashScreen = ({ navigation }) => {
                 if (data === null || data) {
                   return navigation.reset({
                     index: 0,
-                    routes: [{ name: "GardenList" }],
+                    routes: [{ name: "GardenTabs" }],
                   });
                 } else {
                   dispatch(logout());
@@ -46,7 +46,7 @@ const SplashScreen = ({ navigation }) => {
               routes: [{ name: "Login" }],
             });
           }
-        }, 800);
+        }, 800); //setTimeout 빼도 됨.
       });
   }, [dispatch]);
 
@@ -60,20 +60,20 @@ const SplashScreen = ({ navigation }) => {
         backgroundColor: "#000",
       }}
     >
-      <Text
-        style={
-          fontsLoaded
-            ? {
-                fontSize: 60,
-                color: "#fff",
-                fontFamily: "Fraunces-Bold",
-              }
-            : { fontSize: 40, color: "#fff", fontWeight: "700" }
-        }
-      >
-        Buzzy
-      </Text>
-      <Text style={{ color: "#fff" }}>함께 가꾸는 우리들만의 정원</Text>
+      {fontsLoaded ? (
+        <>
+          <Text
+            style={{
+              fontSize: 60,
+              color: "#fff",
+              fontFamily: "Fraunces-Bold",
+            }}
+          >
+            Buzzy
+          </Text>
+          <Text style={{ color: "#fff" }}>함께 가꾸는 우리들만의 정원</Text>
+        </>
+      ) : null}
     </View>
   );
 };

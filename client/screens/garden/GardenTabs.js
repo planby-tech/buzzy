@@ -1,4 +1,3 @@
-import GardenHomeScreen from "./garden-tabs/GardenHomeScreen";
 import MeetingListNavigator from "./garden-tabs/MeetingListNavigator";
 import MapScreen from "./garden-tabs/MapScreen";
 import MyScreen from "./garden-tabs/MyScreen";
@@ -6,13 +5,14 @@ import MyScreen from "./garden-tabs/MyScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { GREEN_COLOR } from "../../common/colors";
+import GardenListScreen from "./GardenListScreen";
 
 const GardenTab = createMaterialBottomTabNavigator();
 
 const GardenTabs = ({ groupInfo }) => {
   return (
     <GardenTab.Navigator
-      initialRouteName="GardenHome"
+      initialRouteName="GardenList"
       barStyle={{
         backgroundColor: "#202020",
         height: 60,
@@ -24,8 +24,8 @@ const GardenTabs = ({ groupInfo }) => {
       inactiveColor="#fff"
     >
       <GardenTab.Screen
-        name="GardenHome"
-        children={() => <GardenHomeScreen groupInfo={groupInfo} />}
+        name="GardenList"
+        component={GardenListScreen}
         options={{
           tabBarLabel: "정원",
           tabBarIcon: ({ color }) => (

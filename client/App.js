@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import AppNavigator from "./navigations/AppNavigator";
+import FlashMessage from "react-native-flash-message";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
+      <FlashMessage position="top" />
     </Provider>
   );
 };

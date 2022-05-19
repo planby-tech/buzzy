@@ -1,10 +1,11 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 
-export default function Button({ title, onPress }) {
+export default function Button({ title, onPress, style }) {
   return (
     <TouchableOpacity
       style={{
+        ...style,
         height: 50,
         width: "100%",
         justifyContent: "center",

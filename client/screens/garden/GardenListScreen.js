@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Text,
   View,
   TouchableOpacity,
   StatusBar,
   FlatList,
+  Alert,
+  BackHandler,
 } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
+import { showMessage, hideMessage } from "react-native-flash-message";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { MainWrapper } from "../../components/common/MainWrapper";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -19,21 +22,47 @@ const GardenListScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
+  const [backPressedOnce, setBackPressedOnce] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        if (backPressedOnce) return false;
+        else {
+          showMessage({
+            message: "뒤로 가기를 한 번 더 하시면 앱이 종료됩니다.",
+            type: "Simple message",
+          });
+          setBackPressedOnce(true);
+          setTimeout(() => {
+            setBackPressedOnce(false);
+          }, 2250);
+          return true;
+        }
+      };
+
+      BackHandler.addEventListener("hardwareBackPress", onBackPress);
+
+      return () =>
+        BackHandler.removeEventListener("hardwareBackPress", onBackPress);
+    }, [backPressedOnce])
+  );
+
   useEffect(() => {
     dispatch(findByUser())
       .unwrap()
       .then((data) => {
         setGroupArray(data);
-        if (data === null)
-          setGroupArray([
-            { name: "Garden name", description: "garden description" },
-          ]);
+        // if (data === null)
+        //   setGroupArray([
+        //     { name: "Garden name", description: "garden description" },
+        //   ]);
       });
   }, [isFocused]);
 
   const groupListLayout = ({ item }) => {
     const handleNavigate = () => {
-      navigation.navigate("GardenTabs", item);
+      navigation.navigate("GardenHome", item);
     };
     return (
       <TouchableOpacity
