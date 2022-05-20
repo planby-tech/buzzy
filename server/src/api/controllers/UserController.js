@@ -1,36 +1,35 @@
 import UserService from "../../services/UserService.js";
-import db from "../../db/models/index.js";
 
 const user = new UserService();
 
 const updateUser = (req, res) => {
   const userDTO = req.body;
-  const id = req.userId;
+  const userId = req.userId;
   user
-    .updateUser(id, userDTO)
+    .updateUser(userId, userDTO)
     .then((user) => {
-      return res.json({
+      res.json({
         message: "User was updated successfully!",
         user: user,
       });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
 const deleteUser = (req, res) => {
-  const id = req.userId;
+  const userId = req.userId;
   user
-    .deleteUser(id)
+    .deleteUser(userId)
     .then((user) => {
-      return res.json({
+      res.json({
         message: "User was deleted successfully!",
         user: user,
       });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
@@ -39,19 +38,19 @@ const deleteAllUsers = (req, res) => {
     .deleteAllUsers()
     .then(res.json({ message: "All users were deleted successfully!" }))
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
 const findGroups = (req, res) => {
-  const id = req.userId;
+  const userId = req.userId;
   user
-    .findGroups(id)
+    .findGroups(userId)
     .then((groups) => {
       res.json(groups);
     })
     .catch((err) => {
-      res.status(500).json({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 

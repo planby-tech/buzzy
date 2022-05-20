@@ -10,7 +10,7 @@ export default class AuthService {
       password: bcrypt.hashSync(user.password1, 8),
       name: user.name,
     });
-    return { user: userRecord };
+    return userRecord;
   }
 
   async login(user) {

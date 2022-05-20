@@ -1,27 +1,27 @@
 import db from "../db/models/index.js";
 
 export default class UserService {
-  async updateUser(id, user) {
+  async updateUser(userId, user) {
     const userRecord = await db.User.update(
       { name: user.name },
-      { where: { id: id } }
+      { where: { id: userId } }
     );
     if (!userRecord) {
       throw new Error("User not found!");
     }
-    return { user: userRecord };
+    return userRecord;
   }
 
-  async deleteUser(id) {
+  async deleteUser(userId) {
     const userRecord = await db.User.destroy({
       where: {
-        id: id,
+        id: userId,
       },
     });
     if (!userRecord) {
       throw new Error("User not found!");
     }
-    return { user: userRecord };
+    return userRecord;
   }
 
   async deleteAllUsers() {
@@ -31,9 +31,9 @@ export default class UserService {
     });
   }
 
-  async findGroups(id) {
+  async findGroups(userId) {
     const userGroups = await db.UserGroup.findAll({
-      where: { userId: id },
+      where: { userId: userId },
     });
     const groups = await Promise.all(
       userGroups.map((userGroup) => {

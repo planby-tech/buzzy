@@ -6,14 +6,14 @@ const signup = (req, res) => {
   const userDTO = req.body;
   auth
     .signup(userDTO)
-    .then(({ user }) => {
-      return res.json({
+    .then((user) => {
+      res.json({
         message: "User was registered successfully!",
         user: user,
       });
     })
     .catch((err) => {
-      res.status(500).json({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
@@ -22,14 +22,14 @@ const login = (req, res) => {
   auth
     .login(userDTO)
     .then(({ user, accessToken }) => {
-      return res.json({
+      res.json({
         message: "User was signed in successfully!",
         user: user,
         accessToken: accessToken,
       });
     })
     .catch((err) => {
-      res.status(500).json({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 

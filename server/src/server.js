@@ -16,7 +16,7 @@ const io = new Server(server);
 
 const PORT = process.env.PORT || 8000;
 let corsOptions = {
-  origin: ip,
+  origin: ip + ":" + PORT,
 };
 
 app.use(cors(corsOptions));

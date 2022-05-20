@@ -1,127 +1,78 @@
-import crypto from "crypto";
-import db from "../../db/models/index.js";
+import GroupService from "../../services/GroupService.js";
+
+const group = new GroupService();
 
 const createGroup = (req, res) => {
-  const Group = db.Group;
-  const UserGroup = db.UserGroup;
-
-  Group.create({
-    name: req.body.name,
-    description: req.body.description,
-    userNumber: 1,
-    groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
-  })
-    .then(async (group) => {
-      await UserGroup.create({
-        userId: req.userId,
-        groupId: group.id,
+  const userId = req.userId;
+  const groupDTO = req.body;
+  group
+    .createGroup(userId, groupDTO)
+    .then((group) => {
+      res.json({
+        message: "Group was created successfully!",
+        group: group,
       });
-      res.send({ group, message: "Group was created successfully!" });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
 const joinGroup = (req, res) => {
-  const Group = db.Group;
-  const User = db.User;
-  const UserGroup = db.UserGroup;
-
-  Group.findOne({
-    where: { groupCode: req.body.groupCode },
-  })
-    .then(async (group) => {
-      if (!group) {
-        return res.status(400).send({ message: "Group not found" });
-      }
-      await UserGroup.create({
-        userId: req.userId,
-        groupId: group.id,
+  const userId = req.userId;
+  const groupCode = req.body.groupCode;
+  group
+    .joinGroup(userId, groupCode)
+    .then((userGroup) => {
+      res.json({
+        message: "User was joined to group successfully!",
+        userGroup: userGroup,
       });
-      group.increment("userNumber");
-      res.send({ group, message: "User was joined to group successfully!" });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
 const findUsers = (req, res) => {
-  const UserGroup = db.UserGroup;
-  const User = db.User;
-
-  UserGroup.findAll({
-    where: { groupId: req.groupId },
-  })
-    .then((userGroups) => {
-      Promise.all(
-        userGroups.map((userGroup) => {
-          return new Promise((resolve) => {
-            User.findOne({
-              where: { id: userGroup.userId },
-            }).then((user) => {
-              resolve(user);
-            });
-          });
-        })
-      ).then((users) => {
-        res.send(users);
-      });
+  const groupId = req.groupId;
+  group
+    .findUsers(groupId)
+    .then((users) => {
+      res.json(users);
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
 const updateGroup = (req, res) => {
-  const Group = db.Group;
-  Group.findOne({
-    where: {
-      id: req.body.id,
-    },
-  })
+  const groupDTO = req.body;
+  group
+    .updateGroup(groupDTO)
     .then((group) => {
-      if (!group) {
-        res.status(400).send({
-          message: "Group not found",
-        });
-      }
-      if (!req.body.name) {
-        res.status(400).send({ message: "Group name is not provided" });
-      } else {
-        Group.update(req.body, {
-          where: {
-            name: req.body.name,
-            description: req.body.description,
-          },
-        });
-        res.send({ message: "Group was updated successfully!" });
-      }
+      res.json({
+        message: "Group was updated successfully!",
+        group: group,
+      });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
 const deleteGroup = (req, res) => {
-  const Group = db.Group;
-  Group.findOne({
-    where: {
-      id: req.body.id,
-    },
-  })
+  const groupId = req.body.id;
+  group
+    .deleteGroup(groupId)
     .then((group) => {
-      if (!group) {
-        res.status(400).send({
-          message: "Group not found",
-        });
-      }
-      Group.destroy({ where: { id: req.body.id } });
-      res.send({ message: "Group was deleted successfully!" });
+      res.json({
+        message: "Group was deleted successfully!",
+        group: group,
+      });
     })
     .catch((err) => {
-      res.status(500).send({ message: err.message });
+      res.status(500).send(err.message);
     });
 };
 
