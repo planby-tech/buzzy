@@ -4,24 +4,12 @@ import db from "../../db/models/index.js";
 import config from "../../configs/auth.config.js";
 
 const updateUser = (req, res) => {
-  const User = db.User;
-  User.findOne({
-    where: {
-      id: req.userId,
-    },
-  })
+  const userDTO = req.body;
+  const id = req.userId;
+  const user = new UserService()
+    .updateUser(id, userDTO)
     .then((user) => {
-      if (!user) {
-        res.status(400).send({
-          message: "User not found",
-        });
-      }
-      if (!req.body.name) {
-        res.status(400).send({ message: "Name is not provided" });
-      } else {
-        User.update({ name: req.body.name }, { where: { id: req.userId } });
-        res.send({ message: "User was updated successfully!" });
-      }
+      return res.json({ user: user });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });

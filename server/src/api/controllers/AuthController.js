@@ -1,8 +1,10 @@
 import AuthService from "../../services/AuthService.js";
 
+const user = new AuthService();
+
 const signup = (req, res) => {
   const userDTO = req.body;
-  const user = new AuthService()
+  user
     .signup(userDTO)
     .then((user) => {
       return res.json({
@@ -17,7 +19,7 @@ const signup = (req, res) => {
 
 const login = (req, res) => {
   const userDTO = req.body;
-  const user = new AuthService()
+  user
     .login(userDTO)
     .then(({ user, accessToken }) => {
       return res.json({
