@@ -29,7 +29,7 @@ export default class AuthService {
       if (!passwordIsValid) {
         throw new Error("Invalid password!");
       }
-      let token = jwt.sign({ id: user.id }, config.secret, {
+      let token = jwt.sign({ id: userRecord.id }, config.secret, {
         expiresIn: 60 * 60 * 24 * 50,
       });
       return { user: userRecord, accessToken: token };

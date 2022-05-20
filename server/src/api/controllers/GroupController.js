@@ -1,11 +1,6 @@
 import crypto from "crypto";
 import db from "../../db/models/index.js";
 
-// const User = db.User;
-// const Group = db.Group;
-// const UserGroup = db.UserGroup;
-// const Op = db.Sequelize.Op;
-
 const createGroup = (req, res) => {
   const Group = db.Group;
   const UserGroup = db.UserGroup;
@@ -35,7 +30,6 @@ const joinGroup = (req, res) => {
 
   Group.findOne({
     where: { groupCode: req.body.groupCode },
-    // include: User,
   })
     .then(async (group) => {
       if (!group) {
@@ -53,7 +47,7 @@ const joinGroup = (req, res) => {
     });
 };
 
-const findByGroup = (req, res) => {
+const findUsers = (req, res) => {
   const UserGroup = db.UserGroup;
   const User = db.User;
 
@@ -131,4 +125,4 @@ const deleteGroup = (req, res) => {
     });
 };
 
-export { createGroup, joinGroup, findByGroup, updateGroup, deleteGroup };
+export { createGroup, joinGroup, findUsers, updateGroup, deleteGroup };

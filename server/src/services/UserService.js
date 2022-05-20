@@ -1,10 +1,51 @@
-import jwt from "jsonwebtoken";
 import db from "../db/models/index.js";
-import config from "../configs/auth.config.js";
 
 export default class UserService {
-  async updateUser(user) {}
-  async deleteUser(user) {}
-  async deleteAllUsers(user) {}
-  async findByUser(user) {}
+  async updateUser(id, user) {
+    const userRecord = await db.User.update(
+      { name: user.name },
+      { where: { id: id } }
+    );
+    if (!userRecord) {
+      throw new Error("User not found!");
+    }
+    return { user: userRecord };
+  }
+
+  async deleteUser(id) {
+    const userRecord = await db.User.destroy({
+      where: {
+        id: id,
+      },
+    });
+    if (!userRecord) {
+      throw new Error("User not found!");
+    }
+    return { user: userRecord };
+  }
+
+  async deleteAllUsers() {
+    await db.User.destroy({
+      where: {},
+      truncate: false,
+    });
+  }
+
+  async findGroups(id) {
+    const userGroups = await db.UserGroup.findAll({
+      where: { userId: id },
+    });
+    const groups = await Promise.all(
+      userGroups.map((userGroup) => {
+        return new Promise((resolve) => {
+          db.Group.findOne({
+            where: { id: userGroup.groupId },
+          }).then((group) => {
+            resolve(group);
+          });
+        });
+      })
+    );
+    return groups;
+  }
 }

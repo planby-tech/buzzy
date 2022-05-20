@@ -3,7 +3,7 @@ import verifyGroup from "../../middleware/VerifyGroup.js";
 import {
   createGroup,
   joinGroup,
-  findByGroup,
+  findUsers,
   updateGroup,
   deleteGroup,
 } from "../controllers/GroupController.js";
@@ -24,7 +24,7 @@ export default (app) => {
   app.post(
     "/api/group/findUsers",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
-    findByGroup
+    findUsers
   );
 
   app.post(

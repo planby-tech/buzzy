@@ -12,11 +12,7 @@ export default (app) => {
 
   app.post(
     "/api/auth/signup",
-    [
-      verifySignUp.checkValidEmail,
-      verifySignUp.checkValidPassword,
-      // verifySignUp.checkRolesExisted,
-    ],
+    [verifySignUp.checkValidEmail, verifySignUp.checkValidPassword],
     signup
   );
 
