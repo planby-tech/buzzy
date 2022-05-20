@@ -19,6 +19,7 @@ const login = async (email, password) => {
       password,
     })
     .then((response) => {
+      console.log(response.data);
       if (response.data.accessToken) {
         setLoginLocal("user", JSON.stringify(response.data));
       }
@@ -40,7 +41,7 @@ const loadUserData = async () => {
 
   return AsyncStorage.getItem("user").then((userData) => {
     const jsonUserData = JSON.parse(userData);
-    console.log(jsonUserData);
+    console.log("jsonUserData in authService: " + jsonUserData);
     if (jsonUserData.accessToken) return jsonUserData;
   });
 };

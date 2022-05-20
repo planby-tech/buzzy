@@ -1,30 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
+import { useFonts } from "expo-font";
 
 const GardenHomeScreen = ({ route, navigation }) => {
+  const [fontsLoaded] = useFonts({
+    PretendardSemiBold: require("../../../assets/fonts/Pretendard-SemiBold.otf"),
+  });
+
   const groupInfo = route.params;
-  return (
+  return fontsLoaded ? (
     <MainWrapper>
-      <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity style={{ padding: 10, paddingLeft: 20 }}>
-          <Text style={{ color: "white", fontSize: 24 }}>가든</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ padding: 10 }}>
-          <Text style={{ color: "white", fontSize: 24 }}>채팅</Text>
-        </TouchableOpacity>
-      </View>
+      <View style={{ flexDirection: "row" }}></View>
       <View
         style={{
           margin: 30,
           marginTop: 20,
           padding: 20,
+          paddingTop: 15,
           backgroundColor: "#3A3A3A",
-          height: "60%",
+          height: "80%",
           borderRadius: 20,
         }}
       >
         <Text style={styles.gardenTitle}>{groupInfo.name} 정원</Text>
+        <Text style={styles.gardenDescription}>{groupInfo.description}</Text>
       </View>
       <View
         style={{
@@ -34,17 +34,17 @@ const GardenHomeScreen = ({ route, navigation }) => {
           alignItems: "center",
         }}
       >
-        <Text style={styles.gardenDescription}>{groupInfo.description}</Text>
+        {/* <Text style={styles.gardenDescription}>{groupInfo.description}</Text> */}
       </View>
     </MainWrapper>
-  );
+  ) : null;
 };
 
 const styles = StyleSheet.create({
   gardenTitle: {
     fontSize: 30,
-    fontWeight: "500",
     color: "#ffffff",
+    fontFamily: "PretendardSemiBold",
   },
   gardenDescription: {
     marginTop: 10,

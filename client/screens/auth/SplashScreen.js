@@ -4,24 +4,16 @@ import { useDispatch } from "react-redux";
 import { loadUserData, logout } from "../../redux/slices/auth";
 import { findByUser } from "../../redux/slices/user";
 
-import * as Font from "expo-font";
+import { useFonts } from "expo-font";
 
 const SplashScreen = ({ navigation }) => {
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
   const dispatch = useDispatch();
 
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "Fraunces-Bold": {
-        uri: require("../../assets/fonts/Fraunces-Bold.ttf"),
-      },
-    });
-    setFontsLoaded(true);
-  };
+  const [fontsLoaded] = useFonts({
+    FrauncesBold: require("../../assets/fonts/Fraunces-Bold.ttf"),
+  });
 
   useEffect(async () => {
-    await loadFonts();
     dispatch(loadUserData())
       .unwrap()
       .then((res) => {
@@ -30,14 +22,20 @@ const SplashScreen = ({ navigation }) => {
             dispatch(findByUser())
               .unwrap()
               .then((data) => {
+                console.log("data in SplashScreen.js: " + data);
                 if (data === null || data) {
                   return navigation.reset({
                     index: 0,
                     routes: [{ name: "GardenTabs" }],
                   });
-                } else {
-                  dispatch(logout());
                 }
+                // else {
+                //   dispatch(logout());
+                //   navigation.reset({
+                //     index: 0,
+                //     routes: [{ name: "Login" }],
+                //   });
+                // }
               });
           } else {
             console.log("userData not found2");
@@ -47,6 +45,13 @@ const SplashScreen = ({ navigation }) => {
             });
           }
         }, 800); //setTimeout 빼도 됨.
+      })
+      .catch((err) => {
+        console.log("SplashScreen gotcha!" + err);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Login" }],
+        });
       });
   }, [dispatch]);
 
@@ -66,7 +71,7 @@ const SplashScreen = ({ navigation }) => {
             style={{
               fontSize: 60,
               color: "#fff",
-              fontFamily: "Fraunces-Bold",
+              fontFamily: "FrauncesBold",
             }}
           >
             Buzzy
