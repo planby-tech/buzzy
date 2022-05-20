@@ -31,7 +31,7 @@ export default class GroupService {
   }
 
   async findUsers(groupId) {
-    const userGroups = await findAll({
+    const userGroups = await db.UserGroup.findAll({
       where: { groupId: groupId },
     });
     const users = await Promise.all(

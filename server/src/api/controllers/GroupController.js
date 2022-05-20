@@ -35,7 +35,7 @@ const joinGroup = (req, res) => {
 };
 
 const findUsers = (req, res) => {
-  const groupId = req.groupId;
+  const groupId = req.body.id;
   group
     .findUsers(groupId)
     .then((users) => {
