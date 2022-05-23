@@ -3,7 +3,9 @@ import db from "../db/models/index.js";
 
 export default class GroupService {
   async createGroup(userId, group) {
-    const groupRecord = await db.Group.create({
+    const Group = db.Group;
+    const User = db.User;
+    const groupRecord = await Group.create({
       name: group.name,
       description: group.description,
       userNumber: 1,
@@ -13,6 +15,9 @@ export default class GroupService {
       userId: userId,
       groupId: groupRecord.id,
     });
+    // const userRecord = await User.findByPk(userId);
+    // await groupRecord.addUser(userRecord, { through: db.UserGroup });
+    // await userRecord.addUser(groupRecord, { through: db.UserGroup });
     return groupRecord;
   }
 

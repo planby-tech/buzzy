@@ -1,3 +1,4 @@
+import Group from "../db/models/Group.js";
 import db from "../db/models/index.js";
 
 export default class UserService {
@@ -46,6 +47,22 @@ export default class UserService {
         });
       })
     );
+    // const groups = await db.User.findByPk(userId, {
+    //   include: [
+    //     {
+    //       model: db.Group,
+    //       as: "groups",
+    //       required: false,
+    //       attributes: ["id", "name"],
+    //       through: { attributes: [] },
+    //     },
+    //   ],
+    //   include: [
+    //     {
+    //       model: db.UserGroup,
+    //     },
+    //   ],
+    // });
     return groups;
   }
 }

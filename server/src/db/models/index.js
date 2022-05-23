@@ -5,6 +5,11 @@ import { basename, dirname } from "path";
 import Sequelize from "sequelize";
 import { fileURLToPath } from "url";
 import database from "../config/database.js";
+import User from "./User.js";
+import Group from "./Group.js";
+import Role from "./Role.js";
+import Marker from "./Marker.js";
+import UserGroup from "./UserGroup.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -13,6 +18,7 @@ const db = {};
 const sequelize = new Sequelize(database.development);
 
 export default (() => {
+  const db = {};
   const files = readdirSync(__dirname)
     .filter(
       (file) =>
@@ -21,22 +27,31 @@ export default (() => {
         file.slice(-3) === ".js"
     )
     .forEach((file) => {
-      console.log(file);
       const model = import(`./${file}`).then((model) => {
         const namedModel = model.default(sequelize, Sequelize.DataTypes);
         db[namedModel.name] = namedModel;
-        console.log(namedModel);
       });
     });
 
   Object.keys(db).forEach((modelName) => {
     if (db[modelName].associate) {
+      console.log("associate!!");
       db[modelName].associate(db);
     }
   });
 
   db.sequelize = sequelize;
   db.Sequelize = Sequelize;
+
+  // db.User = User(sequelize, Sequelize);
+  // db.Group = Group(sequelize, Sequelize);
+  // db.Role = Role(sequelize, Sequelize);
+  // db.Marker = Marker(sequelize, Sequelize);
+  // db.UserGroup = UserGroup(sequelize, Sequelize);
+
+  // db.User.associate(db);
+  // db.Group.associate(db);
+  // db.Role.associate(db);
 
   return db;
 })();
