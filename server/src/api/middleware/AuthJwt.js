@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import config from "../configs/auth.config.js";
+import config from "../../configs/auth.config.js";
 
 const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];

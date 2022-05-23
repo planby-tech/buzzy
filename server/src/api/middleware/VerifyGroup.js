@@ -1,4 +1,4 @@
-import db from "../db/models/index.js";
+import db from "../../db/models/index.js";
 
 // const checkValidCreator = (req, res, next) => {
 //   if (req.userId != req.body.creator) {
