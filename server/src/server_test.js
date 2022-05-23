@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { Server, Socket } from "socket.io";
 import http from "http";
-import { ip } from "./constants/url.js";
+import { ip_test } from "./constants/url.js";
 import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
@@ -14,9 +14,9 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const PORT = process.env.PORT || 443;
+const PORT = process.env.PORT || 8000;
 let corsOptions = {
-  origin: ip + ":" + PORT,
+  origin: ip_test + ":" + PORT,
 };
 
 app.use(cors(corsOptions));
