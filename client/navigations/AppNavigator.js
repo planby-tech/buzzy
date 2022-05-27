@@ -5,7 +5,9 @@ import SplashScreen from "../screens/auth/SplashScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
 import GardenListScreen from "../screens/garden/GardenListScreen";
+import NewsScreen from "../screens/garden/NewsScreen";
 import NFCTagScreen from "../screens/garden/NFCTagScreen";
+import GardenListColumnScreen from "../screens/garden/GardenListColumnScreen";
 import GardenTabsScreen from "../screens/garden/GardenTabsScreen";
 import Home from "../components/Home";
 import Profile from "../components/Profile";
@@ -40,6 +42,11 @@ const AppNavigator = () => {
         <MainStack.Screen name="Login" component={LoginScreen} />
         <MainStack.Screen name="Register" component={RegisterScreen} />
         <MainStack.Screen name="GardenList" component={GardenListScreen} />
+        <MainStack.Screen
+          name="GardenListColumn"
+          component={GardenListColumnScreen}
+        />
+        <MainStack.Screen name="News" component={NewsScreen} />
         <MainStack.Screen name="GardenHome" component={GardenHomeScreen} />
         <MainStack.Screen name="NFCTag" component={NFCTagScreen} />
         <MainStack.Screen name="GardenTabs" component={GardenTabsScreen} />

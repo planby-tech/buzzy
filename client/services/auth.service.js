@@ -41,7 +41,9 @@ const loadUserData = async () => {
 
   return AsyncStorage.getItem("user").then((userData) => {
     const jsonUserData = JSON.parse(userData);
-    console.log("jsonUserData in authService: " + jsonUserData);
+    console.log(
+      "jsonUserData.accessToken in authService: " + jsonUserData.accessToken
+    );
     if (jsonUserData.accessToken) return jsonUserData;
   });
 };

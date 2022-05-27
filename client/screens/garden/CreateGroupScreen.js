@@ -30,12 +30,13 @@ const CreateGroupScreen = ({ navigation }) => {
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("정원 이름은 필수 입력 사항입니다."),
   });
-  const handleCreateGroup = (formValue) => {
+  const handleCreateGroup = (formValue, { resetForm }) => {
     const { name, description } = formValue;
     setLoading(true);
     dispatch(createGroup({ name, description }))
       .unwrap()
       .then(() => {
+        resetForm({ values: initialValues });
         navigation.navigate("GardenList");
         setLoading(false);
       })

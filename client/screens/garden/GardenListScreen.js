@@ -26,6 +26,8 @@ const GardenListScreen = ({ navigation }) => {
 
   const [groupArray, setGroupArray] = useState([{ name: "name" }]);
   const [groupLoaded, setGroupLoaded] = useState(false);
+  const [mainType, setMainType] = useState("가든");
+
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
 
@@ -76,23 +78,26 @@ const GardenListScreen = ({ navigation }) => {
       <TouchableOpacity
         onPress={handleNavigate}
         style={{
-          width: 110,
-          height: 140,
-          borderColor: GREEN_COLOR,
-          borderWidth: 1,
+          width: 140,
+          height: 150,
+          backgroundColor: "#3A3A3A",
+          // borderColor: GREEN_COLOR,
+          // borderWidth: 1,
           borderRadius: 10,
-          paddingLeft: 10,
-          paddingTop: 7,
-          marginRight: 5,
+          padding: 12,
+          paddingTop: 9,
+          marginRight: 16,
         }}
         activeOpacity={0.5}
       >
         <Text
           style={{
             color: "#fff",
-            fontSize: 16,
+            fontSize: 14,
             fontFamily: "PretendardSemiBold",
+            lineHeight: 20,
           }}
+          numberOfLines={3}
         >
           {item.name}
         </Text>
@@ -109,7 +114,7 @@ const GardenListScreen = ({ navigation }) => {
       <TouchableOpacity
         onPress={handleAddGroup}
         style={{
-          width: 110,
+          width: 130,
           height: 140,
           backgroundColor: GREEN_COLOR,
           borderRadius: 10,
@@ -117,13 +122,25 @@ const GardenListScreen = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ color: "#FFF", fontSize: 15 }}>+ 그룹 추가하기</Text>
+        <Text style={{ color: "#FFF", fontSize: 15 }}>+ 정원 추가하기</Text>
       </TouchableOpacity>
     );
   };
 
   const handleNavigateToNFC = () => {
     navigation.navigate("NFCTag");
+  };
+
+  const handleNavigateToNews = () => {
+    navigation.navigate("News");
+  };
+
+  const handleNavigateToAddGroup = () => {
+    navigation.navigate("AddGroup");
+  };
+
+  const handleNavigateToGardenListColumn = () => {
+    navigation.navigate("GardenListColumn", groupArray);
   };
 
   return fontsLoaded && groupLoaded ? (
@@ -137,24 +154,43 @@ const GardenListScreen = ({ navigation }) => {
         }}
       >
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity>
-            <Text style={styles.headerTitle}>가든</Text>
+          <TouchableOpacity onPress={() => setMainType("가든")}>
+            <Text
+              style={
+                mainType === "가든"
+                  ? styles.headerTitle
+                  : { ...styles.headerTitle, color: `rgba(255,255,255,0.42)` }
+              }
+            >
+              가든
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.headerTitle}>채팅</Text>
+          <TouchableOpacity onPress={() => setMainType("채팅")}>
+            <Text
+              style={
+                mainType === "채팅"
+                  ? styles.headerTitle
+                  : { ...styles.headerTitle, color: `rgba(255,255,255,0.42)` }
+              }
+            >
+              채팅
+            </Text>
           </TouchableOpacity>
         </View>
 
-        <View>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
             style={{ marginRight: 10 }}
-            onPress={handleNavigateToNFC}
+            onPress={handleNavigateToNews}
           >
             <MaterialCommunityIcons
-              name="nfc-variant"
-              size={26}
-              color="#40BB91"
+              name="bell-outline"
+              size={30}
+              color="#fff"
             />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleNavigateToAddGroup}>
+            <MaterialCommunityIcons name="plus" size={34} color="#fff" />
           </TouchableOpacity>
         </View>
       </View>
@@ -164,41 +200,82 @@ const GardenListScreen = ({ navigation }) => {
           marginTop: 30,
           padding: 20,
           paddingTop: 15,
-          backgroundColor: "#3A3A3A",
+          borderColor: "#3A3A3A",
+          borderWidth: 2,
+          borderStyle: "dashed",
           height: "60%",
           borderRadius: 20,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Text
           style={{
             color: "#fff",
-            fontSize: 30,
+            fontSize: 20,
+            fontFamily: "PretendardSemiBold",
+            marginBottom: 10,
+          }}
+        >
+          가든 목록에서 핀
+          <MaterialCommunityIcons
+            name="pin-outline"
+            size={18}
+            color="#fff"
+          />{" "}
+          해보세요.
+        </Text>
+        <TouchableOpacity activeOpacity={0.6}>
+          <Text style={{ color: "#fff" }}>
+            고정하러 가기
+            <MaterialCommunityIcons
+              name="chevron-right"
+              color="#fff"
+              size={14}
+            />
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Text
+          style={{
+            color: "#fff",
+            fontSize: 16,
+            margin: 15,
+            marginLeft: 0,
             fontFamily: "PretendardSemiBold",
           }}
         >
-          {groupArray[1].name} 정원
+          All gardens
         </Text>
+        <TouchableOpacity
+          activeOpacity={0.6}
+          onPress={handleNavigateToGardenListColumn}
+        >
+          <Text
+            style={{
+              color: GREEN_COLOR,
+              fontSize: 14,
+              margin: 15,
+              marginLeft: 0,
+              fontFamily: "PretendardSemiBold",
+            }}
+          >
+            View all
+          </Text>
+        </TouchableOpacity>
       </View>
-      <Text
-        style={{
-          color: "#fff",
-          fontSize: 20,
-          margin: 10,
-          marginLeft: 0,
-          fontFamily: "PretendardSemiBold",
-        }}
-      >
-        Recent
-      </Text>
       <FlatList
         horizontal
         data={groupArray}
         renderItem={groupListLayout}
         keyExtractor={(item, index) => index}
-        ListFooterComponent={AddGroupButton}
+        // ListFooterComponent={AddGroupButton}
       />
     </MainWrapper>
-  ) : null;
+  ) : (
+    <MainWrapper />
+  );
 };
 
 const styles = StyleSheet.create({
