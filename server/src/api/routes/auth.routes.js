@@ -1,4 +1,4 @@
-import verifySignUp from "../../middleware/VerifySignUp.js";
+import verifySignUp from "../middleware/VerifySignUp.js";
 import { signup, login } from "../controllers/AuthController.js";
 
 export default (app) => {

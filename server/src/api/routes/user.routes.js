@@ -1,4 +1,4 @@
-import authJwt from "../../middleware/AuthJwt.js";
+import authJwt from "../middleware/AuthJwt.js";
 import {
   updateUser,
   deleteUser,

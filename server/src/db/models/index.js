@@ -9,37 +9,40 @@ import database from "../config/database.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const db = {};
 const sequelize = new Sequelize(database.development);
+const db = {};
+const fileArray = [];
 
-export default (() => {
-  const files = readdirSync(__dirname)
-    .filter(
-      (file) =>
-        file.indexOf(".") !== 0 &&
-        file !== basename(__filename) &&
-        file.slice(-3) === ".js"
-    )
-    .forEach((file) => {
-      console.log(file);
-      const model = import(`./${file}`).then((model) => {
-        const namedModel = model.default(sequelize, Sequelize.DataTypes);
-        db[namedModel.name] = namedModel;
-        console.log(namedModel);
-      });
-    });
-
-  Object.keys(db).forEach((modelName) => {
-    if (db[modelName].associate) {
-      db[modelName].associate(db);
-    }
+const files = readdirSync(__dirname)
+  .filter(
+    (file) =>
+      file.indexOf(".") !== 0 &&
+      file !== basename(__filename) &&
+      file.slice(-3) === ".js"
+  )
+  .forEach((file) => {
+    fileArray.push(file);
   });
 
-  db.sequelize = sequelize;
-  db.Sequelize = Sequelize;
+for (let i = 0; i < fileArray.length; i++) {
+  const model = import(`./${fileArray[i]}`).then((model) => {
+    const namedModel = model.default(sequelize, Sequelize.DataTypes);
+    db[namedModel.name] = namedModel;
+    if (i === fileArray.length - 1) {
+      Object.keys(db).forEach((modelName) => {
+        if (db[modelName].associate) {
+          console.log("associate!!");
+          db[modelName].associate(db);
+        }
+      });
+    }
+  });
+}
 
-  return db;
-})();
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+export default db;
 
 // "use strict";
 
