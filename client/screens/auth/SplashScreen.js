@@ -23,7 +23,8 @@ const SplashScreen = ({ navigation }) => {
               .unwrap()
               .then((data) => {
                 console.log("data in SplashScreen.js: " + data);
-                if (data === null || data) {
+                if (data.length >= 0) {
+                  console.log(data);
                   return navigation.reset({
                     index: 0,
                     routes: [{ name: "GardenTabs" }],
@@ -36,6 +37,13 @@ const SplashScreen = ({ navigation }) => {
                 //     routes: [{ name: "Login" }],
                 //   });
                 // }
+              })
+              .catch((err) => {
+                console.log("here!");
+                navigation.reset({
+                  index: 0,
+                  routes: [{ name: "Login" }],
+                });
               });
           } else {
             console.log("userData not found2");

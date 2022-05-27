@@ -33,6 +33,10 @@ const LoginScreen = ({ navigation }) => {
       });
   };
 
+  const handleNavigateToRegister = () => {
+    navigation.navigate("Register");
+  };
+
   useEffect(() => {
     dispatch(loadUserData()).unwrap();
   }, [dispatch]);
@@ -40,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     console.log("isLoggedIn in LoginScreen.js useEffect: " + isLoggedIn);
     if (isLoggedIn) {
-      navigation.navigate("GardenList");
+      navigation.navigate("GardenTabs");
     }
   }, [isLoggedIn]);
 
@@ -78,6 +82,7 @@ const LoginScreen = ({ navigation }) => {
               <Text style={{ fontSize: 10, color: "red" }}>{errors.email}</Text>
             )}
             <Button onPress={handleSubmit} title="Login" disabled={loading} />
+            <Button onPress={handleNavigateToRegister} title="Sign Up" />
           </>
         )}
       </Formik>
