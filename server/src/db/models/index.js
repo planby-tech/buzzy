@@ -5,56 +5,44 @@ import { basename, dirname } from "path";
 import Sequelize from "sequelize";
 import { fileURLToPath } from "url";
 import database from "../config/database.js";
-import User from "./User.js";
-import Group from "./Group.js";
-import Role from "./Role.js";
-import Marker from "./Marker.js";
-import UserGroup from "./UserGroup.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const sequelize = new Sequelize(database.test);
 const db = {};
-const sequelize = new Sequelize(database.development);
+const fileArray = [];
 
-export default (() => {
-  const db = {};
-  const files = readdirSync(__dirname)
-    .filter(
-      (file) =>
-        file.indexOf(".") !== 0 &&
-        file !== basename(__filename) &&
-        file.slice(-3) === ".js"
-    )
-    .forEach((file) => {
-      const model = import(`./${file}`).then((model) => {
-        const namedModel = model.default(sequelize, Sequelize.DataTypes);
-        db[namedModel.name] = namedModel;
-      });
-    });
-
-  Object.keys(db).forEach((modelName) => {
-    if (db[modelName].associate) {
-      console.log("associate!!");
-      db[modelName].associate(db);
-    }
+const files = readdirSync(__dirname)
+  .filter(
+    (file) =>
+      file.indexOf(".") !== 0 &&
+      file !== basename(__filename) &&
+      file.slice(-3) === ".js"
+  )
+  .forEach((file) => {
+    fileArray.push(file);
   });
 
-  db.sequelize = sequelize;
-  db.Sequelize = Sequelize;
+for (let i = 0; i < fileArray.length; i++) {
+  const model = import(`./${fileArray[i]}`).then((model) => {
+    const namedModel = model.default(sequelize, Sequelize.DataTypes);
+    db[namedModel.name] = namedModel;
+    if (i === fileArray.length - 1) {
+      Object.keys(db).forEach((modelName) => {
+        if (db[modelName].associate) {
+          console.log("associate!!");
+          db[modelName].associate(db);
+        }
+      });
+    }
+  });
+}
 
-  // db.User = User(sequelize, Sequelize);
-  // db.Group = Group(sequelize, Sequelize);
-  // db.Role = Role(sequelize, Sequelize);
-  // db.Marker = Marker(sequelize, Sequelize);
-  // db.UserGroup = UserGroup(sequelize, Sequelize);
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-  // db.User.associate(db);
-  // db.Group.associate(db);
-  // db.Role.associate(db);
-
-  return db;
-})();
+export default db;
 
 // "use strict";
 

@@ -1,33 +1,29 @@
 import db from "../../db/models/index.js";
 
-// const checkValidCreator = (req, res, next) => {
-//   if (req.userId != req.body.creator) {
-//     return res.status(409).send({
-//       message: "This user is not allowed to change group",
-//     });
-//   }
-//   next();
-// };
-
 const checkValidMember = (req, res, next) => {
-  const UserGroup = db.UserGroup;
-  UserGroup.findOne({
+  db.User.findOne({
     where: {
-      userId: req.userId,
-      groupId: req.body.id,
+      id: req.userId,
     },
-  }).then((userGroup) => {
-    if (!userGroup) {
-      return res.status(409).send({
-        message: "This user is not allowed to access group",
-      });
-    }
-  });
-  next();
+    include: {
+      model: db.Group,
+      through: "UserGroups",
+      as: "groups",
+      attributes: ["id"],
+    },
+  })
+    .then((user) => {
+      for (let i = 0; i < user.groups.length; i++) {
+        if (user.groups[i].id.toString() === req.body.id) return next();
+      }
+      res.status(401).send("This user is not allowed to access group!!");
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
 };
 
 const verifyGroup = {
-  // checkValidCreator: checkValidCreator,
   checkValidMember: checkValidMember,
 };
 

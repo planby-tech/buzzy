@@ -23,10 +23,10 @@ const joinGroup = (req, res) => {
   const groupCode = req.body.groupCode;
   group
     .joinGroup(userId, groupCode)
-    .then((userGroup) => {
+    .then((group) => {
       res.json({
         message: "User was joined to group successfully!",
-        userGroup: userGroup,
+        group: group,
       });
     })
     .catch((err) => {
@@ -36,8 +36,9 @@ const joinGroup = (req, res) => {
 
 const findUsers = (req, res) => {
   const groupId = req.body.id;
+  const userId = req.userId;
   group
-    .findUsers(groupId)
+    .findUsers(groupId, userId)
     .then((users) => {
       res.json(users);
     })

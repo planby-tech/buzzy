@@ -1,3 +1,4 @@
+import { ifError } from "assert";
 import crypto from "crypto";
 import db from "../db/models/index.js";
 
@@ -11,13 +12,10 @@ export default class GroupService {
       userNumber: 1,
       groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
     });
-    await db.UserGroup.create({
-      userId: userId,
-      groupId: groupRecord.id,
-    });
-    // const userRecord = await User.findByPk(userId);
-    // await groupRecord.addUser(userRecord, { through: db.UserGroup });
-    // await userRecord.addUser(groupRecord, { through: db.UserGroup });
+
+    const userRecord = await User.findByPk(userId);
+    await groupRecord.addUser(userRecord, { through: "UserGroups" });
+
     return groupRecord;
   }
 
@@ -27,30 +25,16 @@ export default class GroupService {
         groupCode: groupCode,
       },
     });
-    const userGroupRecord = await db.UserGroup.create({
-      userId: userId,
-      groupId: groupRecord.id,
-    });
+    const userRecord = await db.User.findByPk(userId);
+    await groupRecord.addUser(userRecord, { through: "UserGroups" });
     groupRecord.increment("userNumber");
-    return userGroupRecord;
+    return groupRecord;
   }
 
   async findUsers(groupId) {
-    const userGroups = await db.UserGroup.findAll({
-      where: { groupId: groupId },
-    });
-    const users = await Promise.all(
-      userGroups.map((userGroup) => {
-        return new Promise((resolve) => {
-          db.User.findOne({
-            where: { id: userGroup.userId },
-          }).then((user) => {
-            resolve(user);
-          });
-        });
-      })
-    );
-    return users;
+    const groupRecord = await db.Group.findByPk(groupId);
+    const userRecord = await groupRecord.getUsers();
+    return userRecord;
   }
 
   async updateGroup(group) {

@@ -4,12 +4,13 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // User.belongsToMany(models.Group, {
-      //   through: models.UserGroup,
-      //   as: "groups",
-      //   foreignKey: "userId",
-      // });
-      // User.hasMany(models.Role);
+      models.User.belongsToMany(models.Group, {
+        through: "UserGroups",
+        as: "groups",
+        foreignKey: "userId",
+      });
+      // models.User.hasMany(models.UserGroup);
+      models.User.hasMany(models.Role);
     }
   }
   User.init(

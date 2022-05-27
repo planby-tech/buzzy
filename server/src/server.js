@@ -41,13 +41,10 @@ groupRouter(app);
 testRouter(app);
 socketRouter(io);
 
-// initialize db
-// const Role = db.role;
-
 // development mode
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync DB");
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync DB");
+// });
 
 // db.sequelize.sync();
 
