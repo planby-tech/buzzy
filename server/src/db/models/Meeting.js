@@ -17,10 +17,6 @@ export default (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       start: DataTypes.DATE,
       end: DataTypes.DATE,
-      place: DataTypes.ENUM,
-      coord: DataTypes.GEOMETRY,
-      member: DataTypes.ENUM,
-      activity: DataTypes.ENUM,
     },
     {
       sequelize,

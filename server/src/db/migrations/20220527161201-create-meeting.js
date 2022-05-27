@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Markers", {
+    await queryInterface.createTable("Meetings", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -12,11 +12,11 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
       },
-      coord: {
-        type: Sequelize.GEOMETRY,
+      start: {
+        type: Sequelize.DATE,
       },
-      type: {
-        type: Sequelize.STRING,
+      end: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
@@ -29,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Markers");
+    await queryInterface.dropTable("Meetings");
   },
 };

@@ -14,9 +14,9 @@ export default (sequelize, DataTypes) => {
   }
   Marker.init(
     {
+      name: DataTypes.STRING,
       coord: DataTypes.GEOMETRY,
       type: DataTypes.STRING,
-      description: DataTypes.STRING,
     },
     {
       sequelize,

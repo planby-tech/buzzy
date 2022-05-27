@@ -1,6 +1,4 @@
-require("@babel/register")({
-  presets: [["@babel/preset-env", { targets: { node: "current" } }]],
-});
+require("@babel/register");
 const path = require("path");
 
 const DB_PATH = "src/db/";
