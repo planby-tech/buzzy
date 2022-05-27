@@ -8,7 +8,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { MainWrapper } from "../../components/common/MainWrapper";
+import { MainWrapper } from "../../../components/common/MainWrapper";
 
 const GardenListColumnScreen = ({ route, navigation }) => {
   const groupArray = route.params;

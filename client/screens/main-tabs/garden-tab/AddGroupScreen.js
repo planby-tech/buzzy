@@ -1,8 +1,8 @@
 import { Formik } from "formik";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { GREEN_COLOR } from "../../common/colors";
-import { MainWrapper } from "../../components/common/MainWrapper";
+import { GREEN_COLOR } from "../../../common/colors";
+import { MainWrapper } from "../../../components/common/MainWrapper";
 import CreateGroupScreen from "./CreateGroupScreen";
 import JoinGroupScreen from "./JoinGroupScreen";
 

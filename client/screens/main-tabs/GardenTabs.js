@@ -1,11 +1,11 @@
-import MeetingListNavigator from "./garden-tabs/MeetingListNavigator";
-import MapScreen from "./garden-tabs/MapScreen";
-import MyScreen from "./garden-tabs/MyScreen";
+import MeetingListNavigator from "./meeting-list-tab/MeetingListNavigator";
+import MapScreen from "./map-tab/MapScreen";
+import MyScreen from "./my-tab/MyScreen";
 
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { GREEN_COLOR } from "../../common/colors";
-import GardenListScreen from "./GardenListScreen";
+import GardenListScreen from "./garden-tab/GardenListScreen";
 
 const GardenTab = createMaterialBottomTabNavigator();
 

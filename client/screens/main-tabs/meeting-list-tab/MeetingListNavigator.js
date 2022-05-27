@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import { MainWrapper } from "../../../components/common/MainWrapper";
-import MeetingListScreen from "./MeetingList/MeetingListScreen";
-import CreateMeetingScreen from "./MeetingList/CreateMeetingScreen";
+import MeetingListScreen from "./MeetingListScreen";
+import CreateMeetingScreen from "./CreateMeetingScreen";
 
 const MeetingListStack = createNativeStackNavigator();
 

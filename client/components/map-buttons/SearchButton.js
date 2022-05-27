@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "absolute",
     right: width * 0.043,
-    bottom: height * 0.892,
+    bottom: height * 0.8,
     borderRadius: 8,
     ...Platform.select({
       ios: {

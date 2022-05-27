@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { clearMessage } from "../../redux/slices/message";
+import { clearMessage } from "../../../redux/slices/message";
 import { View, TextInput, Text, StyleSheet } from "react-native";
-import { createGroup } from "../../redux/slices/group";
+import { createGroup } from "../../../redux/slices/group";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { GREEN_COLOR } from "../../common/colors";
-import Button from "../../components/common/SubmitButton";
+import { GREEN_COLOR } from "../../../common/colors";
+import Button from "../../../components/common/SubmitButton";
 
 const CreateGroupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);

@@ -10,18 +10,18 @@ import {
 } from "react-native";
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
-import { MainWrapper } from "../../components/common/MainWrapper";
+import { MainWrapper } from "../../../components/common/MainWrapper";
 import { useFonts } from "expo-font";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch } from "react-redux";
-import { findByUser } from "../../redux/slices/user";
-import { GREEN_COLOR } from "../../common/colors";
+import { findByUser } from "../../../redux/slices/user";
+import { GREEN_COLOR } from "../../../common/colors";
 
 const GardenListScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
-    PretendardSemiBold: require("../../assets/fonts/Pretendard-SemiBold.otf"),
-    PretendardBold: require("../../assets/fonts/Pretendard-Bold.otf"),
+    PretendardSemiBold: require("../../../assets/fonts/Pretendard-SemiBold.otf"),
+    PretendardBold: require("../../../assets/fonts/Pretendard-Bold.otf"),
   });
 
   const [groupArray, setGroupArray] = useState([{ name: "name" }]);

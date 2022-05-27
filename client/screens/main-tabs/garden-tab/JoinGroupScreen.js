@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { clearMessage } from "../../redux/slices/message";
+import { clearMessage } from "../../../redux/slices/message";
 import {
   View,
   TextInput,
@@ -10,8 +10,8 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { joinGroup } from "../../redux/slices/group";
-import Button from "../../components/common/SubmitButton";
+import { joinGroup } from "../../../redux/slices/group";
+import Button from "../../../components/common/SubmitButton";
 
 const JoinGroupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
