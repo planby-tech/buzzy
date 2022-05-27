@@ -1,3 +1,4 @@
+import Group from "../db/models/Group.js";
 import db from "../db/models/index.js";
 
 export default class UserService {
@@ -32,20 +33,8 @@ export default class UserService {
   }
 
   async findGroups(userId) {
-    const userGroups = await db.UserGroup.findAll({
-      where: { userId: userId },
-    });
-    const groups = await Promise.all(
-      userGroups.map((userGroup) => {
-        return new Promise((resolve) => {
-          db.Group.findOne({
-            where: { id: userGroup.groupId },
-          }).then((group) => {
-            resolve(group);
-          });
-        });
-      })
-    );
-    return groups;
+    const userRecord = await db.User.findByPk(userId);
+    const groupRecord = userRecord.getGroups();
+    return groupRecord;
   }
 }
