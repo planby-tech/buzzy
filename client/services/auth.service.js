@@ -5,7 +5,7 @@ import { API_URL } from "../common/constant";
 const AUTH_URL = API_URL + "/auth";
 
 const register = (name, email, password1, password2) => {
-  return axios.post(AUTH_URL + "/signup", {
+  return axios.post(AUTH_URL + "/join", {
     name,
     email,
     password1,
@@ -42,7 +42,7 @@ const loadUserData = async () => {
   return AsyncStorage.getItem("user").then((userData) => {
     const jsonUserData = JSON.parse(userData);
     console.log(
-      "jsonUserData.accessToken in authService: " + jsonUserData.accessToken
+      "jsonUserData.accessToken in authService: " + jsonUserData.user.id
     );
     if (jsonUserData.accessToken) return jsonUserData;
   });

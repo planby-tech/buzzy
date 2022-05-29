@@ -10,7 +10,14 @@ import {
 } from "react-native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
 
+import { useFonts } from "expo-font";
+import Svg, { Path } from "react-native-svg";
+
 const GardenListColumnScreen = ({ route, navigation }) => {
+  const [fontsLoaded] = useFonts({
+    SUITSemiBold: require("../../../assets/fonts/SUIT-SemiBold.otf"),
+  });
+
   const groupArray = route.params;
 
   const groupListLayout = ({ item }) => {
@@ -24,26 +31,33 @@ const GardenListColumnScreen = ({ route, navigation }) => {
           width: "100%",
           height: 100,
           backgroundColor: "#3A3A3A",
-          // borderColor: GREEN_COLOR,
-          // borderWidth: 1,
           borderRadius: 12,
           padding: 20,
-          // paddingTop: 12,
+          paddingRight: 16,
           marginBottom: 20,
         }}
         activeOpacity={0.5}
       >
-        <Text
-          style={{
-            color: "#fff",
-            fontSize: 16,
-            fontFamily: "PretendardSemiBold",
-            lineHeight: 20,
-          }}
-          numberOfLines={3}
-        >
-          {item.name}
-        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 16,
+              fontFamily: "PretendardSemiBold",
+              lineHeight: 20,
+            }}
+            numberOfLines={3}
+          >
+            {item.name}
+          </Text>
+          <TouchableOpacity>
+            <MaterialCommunityIcons
+              name="dots-vertical"
+              size={24}
+              color="#fff"
+            />
+          </TouchableOpacity>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -57,36 +71,58 @@ const GardenListColumnScreen = ({ route, navigation }) => {
   };
 
   return (
-    <MainWrapper style={{ padding: 20 }}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoBack}>
-          <MaterialCommunityIcons name="arrow-left" size={34} color="#fff" />
-        </TouchableOpacity>
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <Text style={styles.headerTitle}>가든 목록</Text>
+    <MainWrapper style={{ padding: 16 }}>
+      {fontsLoaded ? (
+        <View>
+          <View style={styles.header}>
+            <TouchableOpacity style={{ padding: 8 }} onPress={handleGoBack}>
+              <Svg
+                width="20"
+                height="20"
+                viewBox="0 0 16 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <Path
+                  d="M1 5L5 1M1 5H15H1ZM1 5L5 9L1 5Z"
+                  stroke="#fff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </Svg>
+            </TouchableOpacity>
+            <View style={{ flex: 1, alignItems: "center" }}>
+              <Text style={styles.headerTitle}>가든 목록</Text>
+            </View>
+            <TouchableOpacity
+              style={{ padding: 8 }}
+              onPress={handleNavigateToAddGroup}
+            >
+              <MaterialCommunityIcons name="plus" size={26} color="#fff" />
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={groupArray}
+            renderItem={groupListLayout}
+            keyExtractor={(item, index) => index}
+            // ListFooterComponent={AddGroupButton}
+          />
         </View>
-        <TouchableOpacity onPress={handleNavigateToAddGroup}>
-          <MaterialCommunityIcons name="plus" size={34} color="#fff" />
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={groupArray}
-        renderItem={groupListLayout}
-        keyExtractor={(item, index) => index}
-        // ListFooterComponent={AddGroupButton}
-      />
+      ) : null}
     </MainWrapper>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    marginBottom: 30,
+    marginBottom: 24,
     flexDirection: "row",
     alignItems: "center",
   },
   headerTitle: {
-    fontSize: 30,
+    fontFamily: "SUITSemiBold",
+    fontSize: 24,
     color: "#fff",
     justifyContent: "center",
   },

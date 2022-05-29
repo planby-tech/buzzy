@@ -24,10 +24,14 @@ const SplashScreen = ({ navigation }) => {
               .then((data) => {
                 console.log("data in SplashScreen.js: " + data);
                 if (data.length >= 0) {
-                  console.log(data);
                   return navigation.reset({
                     index: 0,
-                    routes: [{ name: "GardenTabs" }],
+                    routes: [
+                      {
+                        name: "GardenTabs",
+                        params: { userInfo: res, groupInfoArray: data },
+                      },
+                    ],
                   });
                 }
                 // else {

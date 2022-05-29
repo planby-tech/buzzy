@@ -1,10 +1,11 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
 import Button from "../../../components/common/SubmitButton";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import GardenerImage from "../../../assets/images/Gardener";
 
 const MeetingListScreen = ({ navigation }) => {
   LocaleConfig.locales["kr"] = {
@@ -53,17 +54,27 @@ const MeetingListScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <View
-        style={{ padding: 13, backgroundColor: "#3A3A3A", borderRadius: 15 }}
+        style={{
+          padding: 13,
+          backgroundColor: "#3A3A3A",
+          borderRadius: 15,
+        }}
       >
-        <Text style={{ color: "white", fontSize: 20, marginBottom: 5 }}>
-          우리 밥 한끼 어때?
-        </Text>
-        <Text style={{ color: "white", fontSize: 14, lineHeight: 20 }}>
-          [가든 제목] 정원의 가드너들을{`\n`}깨우고 약속을 잡아보세요.
-        </Text>
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flex: 1 }}>
+            <Text style={{ color: "white", fontSize: 20, marginBottom: 5 }}>
+              우리 밥 한끼 어때?
+            </Text>
+            <Text style={{ color: "white", fontSize: 14, lineHeight: 20 }}>
+              [가든 제목] 정원의 가드너들을{`\n`}깨우고 약속을 잡아보세요.
+            </Text>
+          </View>
+          <View style={{ marginRight: 32 }}>
+            <GardenerImage />
+          </View>
+        </View>
         <TouchableOpacity
           style={{
-            marginTop: 10,
             padding: 10,
             backgroundColor: "#000",
             borderRadius: 10,

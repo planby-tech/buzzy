@@ -18,7 +18,9 @@ import { useDispatch } from "react-redux";
 import { findByUser } from "../../../redux/slices/user";
 import { GREEN_COLOR } from "../../../common/colors";
 
-const GardenListScreen = ({ navigation }) => {
+const GardenListScreen = ({ navigation, userInfo }) => {
+  const userId = userInfo.id;
+
   const [fontsLoaded] = useFonts({
     PretendardSemiBold: require("../../../assets/fonts/Pretendard-SemiBold.otf"),
     PretendardBold: require("../../../assets/fonts/Pretendard-Bold.otf"),
@@ -58,7 +60,7 @@ const GardenListScreen = ({ navigation }) => {
   );
 
   useEffect(() => {
-    dispatch(findByUser())
+    dispatch(findByUser(userId))
       .unwrap()
       .then((data) => {
         setGroupArray(data);
@@ -127,6 +129,7 @@ const GardenListScreen = ({ navigation }) => {
     );
   };
 
+  //handleNavigate
   const handleNavigateToNFC = () => {
     navigation.navigate("NFCTag");
   };
@@ -197,7 +200,7 @@ const GardenListScreen = ({ navigation }) => {
 
       <View
         style={{
-          marginTop: 30,
+          marginTop: 24,
           padding: 20,
           paddingTop: 15,
           borderColor: "#3A3A3A",
@@ -256,8 +259,7 @@ const GardenListScreen = ({ navigation }) => {
             style={{
               color: GREEN_COLOR,
               fontSize: 14,
-              margin: 15,
-              marginLeft: 0,
+              marginVertical: 15,
               fontFamily: "PretendardSemiBold",
             }}
           >

@@ -14,10 +14,10 @@ const getModeratorBoard = () => {
 const getAdminBoard = () => {
   return axios.get(API_URL + "/test/admin", { headers: authHeader() });
 };
-const updateUser = async (name) => {
+const updateUser = async (userId, name) => {
   const header = await authHeader();
   return axios
-    .post(API_URL + "/user/update", { name }, { headers: header })
+    .put(API_URL + `/users/${userId}`, { name }, { headers: header })
     .then((res) => {
       return res;
     })
@@ -25,10 +25,21 @@ const updateUser = async (name) => {
       console.log(error);
     });
 };
-const findByUser = async () => {
+const deleteUser = async (userId, name) => {
   const header = await authHeader();
   return axios
-    .get(API_URL + "/user/findGroups", { headers: header })
+    .delete(API_URL + `/users/${userId}`, { headers: header })
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+const findByUser = async (userId) => {
+  const header = await authHeader();
+  return axios
+    .get(API_URL + `/users/${userId}/groups`, { headers: header })
     .then((res) => {
       return res.data;
     })

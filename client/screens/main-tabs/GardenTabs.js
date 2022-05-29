@@ -9,7 +9,7 @@ import GardenListScreen from "./garden-tab/GardenListScreen";
 
 const GardenTab = createMaterialBottomTabNavigator();
 
-const GardenTabs = ({ groupInfo }) => {
+const GardenTabs = ({ groupInfoArray, userInfo }) => {
   return (
     <GardenTab.Navigator
       initialRouteName="GardenList"
@@ -25,7 +25,7 @@ const GardenTabs = ({ groupInfo }) => {
     >
       <GardenTab.Screen
         name="GardenList"
-        component={GardenListScreen}
+        children={() => <GardenListScreen userInfo={userInfo} />}
         options={{
           tabBarLabel: "정원",
           tabBarIcon: ({ color }) => (
