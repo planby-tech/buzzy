@@ -1,12 +1,11 @@
 import authJwt from "../middleware/AuthJwt.js";
 import verifyGroup from "../middleware/VerifyGroup.js";
 import {
-  createGroup,
-  readGroup,
-  updateGroup,
-  deleteGroup,
-  findUsers,
-} from "../controllers/GroupController.js";
+  createMeeting,
+  readMeeting,
+  updateMeeting,
+  deleteMeeting,
+} from "../controllers/MeetingController.js";
 
 export default (app) => {
   app.use((req, res, next) => {
@@ -17,25 +16,24 @@ export default (app) => {
     next();
   });
 
-  app.post("/groups", [authJwt.verifyToken], createGroup);
-
+  app.post(
+    "/groups/:groupId/meetings",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    createMeeting
+  );
   app.get(
-    "/groups/:groupId",
+    "/groups/:groupId/meetings/:meetingId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
-    readGroup
+    readMeeting
   );
-
   app.put(
-    "/groups/:groupId",
+    "/groups/:groupId/meetings/:meetingId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
-    updateGroup
+    updateMeeting
   );
-
   app.delete(
-    "/groups/:groupId",
+    "/groups/:groupId/meetings/:meetingId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
-    deleteGroup
+    deleteMeeting
   );
-
-  app.get("/groups/:groupId/users", [authJwt.verifyToken], findUsers);
 };

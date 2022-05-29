@@ -18,29 +18,15 @@ const createGroup = (req, res) => {
     });
 };
 
-const joinGroup = (req, res) => {
-  const userId = req.userId;
-  const groupCode = req.body.groupCode;
+const readGroup = (req, res) => {
+  const groupId = req.params.groupId;
   group
-    .joinGroup(userId, groupCode)
+    .readGroup(groupId)
     .then((group) => {
       res.json({
-        message: "User was joined to group successfully!",
+        message: "Group information",
         group: group,
       });
-    })
-    .catch((err) => {
-      res.status(500).send(err.message);
-    });
-};
-
-const findUsers = (req, res) => {
-  const groupId = req.body.id;
-  const userId = req.userId;
-  group
-    .findUsers(groupId, userId)
-    .then((users) => {
-      res.json(users);
     })
     .catch((err) => {
       res.status(500).send(err.message);
@@ -77,4 +63,17 @@ const deleteGroup = (req, res) => {
     });
 };
 
-export { createGroup, joinGroup, findUsers, updateGroup, deleteGroup };
+const findUsers = (req, res) => {
+  const groupId = req.body.id;
+  const userId = req.userId;
+  group
+    .findUsers(groupId, userId)
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+export { createGroup, readGroup, updateGroup, deleteGroup, findUsers };

@@ -11,10 +11,10 @@ export default (app) => {
   });
 
   app.post(
-    "/api/auth/signup",
+    "/auth/join",
     [verifySignUp.checkValidEmail, verifySignUp.checkValidPassword],
     signup
   );
 
-  app.post("/api/auth/login", login);
+  app.post("/auth/login", login);
 };

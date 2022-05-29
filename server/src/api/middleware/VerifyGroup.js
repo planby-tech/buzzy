@@ -14,7 +14,7 @@ const checkValidMember = (req, res, next) => {
   })
     .then((user) => {
       for (let i = 0; i < user.groups.length; i++) {
-        if (user.groups[i].id.toString() === req.body.id) return next();
+        if (user.groups[i].id.toString() === req.params.groupId) return next();
       }
       res.status(401).send("This user is not allowed to access group!!");
     })

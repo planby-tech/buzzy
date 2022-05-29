@@ -2,6 +2,21 @@ import UserService from "../../services/UserService.js";
 
 const user = new UserService();
 
+const readUser = (req, res) => {
+  const userId = req.userId;
+  user
+    .readUser(userId)
+    .then((user) => {
+      res.json({
+        message: "User information",
+        user: user,
+      });
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const updateUser = (req, res) => {
   const userDTO = req.body;
   const userId = req.userId;
@@ -33,10 +48,17 @@ const deleteUser = (req, res) => {
     });
 };
 
-const deleteAllUsers = (req, res) => {
+const joinGroup = (req, res) => {
+  const userId = req.userId;
+  const groupCode = req.body.groupCode;
   user
-    .deleteAllUsers()
-    .then(res.json({ message: "All users were deleted successfully!" }))
+    .joinGroup(userId, groupCode)
+    .then((group) => {
+      res.json({
+        message: "User was joined to group successfully!",
+        group: group,
+      });
+    })
     .catch((err) => {
       res.status(500).send(err.message);
     });
@@ -54,4 +76,4 @@ const findGroups = (req, res) => {
     });
 };
 
-export { updateUser, deleteUser, deleteAllUsers, findGroups };
+export { readUser, updateUser, deleteUser, joinGroup, findGroups };

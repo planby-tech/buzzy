@@ -1,5 +1,4 @@
 "use strict";
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Meetings", {
@@ -17,6 +16,9 @@ module.exports = {
       },
       end: {
         type: Sequelize.DATE,
+      },
+      allDay: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
