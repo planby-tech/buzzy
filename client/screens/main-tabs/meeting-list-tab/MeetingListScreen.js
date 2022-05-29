@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import { MainWrapper } from "../../../../components/common/MainWrapper";
-import Button from "../../../../components/common/SubmitButton";
+import { MainWrapper } from "../../../components/common/MainWrapper";
+import Button from "../../../components/common/SubmitButton";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
