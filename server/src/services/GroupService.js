@@ -3,16 +3,14 @@ import db from "../db/models/index.js";
 
 export default class GroupService {
   async createGroup(userId, group) {
-    const Group = db.Group;
-    const User = db.User;
-    const groupRecord = await Group.create({
+    const groupRecord = await db.Group.create({
       name: group.name,
       description: group.description,
       userNumber: 1,
       groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
     });
 
-    const userRecord = await User.findByPk(userId);
+    const userRecord = await db.User.findByPk(userId);
     await groupRecord.addUser(userRecord, { through: "UserGroups" });
 
     return groupRecord;
