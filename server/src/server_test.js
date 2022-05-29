@@ -6,6 +6,7 @@ import { ip_test } from "./constants/url.js";
 import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
+import meetingRouter from "./api/routes/meeting.routes.js";
 import socketRouter from "./api/routes/socket.routes.js";
 import testRouter from "./api/routes/test.routes.js";
 import db from "./db/models/index.js";
@@ -38,13 +39,14 @@ await db.sequelize.authenticate();
 authRouter(app);
 userRouter(app);
 groupRouter(app);
+meetingRouter(app);
 testRouter(app);
 socketRouter(io);
 
 // development mode
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and Resync DB");
-// });
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync DB");
+});
 
 // db.sequelize.sync();
 
