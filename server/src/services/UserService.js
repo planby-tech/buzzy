@@ -49,4 +49,10 @@ export default class UserService {
     const groupRecord = userRecord.getGroups();
     return groupRecord;
   }
+
+  async findMeetings(userId) {
+    const userRecord = await db.User.findByPk(userId);
+    const meetingRecord = userRecord.getMeetings();
+    return meetingRecord;
+  }
 }

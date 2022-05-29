@@ -4,7 +4,11 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class Role extends Model {
     static associate(models) {
-      models.Role.belongsTo(models.User);
+      models.Role.belongsToMany(models.User, {
+        through: "UserRoles",
+        as: "users",
+        foreignKey: "roleId",
+      });
     }
   }
   Role.init(

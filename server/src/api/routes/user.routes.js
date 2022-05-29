@@ -5,6 +5,7 @@ import {
   deleteUser,
   joinGroup,
   findGroups,
+  findMeetings,
 } from "../controllers/UserController.js";
 
 export default (app) => {
@@ -25,4 +26,6 @@ export default (app) => {
   app.post("/users/:userId/groups", [authJwt.verifyToken], joinGroup);
 
   app.get("/users/:userId/groups", [authJwt.verifyToken], findGroups);
+
+  app.get("/users/:userId/meetings", [authJwt.verifyToken], findMeetings);
 };

@@ -9,8 +9,16 @@ export default (sequelize, DataTypes) => {
         as: "groups",
         foreignKey: "userId",
       });
-      models.User.hasMany(models.Role);
-      models.User.belongsTo(models.Meeting);
+      models.User.belongsToMany(models.Role, {
+        through: "UserRoles",
+        as: "roles",
+        foreignKey: "userId",
+      });
+      models.User.belongsToMany(models.Meeting, {
+        through: "UserMeetings",
+        as: "meetings",
+        foreignKey: "userId",
+      });
     }
   }
   User.init(

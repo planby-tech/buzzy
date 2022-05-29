@@ -76,4 +76,23 @@ const findGroups = (req, res) => {
     });
 };
 
-export { readUser, updateUser, deleteUser, joinGroup, findGroups };
+const findMeetings = (req, res) => {
+  const userId = req.userId;
+  user
+    .findMeetings(userId)
+    .then((meetings) => {
+      res.json(meetings);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+export {
+  readUser,
+  updateUser,
+  deleteUser,
+  joinGroup,
+  findGroups,
+  findMeetings,
+};

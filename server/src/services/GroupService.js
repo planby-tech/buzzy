@@ -55,4 +55,10 @@ export default class GroupService {
     const userRecord = await groupRecord.getUsers();
     return userRecord;
   }
+
+  async findMeetings(groupId) {
+    const groupRecord = await db.Group.findByPk(groupId);
+    const meetingRecord = await groupRecord.getMeetings();
+    return meetingRecord;
+  }
 }

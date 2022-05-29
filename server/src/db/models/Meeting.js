@@ -10,7 +10,11 @@ export default (sequelize, DataTypes) => {
         as: "activities",
         foreignKey: "meetingId",
       });
-      models.Meeting.hasMany(models.User);
+      models.Meeting.belongsToMany(models.User, {
+        through: "UserMeetings",
+        as: "users",
+        foreignKey: "meetingId",
+      });
       models.Meeting.hasMany(models.Place);
     }
   }

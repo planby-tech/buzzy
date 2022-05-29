@@ -2,15 +2,14 @@ import db from "../db/models/index.js";
 
 export default class MeetingService {
   async createMeeting(groupId, meeting) {
-    const meetingRecord = db.Meeting.create({
+    const meetingRecord = await db.Meeting.create({
       name: meeting.name,
       start: meeting.start,
       end: meeting.end,
       allDay: meeting.allDay,
-    }).then(async (meeting) => {
-      const groupRecord = await db.Group.findByPk(groupId);
-      await groupRecord.addMeeting(meeting);
     });
+    const groupRecord = await db.Group.findByPk(groupId);
+    await groupRecord.addMeeting(meetingRecord);
 
     for await (const place of meeting.places) {
       db.Place.create({
@@ -40,9 +39,69 @@ export default class MeetingService {
     return meetingRecord;
   }
 
-  async readMeeting(groupId, meetingId) {}
+  async readMeeting(meetingId) {
+    const meetingRecord = await db.Meeting.findByPk(meetingId);
+    if (!meetingRecord) {
+      throw new Error("Meeting not found!");
+    }
+    return meetingRecord;
+  }
 
-  async updateMeeting(groupId, meetingId, meeting) {}
+  async updateMeeting(meeting) {
+    const meetingRecord = await db.Meeting.update(
+      {
+        name: meeting.name,
+        start: meeting.start,
+        end: meeting.end,
+        allDay: meeting.allDay,
+      },
+      { where: { id: meeting.id } }
+    );
 
-  async deleteMeeting(groupId, meetingId) {}
+    const placeRecord = meetingRecord.getPlaces();
+
+    for await (const place of placeRecord) {
+      db.Place.destroy({
+        where: {
+          id: place.id,
+        },
+      });
+    }
+
+    for await (const place of meeting.places) {
+      db.Place.create({
+        name: place.name,
+        coord: place.coord,
+      }).then((place) => {
+        meetingRecord.addPlace(place);
+      });
+    }
+
+    
+
+    if (!meetingRecord) {
+      throw new Error("Meeting not found!");
+    }
+  }
+
+  async deleteMeeting(meetingId) {
+    const meetingRecord = await db.Meeting.destroy({
+      where: {
+        id: meetingId,
+      },
+    });
+    if (!meetingRecord) {
+      throw new Error("Meeting not found!");
+    }
+    return meetingRecord;
+  }
+
+  async findUsers(meetingId) {
+    const meetingRecord = await db.Meeting.findByPk(meetingId);
+    if (!meetingRecord) {
+      throw new Error("Meeting not found!");
+    }
+    const userRecord = await meetingRecord.getUsers();
+    return userRecord;
+  }
 }
