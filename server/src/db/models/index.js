@@ -9,7 +9,7 @@ import database from "../config/database.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const sequelize = new Sequelize(database.development);
+const sequelize = new Sequelize(database.test);
 const db = {};
 const fileArray = [];
 

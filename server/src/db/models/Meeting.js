@@ -3,13 +3,15 @@ import { Model } from "sequelize";
 
 export default (sequelize, DataTypes) => {
   class Meeting extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      models.Meeting.belongsTo(models.Group);
+      models.Meeting.belongsToMany(models.Activity, {
+        through: "MeetingActivities",
+        as: "activities",
+        foreignKey: "meetingId",
+      });
+      models.Meeting.hasMany(models.User);
+      models.Meeting.hasMany(models.Place);
     }
   }
   Meeting.init(
@@ -17,6 +19,7 @@ export default (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       start: DataTypes.DATE,
       end: DataTypes.DATE,
+      allDay: DataTypes.BOOLEAN,
     },
     {
       sequelize,
