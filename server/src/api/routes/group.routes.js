@@ -2,10 +2,10 @@ import authJwt from "../middleware/AuthJwt.js";
 import verifyGroup from "../middleware/VerifyGroup.js";
 import {
   createGroup,
-  joinGroup,
-  findUsers,
+  readGroup,
   updateGroup,
   deleteGroup,
+  findUsers,
 } from "../controllers/GroupController.js";
 
 export default (app) => {
@@ -17,21 +17,25 @@ export default (app) => {
     next();
   });
 
-  app.post("/api/group/create", [authJwt.verifyToken], createGroup);
+  app.post("/groups", [authJwt.verifyToken], createGroup);
 
-  app.post("/api/group/join", [authJwt.verifyToken], joinGroup);
+  app.get(
+    "/groups/:groupId",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    readGroup
+  );
 
-  app.post("/api/group/findUsers", [authJwt.verifyToken], findUsers);
-
-  app.post(
-    "/api/group/update",
+  app.put(
+    "/groups/:groupId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     updateGroup
   );
 
-  app.post(
-    "/api/group/delete",
+  app.delete(
+    "/groups/:groupId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     deleteGroup
   );
+
+  app.get("/groups/:groupId/users", [authJwt.verifyToken], findUsers);
 };

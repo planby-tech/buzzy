@@ -1,7 +1,14 @@
-import Group from "../db/models/Group.js";
 import db from "../db/models/index.js";
 
 export default class UserService {
+  async readUser(userId) {
+    const userRecord = await db.User.findByPk(userId);
+    if (!userRecord) {
+      throw new Error("User not found!");
+    }
+    return userRecord;
+  }
+
   async updateUser(userId, user) {
     const userRecord = await db.User.update(
       { name: user.name },
@@ -25,11 +32,16 @@ export default class UserService {
     return userRecord;
   }
 
-  async deleteAllUsers() {
-    await db.User.destroy({
-      where: {},
-      truncate: false,
+  async joinGroup(userId, groupCode) {
+    const groupRecord = await db.Group.findOne({
+      where: {
+        groupCode: groupCode,
+      },
     });
+    const userRecord = await db.User.findByPk(userId);
+    await groupRecord.addUser(userRecord, { through: "UserGroups" });
+    groupRecord.increment("userNumber");
+    return groupRecord;
   }
 
   async findGroups(userId) {

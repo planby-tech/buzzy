@@ -1,8 +1,9 @@
 import authJwt from "../middleware/AuthJwt.js";
 import {
+  readUser,
   updateUser,
   deleteUser,
-  deleteAllUsers,
+  joinGroup,
   findGroups,
 } from "../controllers/UserController.js";
 
@@ -15,11 +16,13 @@ export default (app) => {
     next();
   });
 
-  app.post("/api/user/update", [authJwt.verifyToken], updateUser);
+  app.get("/users/:userId", [authJwt.verifyToken], readUser);
 
-  app.post("/api/user/delete", [authJwt.verifyToken], deleteUser);
+  app.put("/users/:userId", [authJwt.verifyToken], updateUser);
 
-  app.post("/api/user/deleteAll", deleteAllUsers);
+  app.delete("/users/:userId", [authJwt.verifyToken], deleteUser);
 
-  app.get("/api/user/findGroups", [authJwt.verifyToken], findGroups);
+  app.post("/users/:userId/groups", [authJwt.verifyToken], joinGroup);
+
+  app.get("/users/:userId/groups", [authJwt.verifyToken], findGroups);
 };
