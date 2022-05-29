@@ -5,7 +5,7 @@ import {
   readMeeting,
   updateMeeting,
   deleteMeeting,
-} from "../controllers/MeetingController";
+} from "../controllers/MeetingController.js";
 
 export default (app) => {
   app.use((req, res, next) => {

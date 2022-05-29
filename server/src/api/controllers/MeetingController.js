@@ -1,4 +1,4 @@
-import MeetingService from "../../services/MeetingService";
+import MeetingService from "../../services/MeetingService.js";
 
 const meeting = new MeetingService();
 
