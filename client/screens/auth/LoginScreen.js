@@ -44,7 +44,10 @@ const LoginScreen = ({ navigation }) => {
   useEffect(() => {
     console.log("isLoggedIn in LoginScreen.js useEffect: " + isLoggedIn);
     if (isLoggedIn) {
-      navigation.navigate("GardenTabs");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Splash" }],
+      });
     }
   }, [isLoggedIn]);
 

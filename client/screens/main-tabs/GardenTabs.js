@@ -25,7 +25,12 @@ const GardenTabs = ({ groupInfoArray, userInfo }) => {
     >
       <GardenTab.Screen
         name="GardenList"
-        children={() => <GardenListScreen userInfo={userInfo} />}
+        children={() => (
+          <GardenListScreen
+            userInfo={userInfo}
+            groupInfoArray={groupInfoArray}
+          />
+        )}
         options={{
           tabBarLabel: "정원",
           tabBarIcon: ({ color }) => (

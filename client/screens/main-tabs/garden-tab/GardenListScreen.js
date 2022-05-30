@@ -9,7 +9,11 @@ import {
   BackHandler,
 } from "react-native";
 import { showMessage, hideMessage } from "react-native-flash-message";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from "@react-navigation/native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
 import { useFonts } from "expo-font";
 
@@ -18,13 +22,15 @@ import { useDispatch } from "react-redux";
 import { findByUser } from "../../../redux/slices/user";
 import { GREEN_COLOR } from "../../../common/colors";
 
-const GardenListScreen = ({ navigation, userInfo }) => {
+const GardenListScreen = ({ userInfo, groupInfoArray }) => {
   const userId = userInfo.id;
 
   const [fontsLoaded] = useFonts({
     PretendardSemiBold: require("../../../assets/fonts/Pretendard-SemiBold.otf"),
     PretendardBold: require("../../../assets/fonts/Pretendard-Bold.otf"),
   });
+
+  const navigation = useNavigation();
 
   const [groupArray, setGroupArray] = useState([{ name: "name" }]);
   const [groupLoaded, setGroupLoaded] = useState(false);
@@ -60,16 +66,19 @@ const GardenListScreen = ({ navigation, userInfo }) => {
   );
 
   useEffect(() => {
-    dispatch(findByUser(userId))
-      .unwrap()
-      .then((data) => {
-        setGroupArray(data);
-        setGroupLoaded(true);
-        if (data === null)
-          setGroupArray([
-            { name: "Garden name", description: "garden description" },
-          ]);
-      });
+    // dispatch(findByUser(userId))
+    //   .unwrap()
+    //   .then((data) => {
+    //     setGroupArray(data);
+    //     setGroupLoaded(true);
+    //     if (data === null)
+    //       setGroupArray([
+    //         { name: "Garden name", description: "garden description" },
+    //       ]);
+    //   });
+
+    setGroupArray(groupInfoArray);
+    setGroupLoaded(true);
   }, [isFocused]);
 
   const groupListLayout = ({ item }) => {

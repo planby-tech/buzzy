@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
 import userService from "../../services/user.service";
 
-export const findByUser = createAsyncThunk("auth/findGroups", async () => {
+export const findByUser = createAsyncThunk("users/findGroups", async () => {
   try {
     const data = userService.findByUser();
     if (data) return data;

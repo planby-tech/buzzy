@@ -60,7 +60,7 @@ export const findByGroup = createAsyncThunk(
 
 const initialState = { isLoggedIn: false, user: null };
 const groupSlice = createSlice({
-  name: "auth",
+  name: "group",
   initialState,
   extraReducers: {
     [createGroup.fulfilled]: (state, action) => {

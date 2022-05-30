@@ -29,7 +29,6 @@ const SplashScreen = ({ navigation }) => {
                     routes: [
                       {
                         name: "GardenTabs",
-                        params: { userInfo: res, groupInfoArray: data },
                       },
                     ],
                   });
