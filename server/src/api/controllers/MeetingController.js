@@ -65,6 +65,18 @@ const deleteMeeting = (req, res) => {
     });
 };
 
+const findPlaces = (req, res) => {
+  const meetingId = req.params.meetingId;
+  meeting
+    .findPlaces(meetingId)
+    .then((places) => {
+      res.json(places);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const findUsers = (req, res) => {
   const meetingId = req.params.meetingId;
   meeting
@@ -77,4 +89,24 @@ const findUsers = (req, res) => {
     });
 };
 
-export { createMeeting, readMeeting, updateMeeting, deleteMeeting, findUsers };
+const findActivities = (req, res) => {
+  const meetingId = req.params.meetingId;
+  meeting
+    .findActivities(meetingId)
+    .then((activities) => {
+      res.json(activities);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+export {
+  createMeeting,
+  readMeeting,
+  updateMeeting,
+  deleteMeeting,
+  findPlaces,
+  findUsers,
+  findActivities,
+};
