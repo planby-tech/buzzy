@@ -5,6 +5,9 @@ import {
   readMeeting,
   updateMeeting,
   deleteMeeting,
+  findPlaces,
+  findUsers,
+  findActivities,
 } from "../controllers/MeetingController.js";
 
 export default (app) => {
@@ -35,5 +38,23 @@ export default (app) => {
     "/groups/:groupId/meetings/:meetingId",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     deleteMeeting
+  );
+
+  app.get(
+    "/meetings/:meetingId/places",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findPlaces
+  );
+
+  app.get(
+    "/meetings/:meetingId/users",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findUsers
+  );
+
+  app.get(
+    "/meetings/:meetingId/activities",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findActivities
   );
 };

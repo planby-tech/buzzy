@@ -6,6 +6,7 @@ import {
   updateGroup,
   deleteGroup,
   findUsers,
+  findMeetings,
 } from "../controllers/GroupController.js";
 
 export default (app) => {
@@ -37,5 +38,15 @@ export default (app) => {
     deleteGroup
   );
 
-  app.get("/groups/:groupId/users", [authJwt.verifyToken], findUsers);
+  app.get(
+    "/groups/:groupId/users",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findUsers
+  );
+
+  app.get(
+    "/groups/:groupId/meetings",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findMeetings
+  );
 };

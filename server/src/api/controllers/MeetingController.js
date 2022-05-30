@@ -35,11 +35,10 @@ const readMeeting = (req, res) => {
 };
 
 const updateMeeting = (req, res) => {
-  const groupId = req.params.groupId;
   const meetingId = req.params.meetingId;
   const meetingDTO = req.body;
   meeting
-    .updateMeeting(groupId, meetingId, meetingDTO)
+    .updateMeeting(meetingId, meetingDTO)
     .then((meeting) => {
       res.json({
         message: "Meeting was updated successfully!!",
@@ -52,10 +51,9 @@ const updateMeeting = (req, res) => {
 };
 
 const deleteMeeting = (req, res) => {
-  const groupId = req.params.groupId;
   const meetingId = req.params.meetingId;
   meeting
-    .deleteMeeting(groupId, meetingId)
+    .deleteMeeting(meetingId)
     .then((meeting) => {
       res.json({
         message: "Meeting was deleted successfully!!",
@@ -67,4 +65,48 @@ const deleteMeeting = (req, res) => {
     });
 };
 
-export { createMeeting, readMeeting, updateMeeting, deleteMeeting };
+const findPlaces = (req, res) => {
+  const meetingId = req.params.meetingId;
+  meeting
+    .findPlaces(meetingId)
+    .then((places) => {
+      res.json(places);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const findUsers = (req, res) => {
+  const meetingId = req.params.meetingId;
+  meeting
+    .findUsers(meetingId)
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const findActivities = (req, res) => {
+  const meetingId = req.params.meetingId;
+  meeting
+    .findActivities(meetingId)
+    .then((activities) => {
+      res.json(activities);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+export {
+  createMeeting,
+  readMeeting,
+  updateMeeting,
+  deleteMeeting,
+  findPlaces,
+  findUsers,
+  findActivities,
+};

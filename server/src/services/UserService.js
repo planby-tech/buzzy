@@ -49,4 +49,32 @@ export default class UserService {
     const groupRecord = userRecord.getGroups();
     return groupRecord;
   }
+
+  async findMeetings(userId) {
+    const userRecord = await db.User.findByPk(userId);
+    const meetings = await userRecord.getMeetings();
+
+    if (!meetings) {
+      throw new Error("Meeting not found!");
+    }
+    const meetingRecord = [];
+    for (const meeting of meetings) {
+      await db.Meeting.findOne({
+        where: {
+          id: meeting.id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: {
+          model: db.User,
+          as: "users",
+          attributes: ["name"],
+        },
+      }).then((meeting) => {
+        meetingRecord.push(meeting);
+      });
+    }
+    return meetingRecord;
+  }
 }

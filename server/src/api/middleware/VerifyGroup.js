@@ -1,5 +1,6 @@
 import db from "../../db/models/index.js";
 
+// should optimize
 const checkValidMember = (req, res, next) => {
   db.User.findOne({
     where: {

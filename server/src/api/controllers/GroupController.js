@@ -49,7 +49,7 @@ const updateGroup = (req, res) => {
 };
 
 const deleteGroup = (req, res) => {
-  const groupId = req.body.id;
+  const groupId = req.params.groupId;
   group
     .deleteGroup(groupId)
     .then((group) => {
@@ -64,10 +64,9 @@ const deleteGroup = (req, res) => {
 };
 
 const findUsers = (req, res) => {
-  const groupId = req.body.id;
-  const userId = req.userId;
+  const groupId = req.params.groupId;
   group
-    .findUsers(groupId, userId)
+    .findUsers(groupId)
     .then((users) => {
       res.json(users);
     })
@@ -76,4 +75,23 @@ const findUsers = (req, res) => {
     });
 };
 
-export { createGroup, readGroup, updateGroup, deleteGroup, findUsers };
+const findMeetings = (req, res) => {
+  const groupId = req.params.groupId;
+  group
+    .findMeetings(groupId)
+    .then((meetings) => {
+      res.json(meetings);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+export {
+  createGroup,
+  readGroup,
+  updateGroup,
+  deleteGroup,
+  findUsers,
+  findMeetings,
+};
