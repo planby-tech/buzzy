@@ -18,26 +18,24 @@ import { MainWrapper } from "../../../components/common/MainWrapper";
 import { useFonts } from "expo-font";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
-import { findByUser } from "../../../redux/slices/user";
+import { useSelector } from "react-redux";
 import { GREEN_COLOR } from "../../../common/colors";
 
-const GardenListScreen = ({ userInfo, groupInfoArray }) => {
-  const userId = userInfo.id;
+const GardenListScreen = ({navigation}) => {
+  const {user} = useSelector(state => state.auth)
+  const userId = user.user.id
+  const {groupArray} = useSelector(state => state.user)
 
   const [fontsLoaded] = useFonts({
     PretendardSemiBold: require("../../../assets/fonts/Pretendard-SemiBold.otf"),
     PretendardBold: require("../../../assets/fonts/Pretendard-Bold.otf"),
   });
 
-  const navigation = useNavigation();
-
-  const [groupArray, setGroupArray] = useState([{ name: "name" }]);
+  // const [groupArray, setGroupArray] = useState([{ name: "name" }]);
   const [groupLoaded, setGroupLoaded] = useState(false);
   const [mainType, setMainType] = useState("가든");
 
   const isFocused = useIsFocused();
-  const dispatch = useDispatch();
 
   const [backPressedOnce, setBackPressedOnce] = useState(false);
 
@@ -77,7 +75,7 @@ const GardenListScreen = ({ userInfo, groupInfoArray }) => {
     //       ]);
     //   });
 
-    setGroupArray(groupInfoArray);
+    // setGroupArray(groupInfoArray);
     setGroupLoaded(true);
   }, [isFocused]);
 

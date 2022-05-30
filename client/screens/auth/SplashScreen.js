@@ -19,11 +19,11 @@ const SplashScreen = ({ navigation }) => {
       .then((res) => {
         setTimeout(() => {
           if (res.user.accessToken) {
-            dispatch(findByUser())
+            dispatch(findByUser(res.user.user.id))
               .unwrap()
               .then((data) => {
-                console.log("data in SplashScreen.js: " + data);
-                if (data.length >= 0) {
+                console.log("data in SplashScreen.js: " + JSON.stringify(data));
+                if (data.groupArray.length >= 0) {
                   return navigation.reset({
                     index: 0,
                     routes: [
@@ -34,7 +34,6 @@ const SplashScreen = ({ navigation }) => {
                   });
                 }
                 // else {
-                //   dispatch(logout());
                 //   navigation.reset({
                 //     index: 0,
                 //     routes: [{ name: "Login" }],

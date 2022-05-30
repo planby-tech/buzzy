@@ -49,10 +49,6 @@ export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
   try {
     const jsonUserData = await authService.loadUserData();
     return { user: jsonUserData };
-    // const userData = await AsyncStorage.getItem("user");
-    // const jsonUserData = JSON.parse(userData);
-    // console.log("userData in loadUserData: " + jsonUserData.accessToken);
-    // if (jsonUserData.accessToken) return { user: jsonUserData };
   } catch (error) {
     const message =
       (error.response && error.response.message) ||
@@ -90,7 +86,7 @@ const authSlice = createSlice({
     },
     [loadUserData.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
-      // state.user = aciton.payload.user; 이런 거 쓰지 말자
+      state.user = action.payload.user;
     },
     [loadUserData.pending]: (state, action) => {
       state.isLoggedIn = false;
