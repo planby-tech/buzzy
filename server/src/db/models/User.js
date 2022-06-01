@@ -19,6 +19,9 @@ export default (sequelize, DataTypes) => {
         as: "meetings",
         foreignKey: "userId",
       });
+      models.User.hasMany(models.Answer, {
+        foreignKey: "userId",
+      });
     }
   }
   User.init(

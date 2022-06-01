@@ -46,7 +46,29 @@ export default class UserService {
 
   async findGroups(userId) {
     const userRecord = await db.User.findByPk(userId);
-    const groupRecord = userRecord.getGroups();
+    const groups = await userRecord.getGroups();
+    const groupRecord = [];
+    if (!groups) {
+      throw new Error("Group not found!");
+    }
+    for (const group of groups) {
+      db.Group.findOne({
+        where: {
+          id: group.id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: {
+          model: db.User,
+          as: "users",
+          attributes: ["name"],
+        },
+      }).then((group) => {
+        groupRecord.push(group);
+      });
+    }
+
     return groupRecord;
   }
 

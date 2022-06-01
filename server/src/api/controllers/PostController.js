@@ -5,9 +5,10 @@ const post = new PostService();
 const createPost = (req, res) => {
   const groupId = req.params.groupId;
   const meetingId = req.params.meetingId;
+  const userId = req.params.userId;
   const postDTO = req.body;
   post
-    .createPost(groupId, meetingId, postDTO)
+    .createPost(groupId, meetingId, userId, postDTO)
     .then((post) => {
       res.json({
         message: "Post was created successfully!!",
@@ -65,4 +66,4 @@ const deletePost = (req, res) => {
     });
 };
 
-export { createPost, readPost, updatePost, deletePost };
+export { generateQuestion, createPost, readPost, updatePost, deletePost };

@@ -10,15 +10,12 @@ export default (sequelize, DataTypes) => {
       models.Post.belongsTo(models.Group, {
         foreignKey: "groupId",
       });
+      models.Post.hasMany(models.Answer, {
+        foreignKey: "postId",
+      });
       models.Post.belongsToMany(models.Question, {
         through: "PostQuestions",
         as: "questions",
-        foreignKey: "postId",
-      });
-      models.Post.hasMany(models.Place, {
-        foreignKey: "postId",
-      });
-      models.Post.hasMany(models.Answer, {
         foreignKey: "postId",
       });
       models.Post.hasMany(models.Image, {
