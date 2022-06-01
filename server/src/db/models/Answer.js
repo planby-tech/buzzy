@@ -4,8 +4,12 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class Answer extends Model {
     static associate(models) {
-      models.Answer.belongsTo(models.Post);
-      models.Answer.belongsTo(models.Question);
+      models.Answer.belongsTo(models.Post, {
+        foreignKey: "postId",
+      });
+      models.Answer.belongsTo(models.Question, {
+        foreignKey: "questionId",
+      });
     }
   }
   Answer.init(

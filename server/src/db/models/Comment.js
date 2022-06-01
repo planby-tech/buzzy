@@ -4,8 +4,12 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class Comment extends Model {
     static associate(models) {
-      models.Comment.belongsTo(models.Post);
-      models.Comment.belongsTo(models.User);
+      models.Comment.belongsTo(models.Post, {
+        foreignKey: "postId",
+      });
+      models.Comment.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     }
   }
   Comment.init(

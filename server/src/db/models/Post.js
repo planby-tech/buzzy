@@ -4,8 +4,12 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class Post extends Model {
     static associate(models) {
-      models.Post.belongsTo(models.Meeting);
-      models.Post.belongsTo(models.Group);
+      models.Post.belongsTo(models.Meeting, {
+        foreignKey: "meetingId",
+      });
+      models.Post.belongsTo(models.Group, {
+        foreignKey: "groupId",
+      });
       models.Post.belongsToMany(models.Question, {
         through: "PostQuestions",
         as: "questions",

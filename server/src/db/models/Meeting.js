@@ -4,7 +4,9 @@ import { Model } from "sequelize";
 export default (sequelize, DataTypes) => {
   class Meeting extends Model {
     static associate(models) {
-      models.Meeting.belongsTo(models.Group);
+      models.Meeting.belongsTo(models.Group, {
+        foreignKey: "groupId",
+      });
       models.Meeting.belongsToMany(models.Activity, {
         through: "MeetingActivities",
         as: "activities",
