@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity, Modal } from "react-native";
+import { Text, View, TouchableOpacity, Modal, StyleSheet, FlatList, Dimensions } from "react-native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import Button from '../../../components/common/SubmitButton'
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import GardenerImage from "../../../assets/images/Gardener";
+import { useSelector } from "react-redux";
 
 const MeetingListScreen = ({ navigation }) => {
+  const {groupArray} = useSelector(state => state.user)
 
   const [modalVisible, setModalVisible] = useState(false)
   LocaleConfig.locales["kr"] = {
@@ -32,6 +35,49 @@ const MeetingListScreen = ({ navigation }) => {
   // const handleNavigate = () => {
   //   navigation.navigate("CreateMeeting");
   // };
+  const { width, height } = Dimensions.get("screen");
+
+  const groupListLayout = ({ item }) => {
+    const handleSelect= () => {
+      console.log("clicked")
+    };
+    return (
+      <TouchableOpacity
+        onPress={handleSelect}
+        style={{
+          width: 0.9 * width,
+          height: 100,
+          backgroundColor: "#3A3A3A",
+          borderRadius: 12,
+          padding: 20,
+          paddingRight: 16,
+          marginTop: 20,
+        }}
+        activeOpacity={0.5}
+      >
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 16,
+              fontFamily: "PretendardSemiBold",
+              lineHeight: 20,
+            }}
+            numberOfLines={3}
+          >
+            {item.name}
+          </Text>
+          <TouchableOpacity>
+            <MaterialCommunityIcons
+              name="check-circle-outline"
+              size={24}
+              color="#fff"
+            />
+          </TouchableOpacity>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <MainWrapper style={{ padding: 20 }}>
@@ -97,13 +143,29 @@ const MeetingListScreen = ({ navigation }) => {
         }}
       />
       <Modal transparent={true} animationType="slide" visible={modalVisible}>
-        <View style={{position: "absolute", bottom: 0, width:"100%", height: 300, backgroundColor: "#3a3a3a"}}>
-          <Text>가든 선택하기</Text>
-          <TouchableOpacity onPress={() => setModalVisible(false)}><Text>취소</Text></TouchableOpacity>
+        <View style={{position: "absolute", bottom: 0, alignItems: "center", width:"100%", height: "95%", borderTopEndRadius: 20,backgroundColor: "#202020"}}>
+          <Text style={styles.modalTitle}>가든 선택하기</Text>
+          <Button title="취소" onPress={()=>setModalVisible(false)} />
+          <FlatList
+            data={groupArray}
+            renderItem={groupListLayout}
+            keyExtractor={(item, index) => index}
+            // ListFooterComponent={AddGroupButton}
+          />
         </View>
       </Modal>
     </MainWrapper>
   );
 };
+
+const styles = StyleSheet.create({
+  modalTitle: {
+    color: "#fff",
+    fontSize: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 20
+  }
+})
 
 export default MeetingListScreen;
