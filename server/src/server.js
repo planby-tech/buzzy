@@ -7,6 +7,7 @@ import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
 import meetingRouter from "./api/routes/meeting.routes.js";
+import postRouter from "./api/routes/post.routes.js";
 import socketRouter from "./api/routes/socket.routes.js";
 import testRouter from "./api/routes/test.routes.js";
 import db from "./db/models/index.js";
@@ -40,6 +41,7 @@ authRouter(app);
 userRouter(app);
 groupRouter(app);
 meetingRouter(app);
+postRouter(app);
 testRouter(app);
 socketRouter(io);
 

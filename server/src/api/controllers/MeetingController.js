@@ -19,10 +19,9 @@ const createMeeting = (req, res) => {
 };
 
 const readMeeting = (req, res) => {
-  const groupId = req.params.groupId;
   const meetingId = req.params.meetingId;
   meeting
-    .readMeeting(groupId, meetingId)
+    .readMeeting(meetingId)
     .then((meeting) => {
       res.json({
         message: "Meeting information",

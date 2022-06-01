@@ -58,7 +58,7 @@ export default class MeetingService {
     return meetingRecord;
   }
 
-  async updateMeeting(meeting) {
+  async updateMeeting(meetingId, meeting) {
     const meetingRecord = await db.Meeting.update(
       {
         name: meeting.name,
@@ -66,7 +66,7 @@ export default class MeetingService {
         end: meeting.end,
         allDay: meeting.allDay,
       },
-      { where: { id: meeting.id } }
+      { where: { id: meetingId } }
     );
 
     if (!meetingRecord) {
