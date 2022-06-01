@@ -71,7 +71,7 @@ const MeetingListScreen = ({ navigation }) => {
             <MaterialCommunityIcons
               name="check-circle-outline"
               size={24}
-              color="#fff"
+              color={checkColor}
             />
           </TouchableOpacity>
         </View>
