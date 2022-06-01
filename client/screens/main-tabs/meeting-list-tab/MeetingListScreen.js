@@ -1,13 +1,14 @@
-import React from "react";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import { Text, View, TouchableOpacity, Modal } from "react-native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
-import Button from "../../../components/common/SubmitButton";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import GardenerImage from "../../../assets/images/Gardener";
 
 const MeetingListScreen = ({ navigation }) => {
+
+  const [modalVisible, setModalVisible] = useState(false)
   LocaleConfig.locales["kr"] = {
     monthNames: [
       "January",
@@ -28,9 +29,9 @@ const MeetingListScreen = ({ navigation }) => {
   };
   LocaleConfig.defaultLocale = "kr";
 
-  const handleNavigate = () => {
-    navigation.navigate("CreateMeeting");
-  };
+  // const handleNavigate = () => {
+  //   navigation.navigate("CreateMeeting");
+  // };
 
   return (
     <MainWrapper style={{ padding: 20 }}>
@@ -49,7 +50,7 @@ const MeetingListScreen = ({ navigation }) => {
             color="#fff"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleNavigate}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
           <MaterialCommunityIcons name="plus" size={30} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -95,6 +96,12 @@ const MeetingListScreen = ({ navigation }) => {
           dayTextColor: "#fff",
         }}
       />
+      <Modal transparent={true} animationType="slide" visible={modalVisible}>
+        <View style={{position: "absolute", bottom: 0, width:"100%", height: 300, backgroundColor: "#3a3a3a"}}>
+          <Text>가든 선택하기</Text>
+          <TouchableOpacity onPress={() => setModalVisible(false)}><Text>취소</Text></TouchableOpacity>
+        </View>
+      </Modal>
     </MainWrapper>
   );
 };

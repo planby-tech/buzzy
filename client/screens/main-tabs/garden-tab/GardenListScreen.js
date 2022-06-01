@@ -9,29 +9,33 @@ import {
   BackHandler,
 } from "react-native";
 import { showMessage, hideMessage } from "react-native-flash-message";
-import { useFocusEffect, useIsFocused } from "@react-navigation/native";
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from "@react-navigation/native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
 import { useFonts } from "expo-font";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { useDispatch } from "react-redux";
-import { findByUser } from "../../../redux/slices/user";
+import { useSelector } from "react-redux";
 import { GREEN_COLOR } from "../../../common/colors";
 
-const GardenListScreen = ({ navigation, userInfo }) => {
-  const userId = userInfo.id;
+const GardenListScreen = ({navigation}) => {
+  const {user} = useSelector(state => state.auth)
+  const userId = user.user.id
+  const {groupArray} = useSelector(state => state.user)
 
   const [fontsLoaded] = useFonts({
     PretendardSemiBold: require("../../../assets/fonts/Pretendard-SemiBold.otf"),
     PretendardBold: require("../../../assets/fonts/Pretendard-Bold.otf"),
   });
 
-  const [groupArray, setGroupArray] = useState([{ name: "name" }]);
+  // const [groupArray, setGroupArray] = useState([{ name: "name" }]);
   const [groupLoaded, setGroupLoaded] = useState(false);
   const [mainType, setMainType] = useState("가든");
 
   const isFocused = useIsFocused();
-  const dispatch = useDispatch();
 
   const [backPressedOnce, setBackPressedOnce] = useState(false);
 
@@ -60,16 +64,19 @@ const GardenListScreen = ({ navigation, userInfo }) => {
   );
 
   useEffect(() => {
-    dispatch(findByUser(userId))
-      .unwrap()
-      .then((data) => {
-        setGroupArray(data);
-        setGroupLoaded(true);
-        if (data === null)
-          setGroupArray([
-            { name: "Garden name", description: "garden description" },
-          ]);
-      });
+    // dispatch(findByUser(userId))
+    //   .unwrap()
+    //   .then((data) => {
+    //     setGroupArray(data);
+    //     setGroupLoaded(true);
+    //     if (data === null)
+    //       setGroupArray([
+    //         { name: "Garden name", description: "garden description" },
+    //       ]);
+    //   });
+
+    // setGroupArray(groupInfoArray);
+    setGroupLoaded(true);
   }, [isFocused]);
 
   const groupListLayout = ({ item }) => {

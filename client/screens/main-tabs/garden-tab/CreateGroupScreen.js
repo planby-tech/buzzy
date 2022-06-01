@@ -37,7 +37,7 @@ const CreateGroupScreen = ({ navigation }) => {
       .unwrap()
       .then(() => {
         resetForm({ values: initialValues });
-        navigation.navigate("GardenList");
+        navigation.navigate("GardenTabs");
         setLoading(false);
       })
       .catch((error) => {
