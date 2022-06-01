@@ -1,7 +1,6 @@
 import authJwt from "../middleware/AuthJwt.js";
 import verifyGroup from "../middleware/VerifyGroup.js";
 import {
-  generateQuestion,
   createPost,
   readPost,
   updatePost,
@@ -16,12 +15,6 @@ export default (app) => {
     );
     next();
   });
-
-  app.get(
-    "/meetings/:meetingId/users/:userId/questions",
-    [authJwt.verifyToken, verifyGroup.checkValidMember],
-    generateQuestion
-  );
 
   app.post(
     "/groups/:groupId/meetings/:meetingId/users/:userId/posts",

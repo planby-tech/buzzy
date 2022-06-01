@@ -14,7 +14,7 @@ const isEqual = (a, b) => {
 export default class MeetingService {
   async createMeeting(groupId, meeting) {
     const meetingRecord = await db.Meeting.create({
-      name: meeting.name,
+      title: meeting.title,
       start: meeting.start,
       end: meeting.end,
       allDay: meeting.allDay,
@@ -51,7 +51,18 @@ export default class MeetingService {
   }
 
   async readMeeting(meetingId) {
-    const meetingRecord = await db.Meeting.findByPk(meetingId);
+    const meetingRecord = await db.Meeting.findOne({
+      where: {
+        id: meetingId,
+      },
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+      include: {
+        model: db.Post,
+        as: "posts",
+      },
+    });
     if (!meetingRecord) {
       throw new Error("Meeting not found!");
     }
@@ -61,7 +72,7 @@ export default class MeetingService {
   async updateMeeting(meetingId, meeting) {
     const meetingRecord = await db.Meeting.update(
       {
-        name: meeting.name,
+        title: meeting.title,
         start: meeting.start,
         end: meeting.end,
         allDay: meeting.allDay,

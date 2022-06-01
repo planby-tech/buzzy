@@ -20,14 +20,14 @@ export default (sequelize, DataTypes) => {
       models.Meeting.hasMany(models.Place, {
         foreignKey: "meetingId",
       });
-      models.Meeting.hasOne(models.Post, {
+      models.Meeting.hasMany(models.Post, {
         foreignKey: "meetingId",
       });
     }
   }
   Meeting.init(
     {
-      name: DataTypes.STRING,
+      title: DataTypes.STRING,
       start: DataTypes.DATE,
       end: DataTypes.DATE,
       allDay: DataTypes.BOOLEAN,
