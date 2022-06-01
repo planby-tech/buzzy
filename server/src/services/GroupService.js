@@ -58,7 +58,28 @@ export default class GroupService {
 
   async findMeetings(groupId) {
     const groupRecord = await db.Group.findByPk(groupId);
-    const meetingRecord = await groupRecord.getMeetings();
+    const meetings = await groupRecord.getMeetings();
+    const meetingRecord = [];
+    if (!meetings) {
+      throw new Error("Meeting not found!");
+    }
+    for (const meeting of meetings) {
+      await db.Meeting.findOne({
+        where: {
+          id: meeting.id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+        include: {
+          model: db.User,
+          as: "users",
+          attributes: ["name"],
+        },
+      }).then((meeting) => {
+        meetingRecord.push(meeting);
+      });
+    }
     return meetingRecord;
   }
 }

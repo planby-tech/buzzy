@@ -15,7 +15,12 @@ export default (sequelize, DataTypes) => {
         as: "users",
         foreignKey: "meetingId",
       });
-      models.Meeting.hasMany(models.Place);
+      models.Meeting.hasMany(models.Place, {
+        foreignKey: "meetingId",
+      });
+      models.Meeting.hasOne(models.Post, {
+        foreignKey: "meetingId",
+      });
     }
   }
   Meeting.init(

@@ -9,8 +9,18 @@ export default (sequelize, DataTypes) => {
         as: "users",
         foreignKey: "groupId",
       });
-      models.Group.hasMany(models.Meeting);
-      models.Group.hasMany(models.Place);
+      models.Group.hasMany(models.Meeting, {
+        foreignKey: "groupId",
+      });
+      models.Group.hasMany(models.Place, {
+        foreignKey: "groupId",
+      });
+      models.Group.hasMany(models.Post, {
+        foreignKey: "groupId",
+      });
+      models.Group.hasMany(models.Image, {
+        foreignKey: "groupId",
+      });
     }
   }
   Group.init(

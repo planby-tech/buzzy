@@ -53,11 +53,10 @@ export default class UserService {
   async findMeetings(userId) {
     const userRecord = await db.User.findByPk(userId);
     const meetings = await userRecord.getMeetings();
-
+    const meetingRecord = [];
     if (!meetings) {
       throw new Error("Meeting not found!");
     }
-    const meetingRecord = [];
     for (const meeting of meetings) {
       await db.Meeting.findOne({
         where: {
