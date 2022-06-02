@@ -28,11 +28,12 @@ const joinGroup = async (userId, groupCode) => {
   const header = await authHeader();
   return axios
     .post(
-      API_URL + `users/${userId}/groups`,
+      API_URL + `/users/${userId}/groups`,
       { groupCode },
       { headers: header }
     )
     .then((res) => {
+      console.log(res);
       return res;
     })
     .catch((error) => {

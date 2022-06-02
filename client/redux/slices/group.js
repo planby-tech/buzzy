@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
 import groupService from "../../services/group.service";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const createGroup = createAsyncThunk(
   "group/create",
@@ -23,9 +22,9 @@ export const createGroup = createAsyncThunk(
 );
 export const joinGroup = createAsyncThunk(
   "group/join",
-  async ({ groupCode }, thunkAPI) => {
+  async ({ userId, groupCode }, thunkAPI) => {
     try {
-      const response = await groupService.joinGroup(groupCode);
+      const response = await groupService.joinGroup(userId, groupCode);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
     } catch (error) {
@@ -58,13 +57,14 @@ export const findByGroup = createAsyncThunk(
   }
 );
 
-const initialState = { isLoggedIn: false, user: null };
+const initialState = { isLoggedIn: false, user: null, groupArray: null };
 const groupSlice = createSlice({
   name: "group",
   initialState,
   extraReducers: {
     [createGroup.fulfilled]: (state, action) => {
       state.isLoggedIn = true;
+      state.groupArray = action.payload.groupArray;
     },
   },
 });
