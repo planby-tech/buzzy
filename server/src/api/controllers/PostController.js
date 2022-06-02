@@ -66,4 +66,4 @@ const deletePost = (req, res) => {
     });
 };
 
-export { generateQuestion, createPost, readPost, updatePost, deletePost };
+export { createPost, readPost, updatePost, deletePost };

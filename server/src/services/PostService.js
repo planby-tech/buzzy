@@ -1,7 +1,5 @@
 import db from "../db/models/index.js";
 
-const Op = db.Sequelize.Op;
-
 const isEqual = (a, b) => {
   if (a.length !== b.length) return false;
   const uniqueValues = new Set([...a, ...b]);
@@ -48,7 +46,23 @@ export default class PostService {
     return postRecord;
   }
 
-  async readPost(postId) {}
+  async readPost(postId) {
+    const post = await db.Post.findByPk(postId);
+    if (!post) {
+      throw new Error("Post not found!");
+    }
+    const answers = await post.getAnswers();
+    const images = await post.getImages();
+
+    const postRecord = { questionAnswers: [], images: [] };
+    for await (const answer of answers) {
+      const question = await db.Question.findByPk(answer.questionId);
+      postRecord.questionAnswers.push({ question: question, answer: answer });
+    }
+    postRecord.images.push(images);
+
+    return postRecord;
+  }
 
   async updatePost(postId, post) {
     const postRecord = await db.Post.findByPk(postId);
@@ -106,5 +120,22 @@ export default class PostService {
     return postRecord;
   }
 
-  async deletePost(postId) {}
+  async deletePost(postId) {
+    const postRecord = await db.Post.findByPk(postId);
+    const answerRecord = await postRecord.getAnswers();
+
+    for await (const answer of answerRecord) {
+      await db.Answer.destroy({
+        where: {
+          id: answer.id,
+        },
+      });
+    }
+
+    await db.Post.destroy({
+      where: {
+        id: postId,
+      },
+    });
+  }
 }

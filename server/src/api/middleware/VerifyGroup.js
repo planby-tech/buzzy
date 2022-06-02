@@ -24,8 +24,25 @@ const checkValidMember = (req, res, next) => {
     });
 };
 
+const checkValidWriter = (req, res, next) => {
+  db.Comment.findByPk(req.params.commentId)
+    .then((comment) => {
+      if (comment.userId === req.userId) {
+        next();
+      } else {
+        return res.status(401).send({
+          message: "Unauthorized!",
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 const verifyGroup = {
   checkValidMember: checkValidMember,
+  checkValidWriter: checkValidWriter,
 };
 
 export default verifyGroup;

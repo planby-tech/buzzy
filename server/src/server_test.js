@@ -7,7 +7,9 @@ import authRouter from "./api/routes/auth.routes.js";
 import userRouter from "./api/routes/user.routes.js";
 import groupRouter from "./api/routes/group.routes.js";
 import meetingRouter from "./api/routes/meeting.routes.js";
+import questionRouter from "./api/routes/question.routes.js";
 import postRouter from "./api/routes/post.routes.js";
+import commentRouter from "./api/routes/comment.routes.js";
 import socketRouter from "./api/routes/socket.routes.js";
 import testRouter from "./api/routes/test.routes.js";
 import db from "./db/models/index.js";
@@ -41,14 +43,16 @@ authRouter(app);
 userRouter(app);
 groupRouter(app);
 meetingRouter(app);
+questionRouter(app);
+commentRouter(app);
 postRouter(app);
 testRouter(app);
 socketRouter(io);
 
 // development mode
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and Resync DB");
-// });
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and Resync DB");
+});
 
 // db.sequelize.sync();
 

@@ -100,6 +100,30 @@ const findActivities = (req, res) => {
     });
 };
 
+const findPosts = (req, res) => {
+  const postId = req.params.postId;
+  meeting
+    .findActivities(postId)
+    .then((posts) => {
+      res.json(posts);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
+const findComments = (req, res) => {
+  const commentId = req.params.commentId;
+  meeting
+    .findActivities(commentId)
+    .then((comments) => {
+      res.json(comments);
+    })
+    .catch((err) => {
+      res.status(500).send(err.message);
+    });
+};
+
 export {
   createMeeting,
   readMeeting,
@@ -108,4 +132,6 @@ export {
   findPlaces,
   findUsers,
   findActivities,
+  findPosts,
+  findComments,
 };

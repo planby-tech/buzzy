@@ -196,4 +196,30 @@ export default class MeetingService {
     const activityRecord = await meetingRecord.getActivities();
     return activityRecord;
   }
+
+  async findPosts(meetingId) {
+    const meetingRecord = await db.Meeting.findByPk(meetingId);
+    if (!meetingRecord) {
+      throw new Error("Meeting not found!");
+    }
+    const posts = await meetingRecord.getPosts();
+    const postRecord = [];
+    for await (const post of posts) {
+      const answers = await post.getAnswers();
+      for await (const answer of answers) {
+        const question = await db.Question.findByPk(answer.questionId);
+        postRecord.push({ question: question, answer: answer });
+      }
+    }
+    return postRecord;
+  }
+
+  async findComments(meetingId) {
+    const meetingRecord = await db.Meeting.findByPk(meetingId);
+    if (!meetingRecord) {
+      throw new Error("Meeting not found!");
+    }
+    const commentRecord = await meetingRecord.getComments();
+    return commentRecord;
+  }
 }

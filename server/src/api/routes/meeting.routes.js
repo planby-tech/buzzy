@@ -8,6 +8,8 @@ import {
   findPlaces,
   findUsers,
   findActivities,
+  findPosts,
+  findComments,
 } from "../controllers/MeetingController.js";
 
 export default (app) => {
@@ -56,5 +58,17 @@ export default (app) => {
     "/meetings/:meetingId/activities",
     [authJwt.verifyToken, verifyGroup.checkValidMember],
     findActivities
+  );
+
+  app.get(
+    "/meetings/:meetingId/posts",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findPosts
+  );
+
+  app.get(
+    "/meetings/:meetingId/comments",
+    [authJwt.verifyToken, verifyGroup.checkValidMember],
+    findComments
   );
 };
