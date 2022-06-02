@@ -23,6 +23,11 @@ export default (sequelize, DataTypes) => {
       models.Meeting.hasMany(models.Post, {
         foreignKey: "meetingId",
       });
+      models.Meeting.belongsToMany(models.Question, {
+        through: "MeetingQuestions",
+        as: "questions",
+        foreignKey: "meetingId",
+      });
       models.Meeting.hasMany(models.Comment, {
         foreignKey: "meetingId",
       });

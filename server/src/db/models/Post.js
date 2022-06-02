@@ -7,8 +7,8 @@ export default (sequelize, DataTypes) => {
       models.Post.belongsTo(models.Meeting, {
         foreignKey: "meetingId",
       });
-      models.Post.belongsTo(models.Group, {
-        foreignKey: "groupId",
+      models.Post.belongsTo(models.User, {
+        foreignKey: "userId",
       });
       models.Post.belongsToMany(models.Question, {
         through: "PostQuestions",
