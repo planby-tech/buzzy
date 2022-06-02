@@ -17,7 +17,14 @@ const JoinGroupScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
+  const { user } = useSelector((state) => state.auth);
+
+  const userId = user.user.id;
+  console.log("userId in JoinGroupScreen: " + userId)
+
   const dispatch = useDispatch();
+
+
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -32,10 +39,10 @@ const JoinGroupScreen = ({ navigation }) => {
   const handleJoinGroup = (formValue) => {
     const { groupCode } = formValue;
     setLoading(true);
-    dispatch(joinGroup({ groupCode }))
+    dispatch(joinGroup({userId: userId, groupCode: groupCode}))
       .unwrap()
       .then(() => {
-        navigation.navigate("GardenList");
+        navigation.navigate("GardenTabs");
         setLoading(false);
       })
       .catch((error) => {

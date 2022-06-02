@@ -45,7 +45,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   authService.logout();
 });
 
-export const loadUserData = createAsyncThunk("auth/loadUserData", async () => {
+export const loadUserData = createAsyncThunk("auth/loadUserData", async (thunkAPI) => {
   try {
     const jsonUserData = await authService.loadUserData();
     return { user: jsonUserData };

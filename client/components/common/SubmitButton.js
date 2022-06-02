@@ -1,11 +1,10 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 
-export default function Button({ title, onPress, style }) {
+export default function Button({ title, onPress, style, disabled = false }) {
   return (
     <TouchableOpacity
       style={{
-        ...style,
         height: 50,
         width: "100%",
         justifyContent: "center",
@@ -14,9 +13,11 @@ export default function Button({ title, onPress, style }) {
         borderWidth: 2,
         borderColor: "#fff",
         borderRadius: 8,
+        ...style,
       }}
       activeOpacity={0.7}
       onPress={onPress}
+      disabled={disabled}
     >
       <Text
         style={{ fontSize: 18, color: "white", textTransform: "uppercase" }}

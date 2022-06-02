@@ -54,7 +54,7 @@ const SplashScreen = ({ navigation }) => {
               routes: [{ name: "Login" }],
             });
           }
-        }, 800); //setTimeout 빼도 됨.
+        }, 300); //setTimeout 빼도 됨.
       })
       .catch((err) => {
         console.log("SplashScreen gotcha!" + err);
