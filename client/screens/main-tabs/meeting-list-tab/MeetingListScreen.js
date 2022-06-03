@@ -3,16 +3,17 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Modal,
   StyleSheet,
   FlatList,
   Dimensions,
   TextInput,
   Switch,
+  ScrollView,
 } from "react-native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import Button from "../../../components/common/SubmitButton";
+import Modal from "react-native-modal";
 import { useSelector } from "react-redux";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -39,6 +40,7 @@ const MeetingListScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [isGroupSelected, setIsGroupSelected] = useState(false);
   const [groupSubmitted, setGroupSubmitted] = useState(false);
+  const [durationAllDayLong, setDurationAllDayLong] = useState(false);
 
   const [meetingTitle, setMeetingTitle] = useState("");
 
@@ -104,6 +106,14 @@ const MeetingListScreen = () => {
     setSelectedDate(cp);
   };
 
+  const handleAllDayLong = () => {
+    setDurationAllDayLong((prev) => !prev);
+  };
+
+  const handleCreateMeeting = () => {
+    console.log("pressed");
+  };
+
   const groupListLayout = ({ item }) => {
     const handleSelectGroup = () => {
       setSelectedGroup(item);
@@ -120,7 +130,7 @@ const MeetingListScreen = () => {
           borderRadius: 12,
           padding: 12,
           paddingRight: 16,
-          marginTop: 20,
+          marginBottom: 20,
         }}
         onPress={handleSelectGroup}
         activeOpacity={0.5}
@@ -264,10 +274,13 @@ const MeetingListScreen = () => {
         markedDates={{ ...selectedDate }}
       />
       <Modal
-        transparent={true}
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={handleModalClose}
+        isVisible={modalVisible}
+        onModalHide={handleModalClose}
+        onBackdropPress={handleModalClose}
+        onSwipeComplete={handleModalClose}
+        onBackButtonPress={handleModalClose}
+        swipeDirection="down"
+        style={{ margin: 0, padding: 0 }}
       >
         <View
           style={{
@@ -291,7 +304,7 @@ const MeetingListScreen = () => {
               />
               <View style={{ padding: 10, width: width * 0.95 }}>
                 <Button
-                  title="다음"
+                  title={isGroupSelected ? "다음" : "그룹을 선택해 주세요."}
                   onPress={() => setGroupSubmitted(true)}
                   style={
                     isGroupSelected
@@ -334,28 +347,48 @@ const MeetingListScreen = () => {
                     }}
                   >
                     <Text style={styles.durationText}>하루 종일</Text>
-                    <Switch style={{ height: 20 }} />
+                    <Switch
+                      style={{ height: 20 }}
+                      onValueChange={handleAllDayLong}
+                      value={durationAllDayLong}
+                    />
                   </View>
-                  <View style={styles.durationCell}>
-                    <Text style={styles.durationText}>
+                  <TouchableOpacity
+                    style={styles.durationCell}
+                    disabled={durationAllDayLong}
+                  >
+                    <Text
+                      style={
+                        durationAllDayLong
+                          ? { ...styles.durationText, color: "gray" }
+                          : styles.durationText
+                      }
+                    >
                       {`${selectedDay.year}년 ${selectedDay.month}월 ${selectedDay.day}일`}
                     </Text>
-                  </View>
-                  <View
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={{
                       ...styles.durationCell,
                       borderBottomLeftRadius: 12,
                       borderBottomRightRadius: 12,
                       borderBottomWidth: 0,
                     }}
+                    disabled={durationAllDayLong}
                   >
-                    <Text style={styles.durationText}>
+                    <Text
+                      style={
+                        durationAllDayLong
+                          ? { ...styles.durationText, color: "gray" }
+                          : styles.durationText
+                      }
+                    >
                       {`${selectedDay.year}년 ${selectedDay.month}월 ${selectedDay.day}일`}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 </View>
                 <Text style={styles.durationTitle}>장소</Text>
-                <View style={styles.placeContainer}>
+                <TouchableOpacity style={styles.placeContainer}>
                   <MaterialCommunityIcons
                     name="map-marker-outline"
                     size={26}
@@ -364,7 +397,7 @@ const MeetingListScreen = () => {
                   <Text style={{ color: "#fff", marginLeft: 10 }}>
                     장소 검색
                   </Text>
-                </View>
+                </TouchableOpacity>
                 <Text style={styles.durationTitle}>활동</Text>
                 <View
                   style={{
@@ -379,16 +412,7 @@ const MeetingListScreen = () => {
                 </View>
                 <Button
                   title="저장"
-                  onPress={() => console.log("pressed")}
-                  style={{
-                    width: width * 0.9,
-                    borderWidth: 0,
-                    marginTop: 20,
-                  }}
-                />
-                <Button
-                  title="취소"
-                  onPress={() => setModalVisible(false)}
+                  onPress={handleCreateMeeting}
                   style={{
                     width: width * 0.9,
                     borderWidth: 0,

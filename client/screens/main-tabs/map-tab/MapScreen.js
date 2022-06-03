@@ -7,7 +7,7 @@ import {
   Dimensions,
   StatusBar,
 } from "react-native";
-import MapView, { Marker, AnimatedRegion } from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import axios from "axios";
 import MyLocationButton from "../../../components/map-buttons/MyLocationButton.js";
 import AddMarkerButton from "../../../components/map-buttons/AddMarkerButton.js";

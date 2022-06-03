@@ -11,7 +11,6 @@ import {
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { MainWrapper } from "../../../components/common/MainWrapper";
-import { useFonts } from "expo-font";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,11 +23,6 @@ const GardenListScreen = ({ navigation }) => {
   const { groupArray } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
-
-  const [fontsLoaded] = useFonts({
-    PretendardSemiBold: require("../../../assets/fonts/Pretendard-SemiBold.otf"),
-    PretendardBold: require("../../../assets/fonts/Pretendard-Bold.otf"),
-  });
 
   // const [groupArray, setGroupArray] = useState([{ name: "name" }]);
   const [groupLoaded, setGroupLoaded] = useState(false);
@@ -145,7 +139,7 @@ const GardenListScreen = ({ navigation }) => {
     navigation.navigate("GardenListColumn", groupArray);
   };
 
-  return fontsLoaded && groupLoaded ? (
+  return groupLoaded ? (
     <MainWrapper style={{ padding: 20 }}>
       <StatusBar />
       <View
