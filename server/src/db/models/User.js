@@ -19,7 +19,16 @@ export default (sequelize, DataTypes) => {
         as: "meetings",
         foreignKey: "userId",
       });
+      models.User.hasMany(models.Post, {
+        foreignKey: "userId",
+      });
       models.User.hasMany(models.Answer, {
+        foreignKey: "userId",
+      });
+      models.User.hasMany(models.Image, {
+        foreignKey: "userId",
+      });
+      models.User.hasMany(models.Comment, {
         foreignKey: "userId",
       });
     }

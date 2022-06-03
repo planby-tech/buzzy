@@ -52,7 +52,7 @@ export default class UserService {
       throw new Error("Group not found!");
     }
     for (const group of groups) {
-      db.Group.findOne({
+      await db.Group.findOne({
         where: {
           id: group.id,
         },
