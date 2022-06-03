@@ -4,14 +4,8 @@ import { useDispatch } from "react-redux";
 import { loadUserData, logout } from "../../redux/slices/auth";
 import { findByUser } from "../../redux/slices/user";
 
-import { useFonts } from "expo-font";
-
 const SplashScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-
-  const [fontsLoaded] = useFonts({
-    FrauncesBold: require("../../assets/fonts/Fraunces-Bold.ttf"),
-  });
 
   useEffect(async () => {
     dispatch(loadUserData())
@@ -75,20 +69,18 @@ const SplashScreen = ({ navigation }) => {
         backgroundColor: "#000",
       }}
     >
-      {fontsLoaded ? (
-        <>
-          <Text
-            style={{
-              fontSize: 60,
-              color: "#fff",
-              fontFamily: "FrauncesBold",
-            }}
-          >
-            Buzzy
-          </Text>
-          <Text style={{ color: "#fff" }}>함께 가꾸는 우리들만의 정원</Text>
-        </>
-      ) : null}
+      <>
+        <Text
+          style={{
+            fontSize: 60,
+            color: "#fff",
+            fontFamily: "FrauncesBold",
+          }}
+        >
+          Buzzy
+        </Text>
+        <Text style={{ color: "#fff" }}>함께 가꾸는 우리들만의 정원</Text>
+      </>
     </View>
   );
 };
