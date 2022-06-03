@@ -3,7 +3,7 @@ import GroupService from "../../services/GroupService.js";
 const group = new GroupService();
 
 const createGroup = (req, res) => {
-  const userId = req.userId;
+  const userId = req.params.userId;
   const groupDTO = req.body;
   group
     .createGroup(userId, groupDTO)
@@ -34,9 +34,10 @@ const readGroup = (req, res) => {
 };
 
 const updateGroup = (req, res) => {
+  const groupId = req.params.groupId;
   const groupDTO = req.body;
   group
-    .updateGroup(groupDTO)
+    .updateGroup(groupId, groupDTO)
     .then((group) => {
       res.json({
         message: "Group was updated successfully!",
@@ -52,10 +53,9 @@ const deleteGroup = (req, res) => {
   const groupId = req.params.groupId;
   group
     .deleteGroup(groupId)
-    .then((group) => {
+    .then(() => {
       res.json({
         message: "Group was deleted successfully!",
-        group: group,
       });
     })
     .catch((err) => {

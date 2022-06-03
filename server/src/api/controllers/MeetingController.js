@@ -9,7 +9,7 @@ const createMeeting = (req, res) => {
     .createMeeting(groupId, meetingDTO)
     .then((meeting) => {
       res.json({
-        message: "Meeting was created successfully!!",
+        message: "Meeting was created successfully!",
         meeting: meeting,
       });
     })
@@ -40,7 +40,7 @@ const updateMeeting = (req, res) => {
     .updateMeeting(meetingId, meetingDTO)
     .then((meeting) => {
       res.json({
-        message: "Meeting was updated successfully!!",
+        message: "Meeting was updated successfully!",
         meeting: meeting,
       });
     })
@@ -53,10 +53,9 @@ const deleteMeeting = (req, res) => {
   const meetingId = req.params.meetingId;
   meeting
     .deleteMeeting(meetingId)
-    .then((meeting) => {
+    .then(() => {
       res.json({
-        message: "Meeting was deleted successfully!!",
-        meeting: meeting,
+        message: "Meeting was deleted successfully!",
       });
     })
     .catch((err) => {
@@ -101,9 +100,9 @@ const findActivities = (req, res) => {
 };
 
 const findPosts = (req, res) => {
-  const postId = req.params.postId;
+  const meetingId = req.params.meetingId;
   meeting
-    .findActivities(postId)
+    .findActivities(meetingId)
     .then((posts) => {
       res.json(posts);
     })
@@ -113,9 +112,9 @@ const findPosts = (req, res) => {
 };
 
 const findComments = (req, res) => {
-  const commentId = req.params.commentId;
+  const meetingId = req.params.meetingId;
   meeting
-    .findActivities(commentId)
+    .findActivities(meetingId)
     .then((comments) => {
       res.json(comments);
     })

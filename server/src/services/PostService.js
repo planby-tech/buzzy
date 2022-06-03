@@ -12,18 +12,17 @@ const isEqual = (a, b) => {
 };
 
 export default class PostService {
-  async createPost(groupId, meetingId, userId, post) {
-    const groupRecord = await db.Group.findByPk(groupId);
+  async createPost(meetingId, userId, postDTO) {
     const meetingRecord = await db.Meeting.findByPk(meetingId);
     const userRecord = await db.User.findByPk(userId);
     const postRecord = await db.Post.create({
-      title: meetingRecord.name,
+      title: meetingRecord.title,
     });
-    await groupRecord.addPost(postRecord);
     await meetingRecord.addPost(postRecord);
+    await userRecord.addPost(postRecord);
 
-    for await (const questionAnswer of post.questionAnswers) {
-      db.Question.findByPk(questionAnswer.question).then((question) => {
+    for await (const questionAnswer of postDTO.questionAnswers) {
+      await db.Question.findByPk(questionAnswer.question).then((question) => {
         postRecord.addQuestion(question, { through: "PostQuestions" });
         db.Answer.create({
           content: questionAnswer.answer,
@@ -35,11 +34,12 @@ export default class PostService {
       });
     }
 
-    for await (const image of post.images) {
-      db.Image.create({
-        url: image.url,
+    for await (const image of postDTO.images) {
+      await db.Image.create({
+        url: image,
       }).then((image) => {
         postRecord.addImage(image);
+        userRecord.addImage(image);
       });
     }
 
@@ -54,46 +54,54 @@ export default class PostService {
     const answers = await post.getAnswers();
     const images = await post.getImages();
 
-    const postRecord = { questionAnswers: [], images: [] };
+    const postRecord = { questionAnswers: [], images: images };
     for await (const answer of answers) {
       const question = await db.Question.findByPk(answer.questionId);
       postRecord.questionAnswers.push({ question: question, answer: answer });
     }
-    postRecord.images.push(images);
 
     return postRecord;
   }
 
-  async updatePost(postId, post) {
-    const postRecord = await db.Post.findByPk(postId);
-    const meetingRecord = await db.Meeting.update(
-      { name: post.title },
-      { where: { id: postRecord.meetingId } }
+  async updatePost(postId, postDTO) {
+    const postRecord = await db.Post.update(
+      { title: postDTO.title },
+      { where: { id: postId } }
     );
-
     if (!postRecord) {
       throw new Error("Post not found!");
     }
 
-    const imageRecord = await meetingRecord.getImages();
-    if (!isEqual(imageRecord, post.images)) {
-      for await (const image of imageRecord) {
-        db.Image.destroy({
+    await db.Meeting.update(
+      { title: postDTO.title },
+      { where: { id: postRecord.meetingId } }
+    );
+
+    const userRecord = await db.User.findByPk(postRecord.userId);
+    const images = await postRecord.getImages();
+    const imageRecord = [];
+    for (let i = 0; i < images.length; i++) {
+      imageRecord.push(images[i].url);
+    }
+    if (!isEqual(imageRecord, postDTO.images)) {
+      for await (const image of images) {
+        await db.Image.destroy({
           where: {
-            url: image,
+            id: image.id,
           },
         });
       }
-      for await (const image of post.images) {
+      for await (const image of postDTO.images) {
         db.Image.create({
           url: image,
         }).then((image) => {
           postRecord.addImage(image);
+          userRecord.addImage(image);
         });
       }
     }
 
-    const answers = await post.getAnswers();
+    const answers = await postRecord.getAnswers();
     const answerIds = [];
     const answerRecord = [];
     for (let i = 0; i < answers.length; i++) {
@@ -101,8 +109,8 @@ export default class PostService {
       answerRecord.push(answers[i].content);
     }
     const updatedAnswerRecord = [];
-    for (let i = 0; i < post.questionAnswers.length; i++) {
-      updatedAnswerRecord.push(post.questionAnswers.answer);
+    for (let i = 0; i < postDTO.answers.length; i++) {
+      updatedAnswerRecord.push(postDTO.answers[i]);
     }
 
     if (!isEqual(answerRecord, updatedAnswerRecord)) {
@@ -123,6 +131,7 @@ export default class PostService {
   async deletePost(postId) {
     const postRecord = await db.Post.findByPk(postId);
     const answerRecord = await postRecord.getAnswers();
+    const imageRecord = await postRecord.getImages();
 
     for await (const answer of answerRecord) {
       await db.Answer.destroy({
@@ -132,10 +141,20 @@ export default class PostService {
       });
     }
 
+    for await (const image of imageRecord) {
+      await db.Image.destroy({
+        where: {
+          id: image.id,
+        },
+      });
+    }
+
     await db.Post.destroy({
       where: {
         id: postId,
       },
     });
+
+    return;
   }
 }

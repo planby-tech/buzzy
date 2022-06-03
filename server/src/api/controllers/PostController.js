@@ -3,15 +3,14 @@ import PostService from "../../services/PostService.js";
 const post = new PostService();
 
 const createPost = (req, res) => {
-  const groupId = req.params.groupId;
   const meetingId = req.params.meetingId;
   const userId = req.params.userId;
   const postDTO = req.body;
   post
-    .createPost(groupId, meetingId, userId, postDTO)
+    .createPost(meetingId, userId, postDTO)
     .then((post) => {
       res.json({
-        message: "Post was created successfully!!",
+        message: "Post was created successfully!",
         post: post,
       });
     })
@@ -42,7 +41,7 @@ const updatePost = (req, res) => {
     .updatePost(postId, postDTO)
     .then((post) => {
       res.json({
-        message: "Post was updated successfully!!",
+        message: "Post was updated successfully!",
         post: post,
       });
     })
@@ -55,10 +54,9 @@ const deletePost = (req, res) => {
   const postId = req.params.postId;
   post
     .deletePost(postId)
-    .then((post) => {
+    .then(() => {
       res.json({
-        message: "Post was deleted successfully!!",
-        post: post,
+        message: "Post was deleted successfully!",
       });
     })
     .catch((err) => {

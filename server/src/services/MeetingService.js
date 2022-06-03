@@ -12,17 +12,17 @@ const isEqual = (a, b) => {
 };
 
 export default class MeetingService {
-  async createMeeting(groupId, meeting) {
+  async createMeeting(groupId, meetingDTO) {
     const meetingRecord = await db.Meeting.create({
-      title: meeting.title,
-      start: meeting.start,
-      end: meeting.end,
-      allDay: meeting.allDay,
+      title: meetingDTO.title,
+      start: meetingDTO.start,
+      end: meetingDTO.end,
+      allDay: meetingDTO.allDay,
     });
     const groupRecord = await db.Group.findByPk(groupId);
     await groupRecord.addMeeting(meetingRecord);
 
-    for await (const place of meeting.places) {
+    for await (const place of meetingDTO.places) {
       db.Place.create({
         name: place.name,
         coord: place.coord,
@@ -31,21 +31,8 @@ export default class MeetingService {
       });
     }
 
-    for await (const user of meeting.users) {
-      db.User.findByPk(user).then((user) => {
-        meetingRecord.addUser(user);
-      });
-    }
-
-    for await (const activity of meeting.activities) {
-      db.Activity.findOne({
-        where: {
-          category: activity,
-        },
-      }).then((activity) => {
-        meetingRecord.addActivity(activity, { through: "MeetingActivities" });
-      });
-    }
+    await meetingRecord.addUsers(meetingDTO.users);
+    await meetingRecord.addActivities(meetingDTO.activities);
 
     return meetingRecord;
   }
@@ -69,13 +56,13 @@ export default class MeetingService {
     return meetingRecord;
   }
 
-  async updateMeeting(meetingId, meeting) {
+  async updateMeeting(meetingId, meetingDTO) {
     const meetingRecord = await db.Meeting.update(
       {
-        title: meeting.title,
-        start: meeting.start,
-        end: meeting.end,
-        allDay: meeting.allDay,
+        title: meetingDTO.title,
+        start: meetingDTO.start,
+        end: meetingDTO.end,
+        allDay: meetingDTO.allDay,
       },
       { where: { id: meetingId } }
     );
@@ -85,7 +72,7 @@ export default class MeetingService {
     }
 
     const placeRecord = await meetingRecord.getPlaces();
-    if (!isEqual(placeRecord, meeting.places)) {
+    if (!isEqual(placeRecord, meetingDTO.places)) {
       for await (const place of placeRecord) {
         db.Place.destroy({
           where: {
@@ -94,7 +81,7 @@ export default class MeetingService {
         });
       }
 
-      for await (const place of meeting.places) {
+      for await (const place of meetingDTO.places) {
         db.Place.create({
           name: place.name,
           coord: place.coord,
@@ -104,46 +91,24 @@ export default class MeetingService {
       }
     }
 
-    const userRecord = await meetingRecord.getUsers();
-    if (!isEqual(userRecord, meeting.users)) {
-      for await (const user of userRecord) {
-        db.User.findByPk(user).then((user) => {
-          meetingRecord.removeUser(user);
-        });
-      }
-
-      for await (const user of meeting.users) {
-        db.User.findByPk(user).then((user) => {
-          meetingRecord.addUser(user);
-        });
-      }
+    const users = await meetingRecord.getUsers();
+    const userRecord = [];
+    for (let i = 0; i < users.length; i++) {
+      userRecord.push(users[i].id);
+    }
+    if (!isEqual(userRecord, meetingDTO.users)) {
+      await meetingRecord.removeUsers(userRecord);
+      await meetingRecord.addUsers(meetingDTO.users);
     }
 
-    const activityRecord = await meetingRecord.getActivities();
-    if (!isEqual(activityRecord, meeting.activities)) {
-      for await (const activity of activityRecord) {
-        db.Activity.findOne({
-          where: {
-            category: activity,
-          },
-        }).then((activity) => {
-          meetingRecord.removeActivity(activity, {
-            through: "MeetingActivities",
-          });
-        });
-      }
-
-      for await (const activity of meeting.activities) {
-        db.Activity.findOne({
-          where: {
-            category: activity,
-          },
-        }).then((activity) => {
-          meetingRecord.addActivity(activity, {
-            through: "MeetingActivities",
-          });
-        });
-      }
+    const activities = await meetingRecord.getActivities();
+    const activityRecord = [];
+    for (let i = 0; i < activities.length; i++) {
+      activityRecord.push(activities[i].id);
+    }
+    if (!isEqual(activityRecord, meetingDTO.activities)) {
+      await meetingRecord.removeActivities(activityRecord);
+      await meetingRecord.addActivities(meetingDTO.activities);
     }
 
     return meetingRecord;
@@ -167,7 +132,7 @@ export default class MeetingService {
         id: meetingId,
       },
     });
-    return meetingRecord;
+    return;
   }
 
   async findPlaces(meetingId) {
@@ -204,13 +169,25 @@ export default class MeetingService {
     }
     const posts = await meetingRecord.getPosts();
     const postRecord = [];
+
     for await (const post of posts) {
-      const answers = await post.getAnswers();
-      for await (const answer of answers) {
+      const questionRecord = [];
+      const answerRecord = await post.getAnswers();
+      const imageRecord = await post.getImages();
+
+      for await (const answer of answerRecord) {
         const question = await db.Question.findByPk(answer.questionId);
-        postRecord.push({ question: question, answer: answer });
+        questionRecord.push(question);
       }
+
+      postRecord.push({
+        user: post.userId,
+        questions: questionRecord,
+        answers: answerRecord,
+        images: imageRecord,
+      });
     }
+
     return postRecord;
   }
 

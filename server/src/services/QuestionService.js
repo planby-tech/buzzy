@@ -7,10 +7,10 @@ export default class QuestionService {
     const meetingRecord = await db.Meeting.findByPk(meetingId);
     const questionRecord = await meetingRecord.getQuestions();
     const count = await db.Question.count();
-    const questionCount = questions.length;
+    const questionCount = questionRecord.length;
     let indices = [];
 
-    for (let i = 0; i < 12 - questionCount; i++) {
+    for (let i = 0; i < 20 - questionCount; i++) {
       indices.push(Math.floor(Math.random() * count));
     }
     const newQuestions = await db.Question.findAll({
@@ -21,6 +21,7 @@ export default class QuestionService {
       },
     });
 
+    await meetingRecord.addQuestions(newQuestions);
     questionRecord.concat(newQuestions);
 
     return questionRecord;

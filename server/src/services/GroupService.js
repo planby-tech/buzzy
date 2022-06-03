@@ -2,16 +2,14 @@ import crypto from "crypto";
 import db from "../db/models/index.js";
 
 export default class GroupService {
-  async createGroup(userId, group) {
+  async createGroup(userId, groupDTO) {
     const groupRecord = await db.Group.create({
-      name: group.name,
-      description: group.description,
+      name: groupDTO.name,
+      description: groupDTO.description,
       userNumber: 1,
       groupCode: crypto.randomUUID().substring(0, 6).toUpperCase(),
     });
-
-    const userRecord = await db.User.findByPk(userId);
-    await groupRecord.addUser(userRecord, { through: "UserGroups" });
+    await groupRecord.addUser(userId);
 
     return groupRecord;
   }
@@ -24,13 +22,13 @@ export default class GroupService {
     return groupRecord;
   }
 
-  async updateGroup(group) {
+  async updateGroup(groupId, groupDTO) {
     const groupRecord = await db.Group.update(
       {
-        name: group.name,
-        description: group.description,
+        name: groupDTO.name,
+        description: groupDTO.description,
       },
-      { where: { id: group.id } }
+      { where: { id: groupId } }
     );
     if (!groupRecord) {
       throw new Error("Group not found!");
@@ -39,15 +37,12 @@ export default class GroupService {
   }
 
   async deleteGroup(groupId) {
-    const groupRecord = await db.Group.destroy({
+    await db.Group.destroy({
       where: {
         id: groupId,
       },
     });
-    if (!groupRecord) {
-      throw new Error("Group not found!");
-    }
-    return groupRecord;
+    return;
   }
 
   async findUsers(groupId) {

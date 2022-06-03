@@ -10,7 +10,7 @@ const createComment = (req, res) => {
     .createComment(meetingId, userId, commentDTO)
     .then((comment) => {
       res.json({
-        message: "Comment was created successfully!!",
+        message: "Comment was created successfully!",
         comment: comment,
       });
     })
@@ -41,7 +41,7 @@ const updateComment = (req, res) => {
     .updateComment(commentId, commentDTO)
     .then((comment) => {
       res.json({
-        message: "Comment was updated successfully!!",
+        message: "Comment was updated successfully!",
         comment: comment,
       });
     })
@@ -54,10 +54,9 @@ const deleteComment = (req, res) => {
   const commentId = req.params.commentId;
   comment
     .deleteComment(commentId)
-    .then((comment) => {
+    .then(() => {
       res.json({
-        message: "Comment was deleted successfully!!",
-        comment: comment,
+        message: "Comment was deleted successfully!",
       });
     })
     .catch((err) => {

@@ -3,7 +3,7 @@ import UserService from "../../services/UserService.js";
 const user = new UserService();
 
 const readUser = (req, res) => {
-  const userId = req.userId;
+  const userId = req.params.userId;
   user
     .readUser(userId)
     .then((user) => {
@@ -18,8 +18,8 @@ const readUser = (req, res) => {
 };
 
 const updateUser = (req, res) => {
+  const userId = req.params.userId;
   const userDTO = req.body;
-  const userId = req.userId;
   user
     .updateUser(userId, userDTO)
     .then((user) => {
@@ -34,13 +34,12 @@ const updateUser = (req, res) => {
 };
 
 const deleteUser = (req, res) => {
-  const userId = req.userId;
+  const userId = req.params.userId;
   user
     .deleteUser(userId)
-    .then((user) => {
+    .then(() => {
       res.json({
         message: "User was deleted successfully!",
-        user: user,
       });
     })
     .catch((err) => {
@@ -49,7 +48,7 @@ const deleteUser = (req, res) => {
 };
 
 const joinGroup = (req, res) => {
-  const userId = req.userId;
+  const userId = req.params.userId;
   const groupCode = req.body.groupCode;
   user
     .joinGroup(userId, groupCode)
@@ -65,7 +64,7 @@ const joinGroup = (req, res) => {
 };
 
 const findGroups = (req, res) => {
-  const userId = req.userId;
+  const userId = req.params.userId;
   user
     .findGroups(userId)
     .then((groups) => {
@@ -77,7 +76,7 @@ const findGroups = (req, res) => {
 };
 
 const findMeetings = (req, res) => {
-  const userId = req.userId;
+  const userId = req.params.userId;
   user
     .findMeetings(userId)
     .then((meetings) => {

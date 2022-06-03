@@ -9,9 +9,9 @@ export default class UserService {
     return userRecord;
   }
 
-  async updateUser(userId, user) {
+  async updateUser(userId, userDTO) {
     const userRecord = await db.User.update(
-      { name: user.name },
+      { name: userDTO.name },
       { where: { id: userId } }
     );
     if (!userRecord) {
@@ -21,15 +21,12 @@ export default class UserService {
   }
 
   async deleteUser(userId) {
-    const userRecord = await db.User.destroy({
+    await db.User.destroy({
       where: {
         id: userId,
       },
     });
-    if (!userRecord) {
-      throw new Error("User not found!");
-    }
-    return userRecord;
+    return;
   }
 
   async joinGroup(userId, groupCode) {
@@ -38,8 +35,10 @@ export default class UserService {
         groupCode: groupCode,
       },
     });
-    const userRecord = await db.User.findByPk(userId);
-    await groupRecord.addUser(userRecord, { through: "UserGroups" });
+    if (!groupRecord) {
+      throw new Error("Group not found!");
+    }
+    await groupRecord.addUser(userId, { through: "UserGroups" });
     groupRecord.increment("userNumber");
     return groupRecord;
   }

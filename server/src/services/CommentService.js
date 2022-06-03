@@ -1,11 +1,11 @@
 import db from "../db/models/index.js";
 
 export default class CommentService {
-  async createComment(meetingId, userId, comment) {
+  async createComment(meetingId, userId, commentDTO) {
     const meetingRecord = await db.Meeting.findByPk(meetingId);
     const userRecord = await db.User.findByPk(userId);
     const commentRecord = await db.Comment.create({
-      content: comment.content,
+      content: commentDTO.content,
     });
     await meetingRecord.addComment(commentRecord);
     await userRecord.addComment(commentRecord);
@@ -19,23 +19,23 @@ export default class CommentService {
     return commentRecord;
   }
 
-  async updateComment(commentId, comment) {
-    if (!comment) {
+  async updateComment(commentId, commentDTO) {
+    if (!commentDTO) {
       throw new Error("Comment was not entered!");
     }
     const commentRecord = await db.Comment.update(
-      { content: comment.content },
+      { content: commentDTO.content },
       { where: { id: commentId } }
     );
     return commentRecord;
   }
 
   async deleteComment(commentId) {
-    const commentRecord = await db.Comment.destroy({
+    await db.Comment.destroy({
       where: {
         id: commentId,
       },
     });
-    return commentRecord;
+    return;
   }
 }
